@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "886544095346",
+    "project_id": "rastreiapet-11b60",
+    "storage_bucket": "rastreiapet-11b60.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:886544095346:android:f953bb0ba9f00eaa3e0aeb",
+        "android_client_info": {
+          "package_name": "com.example.rastreia_pet_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuQa8oU2qnKACpQsadJ_-zLh1x5GJGQlM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
