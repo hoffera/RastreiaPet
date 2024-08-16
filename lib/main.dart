@@ -42,11 +42,26 @@ class _MyAppState extends State<MyApp> {
         '/HomeLoginPage': (BuildContext context) => const HomeLoginPage(),
         '/HomePage': (BuildContext context) => const HomePage(),
         '/LoginPage': (BuildContext context) => LoginPage(),
-        '/RegisterAlertPage': (BuildContext context) => RegisterAlertPage(),
+        '/RegisterAlertPage': (BuildContext context) => Builder(
+              builder: (context) {
+                final user = FirebaseAuth.instance.currentUser;
+                return RegisterAlertPage(user: user!);
+              },
+            ),
         '/RegisterPage': (BuildContext context) => RegisterPage(),
-        '/RegisterPetPage': (BuildContext context) => RegisterPetPage(),
+        '/RegisterPetPage': (BuildContext context) => Builder(
+              builder: (context) {
+                final user = FirebaseAuth.instance.currentUser;
+                return RegisterPetPage(user: user!);
+              },
+            ),
         '/RegisUserPageterPetPage': (BuildContext context) => UserPage(),
-        '/NavPage': (BuildContext context) => const NavPage(),
+        '/NavPage': (BuildContext context) => Builder(
+              builder: (context) {
+                final user = FirebaseAuth.instance.currentUser;
+                return NavPage(user: user!);
+              },
+            ),
       },
     );
   }
@@ -64,7 +79,8 @@ class RouteScreens extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         } else {
           if (snapshot.hasData) {
-            return const HomePage();
+            final user = FirebaseAuth.instance.currentUser;
+            return NavPage(user: user!);
           } else {
             return const HomeLoginPage();
           }

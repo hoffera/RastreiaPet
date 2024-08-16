@@ -1,6 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:mix/mix.dart';
 import 'package:rastreia_pet_app/enum/enum.dart';
 import 'package:rastreia_pet_app/services/auth_services.dart';
@@ -74,6 +77,25 @@ _subtitle() {
   );
 }
 
+Future<void> sendToThingspeak(String apiKey, Map<String, String> data) async {
+  final url = Uri.parse('https://api.thingspeak.com/update.json');
+
+  final response = await http.post(
+    url,
+    body: {
+      'api_key': apiKey,
+      ...data, // Insere os dados do Map como campos do corpo da requisição
+    },
+  );
+
+  if (response.statusCode == 200) {
+    print('Dados enviados com sucesso!');
+  } else {
+    throw Exception(
+        'Falha ao enviar os dados para o ThingSpeak: ${response.body}');
+  }
+}
+
 _card15s() {
   return PressableBox(
     style: Style(
@@ -87,7 +109,21 @@ _card15s() {
         $box.color.green(),
       ),
     ),
-    onPress: () => print('Pressed!'),
+    onPress: () async {
+      String apiKey = 'MQSFHANLRIA4AJ6O';
+      Map<String, String> data = {
+        'field1': '123456', // Valor para o campo 1
+        'field2': '5VLHEQBMZEFPHP0G', // Valor para o campo 2
+        'field3': 'SEAMNK2RIVQJ6BT7', // Valor para o campo 3
+      };
+
+      try {
+        await sendToThingspeak(apiKey, data);
+        print('Pressed and data sent!');
+      } catch (e) {
+        print(e);
+      }
+    },
     child: VBox(
       children: [
         StyledText(
@@ -113,6 +149,41 @@ _card15s() {
   );
 }
 
+Future<void> fromThingspeak(String code) async {
+  final response = await http.get(Uri.parse(
+      'https://api.thingspeak.com/channels/2627688/feeds.json?api_key=GGWWIRV8288GY3PV&results=100'));
+
+  if (response.statusCode == 200) {
+    final data = json.decode(response.body);
+    final feeds = data['feeds'];
+
+    // Itera sobre os feeds para encontrar o código no field1
+    for (var feed in feeds) {
+      if (feed['field1'] == code) {
+        final field1 = feed['field1'];
+        final field2 = feed['field2'];
+        final field3 = feed['field3'];
+
+        // Faz o que precisar com os valores
+        await processFields(field1, field2, field3);
+        return; // Sai da função após encontrar o código
+      }
+    }
+
+    // Se não encontrou o código
+    print('Código não encontrado.');
+  } else {
+    throw Exception('Falha ao carregar os dados do ThingSpeak');
+  }
+}
+
+Future<void> processFields(String field1, String field2, String field3) async {
+  // Implemente o código para utilizar os valores recebidos
+  print('Field 1: $field1');
+  print('Field 2: $field2');
+  print('Field 3: $field3');
+}
+
 _card5min() {
   return PressableBox(
     style: Style(
@@ -126,7 +197,10 @@ _card5min() {
         $box.color.green(),
       ),
     ),
-    onPress: () => print('Pressed!'),
+    onPress: () async {
+      const String code = '123456'; // Exemplo de código a ser buscado
+      await fromThingspeak(code);
+    },
     child: VBox(
       children: [
         StyledText(

@@ -1,10 +1,25 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mix/mix.dart';
 import 'package:rastreia_pet_app/enum/enum.dart';
+import 'package:rastreia_pet_app/models/pet.dart';
+import 'package:rastreia_pet_app/services/pet_services.dart';
+import 'package:rastreia_pet_app/widgets/map_widget.dart';
 import 'package:rastreia_pet_app/widgets/perfil_card.dart';
 import 'package:rastreia_pet_app/widgets/primary_button.dart';
+import 'package:rastreia_pet_app/widgets/show_snackbar.dart';
 
-class RegisterAlertPage extends StatelessWidget {
-  RegisterAlertPage({super.key});
+class RegisterAlertPage extends StatefulWidget {
+  final User user;
+  const RegisterAlertPage({super.key, required this.user});
+
+  @override
+  State<RegisterAlertPage> createState() => _RegisterAlertPageState();
+}
+
+class _RegisterAlertPageState extends State<RegisterAlertPage> {
+  PetService petService = PetService();
+
   final TextEditingController _nameController = TextEditingController();
 
   @override
@@ -65,10 +80,14 @@ class RegisterAlertPage extends StatelessWidget {
   }
 
   _map() {
-    return Container(
-      height: 400,
-      width: double.infinity,
-      color: Colors.red,
+    return Box(
+      style: Style(
+        $box.maxWidth(double.infinity),
+        $box.maxHeight(400),
+        $box.borderRadius(20),
+        $box.color(Colors.white),
+      ),
+      child: const MapWidget(),
     );
   }
 
@@ -94,9 +113,21 @@ class RegisterAlertPage extends StatelessWidget {
         textColor: Colors.white,
         text: "Criar alerta",
         onPressed: () {
-          Navigator.pushNamed(context, '/NavPage');
+          _register(context);
         },
       ),
     );
+  }
+
+  _register(context) async {
+    Pet? pet = await petService.getPetById(widget.user.uid);
+
+    if (pet == null) {
+      showSnackBar(
+          context: context,
+          mensagem: "Pet adicionado com sucesso!",
+          isErro: false);
+    }
+    setState(() {}); // Atualiza a UI
   }
 }

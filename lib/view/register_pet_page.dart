@@ -1,14 +1,33 @@
+import 'dart:convert';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:rastreia_pet_app/enum/enum.dart';
+import 'package:rastreia_pet_app/models/pet.dart';
+import 'package:rastreia_pet_app/services/auth_services.dart';
+import 'package:rastreia_pet_app/services/pet_services.dart';
 import 'package:rastreia_pet_app/widgets/logo_widget.dart';
 import 'package:rastreia_pet_app/widgets/or_widget.dart';
 import 'package:rastreia_pet_app/widgets/primary_button.dart';
 import 'package:rastreia_pet_app/widgets/qrcode_card.dart';
+import 'package:rastreia_pet_app/widgets/show_snackbar.dart';
 import 'package:rastreia_pet_app/widgets/text_input.dart';
 
-class RegisterPetPage extends StatelessWidget {
-  RegisterPetPage({super.key});
+class RegisterPetPage extends StatefulWidget {
+  final User user;
+  const RegisterPetPage({super.key, required this.user});
+
+  @override
+  State<RegisterPetPage> createState() => _RegisterPetPageState();
+}
+
+class _RegisterPetPageState extends State<RegisterPetPage> {
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _codeController = TextEditingController();
+  PetService petService = PetService();
+  AuthService authServices = AuthService();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +41,7 @@ class RegisterPetPage extends StatelessWidget {
               const SizedBox(height: 70),
               const LogoWidget(),
               const SizedBox(height: 10.0),
-              _nameInput(),
-              const SizedBox(height: 20.0),
-              _codeInput(),
+              _inputs(),
               const SizedBox(height: 30.0),
               _registerButton(context),
               const SizedBox(height: 20.0),
@@ -54,6 +71,19 @@ class RegisterPetPage extends StatelessWidget {
     );
   }
 
+  _inputs() {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          _nameInput(),
+          const SizedBox(height: 20.0),
+          _codeInput(),
+        ],
+      ),
+    );
+  }
+
   _nameInput() {
     return Column(
       children: [
@@ -62,7 +92,7 @@ class RegisterPetPage extends StatelessWidget {
         TextInput(
           off: false,
           password: false,
-          text: 'Nome completo',
+          text: 'Nome do Pet',
           controller: _nameController,
         ),
       ],
@@ -78,7 +108,7 @@ class RegisterPetPage extends StatelessWidget {
           off: false,
           password: false,
           text: 'Código',
-          controller: _nameController,
+          controller: _codeController,
         ),
       ],
     );
@@ -93,9 +123,92 @@ class RegisterPetPage extends StatelessWidget {
         textColor: Colors.white,
         text: "Finalizar cadastro",
         onPressed: () {
-          Navigator.pushNamed(context, '/NavPage');
+          _register(context);
         },
       ),
     );
+  }
+
+  _register(context) async {
+    String name = _nameController.text;
+    String code = _codeController.text;
+
+    Pet? pet = await petService
+        .getPetId(widget.user.uid); // Busca o pet associado ao uid
+
+    if (pet?.id != null) {
+      showSnackBar(
+          context: context,
+          mensagem: "Já existe um pet cadastrado!",
+          isErro: true);
+      Navigator.pushNamed(context, '/NavPage');
+    } else if (_formKey.currentState!.validate()) {
+      final result = await fromThingspeak(code);
+      if (result != null) {
+        final field2 = result['field2'];
+        final field3 = result['field3'];
+        Pet newPet = Pet(
+          id: FirebaseAuth.instance.currentUser!.uid,
+          nome: name,
+          write: field2,
+          read: field3,
+        );
+        await petService.addPet(pet: newPet);
+        showSnackBar(
+            context: context,
+            mensagem: "Pet adicionado com sucesso!",
+            isErro: false);
+        Navigator.pushNamed(context, '/NavPage');
+      } else {
+        showSnackBar(
+            context: context, mensagem: "Codigo nao cadastrado!", isErro: true);
+      }
+    }
+    setState(() {}); // Atualiza a UI
+  }
+
+  Future<Map<String, dynamic>?> fromThingspeak(String code) async {
+    final response = await http.get(Uri.parse(
+        'https://api.thingspeak.com/channels/2627688/feeds.json?api_key=GGWWIRV8288GY3PV&results=100'));
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      final feeds = data['feeds'];
+
+      // Itera sobre os feeds para encontrar o código no field1
+      for (var feed in feeds) {
+        if (feed['field1'] == code) {
+          final field2 = feed['field2'];
+          final field3 = feed['field3'];
+
+          // Retorna os valores dos fields 2 e 3
+          return {
+            'field2': field2,
+            'field3': field3,
+          };
+        }
+      }
+
+      // Se não encontrou o código
+      print('Código não encontrado.');
+      return null;
+    } else {
+      throw Exception('Falha ao carregar os dados do ThingSpeak');
+    }
+  }
+
+  void processValues(String code) async {
+    final result = await fromThingspeak(code);
+
+    if (result != null) {
+      final field2 = result['field2'];
+      final field3 = result['field3'];
+
+      // Faça algo com os valores de field2 e field3
+      print('Field 2: $field2');
+      print('Field 3: $field3');
+    } else {
+      print('Código não encontrado ou erro ao buscar os dados.');
+    }
   }
 }

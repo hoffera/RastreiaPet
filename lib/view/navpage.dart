@@ -1,12 +1,18 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rastreia_pet_app/enum/enum.dart';
 import 'package:rastreia_pet_app/view/home_page.dart';
+import 'package:rastreia_pet_app/view/map_page.dart';
 import 'package:rastreia_pet_app/view/user_page.dart';
 
 class NavPage extends StatefulWidget {
-  //final User user;
-  const NavPage({super.key});
+  final User user;
+  const NavPage({
+    super.key,
+    required this.user,
+  });
 
   @override
   State<NavPage> createState() => _NavPageState();
@@ -21,7 +27,9 @@ class _NavPageState extends State<NavPage> {
     super.initState();
     _widgetOptions = <Widget>[
       const HomePage(),
-      const HomePage(),
+      MapPage(
+        user: widget.user,
+      ),
       UserPage(),
     ];
   }
@@ -33,7 +41,7 @@ class _NavPageState extends State<NavPage> {
       bottomNavigationBar: CurvedNavigationBar(
         height: 50,
         backgroundColor:
-            _selectedIndex == 0 ? AppColors.background : Colors.black,
+            _selectedIndex == 2 ? Colors.black : AppColors.background,
         buttonBackgroundColor: AppColors.primary,
         color: AppColors.primary,
         animationDuration: const Duration(milliseconds: 300),
