@@ -21,7 +21,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.all(30.0),
         child: Center(
           child: Column(
             children: [
@@ -35,7 +35,7 @@ class LoginPage extends StatelessWidget {
               _enterButton(context),
               const SizedBox(height: 20.0),
               _resetPasswordButton(context),
-              const Orwidget(color: Colors.white),
+              const Orwidget(color: Colors.black),
               const SizedBox(height: 20.0),
               _registerPageButton(context),
             ],
@@ -52,8 +52,8 @@ class LoginPage extends StatelessWidget {
         Text(
           "Entrar",
           style: TextStyle(
-            fontSize: 24,
-            color: Colors.white,
+            fontSize: 30,
+            color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -86,7 +86,7 @@ class LoginPage extends StatelessWidget {
   _passwordInput() {
     return TextInput(
       off: false,
-      password: false,
+      password: true,
       text: 'Sua senha',
       controller: _passwordController,
     );
@@ -148,8 +148,8 @@ class LoginPage extends StatelessWidget {
             child: const Text(
               "Esqueci minha senha",
               style: TextStyle(
-                fontSize: 18,
-                color: Colors.white,
+                fontSize: 20,
+                color: AppColors.primary,
                 fontWeight: FontWeight.w400,
               ),
             ),

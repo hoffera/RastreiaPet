@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 import 'dart:convert';
 
@@ -6,8 +7,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
 class MapWidget extends StatefulWidget {
+  final String read;
   const MapWidget({
     super.key,
+    required this.read,
   });
 
   @override
@@ -41,10 +44,10 @@ class _MapWidgetState extends State<MapWidget> {
   }
 
   Future<void> fromThingspeak() async {
-    final response = await http.get(Uri.parse(
-        'https://api.thingspeak.com/channels/2293050/feeds.json?api_key=SEAMNK2RIVQJ6BT7&results=2'));
+    final response = await http.get(Uri.parse(widget.read));
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
+
       await updateMarkers(data);
     } else {
       throw Exception('Falha ao carregar os dados do ThingSpeak');

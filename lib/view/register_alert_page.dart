@@ -19,8 +19,41 @@ class RegisterAlertPage extends StatefulWidget {
 
 class _RegisterAlertPageState extends State<RegisterAlertPage> {
   PetService petService = PetService();
-
   final TextEditingController _nameController = TextEditingController();
+  late Future<bool> _petExistsFuture;
+  Pet? pet;
+
+  @override
+  void initState() {
+    super.initState();
+    _petExistsFuture = _existPet();
+    _petExistsFuture.then((exists) {
+      if (exists) {
+        _loadPet();
+      }
+    });
+  }
+
+  Future<void> _loadPet() async {
+    Pet? fetchedPet = await petService.getPetId(widget.user.uid);
+    setState(() {
+      pet = fetchedPet;
+    });
+    print(pet);
+  }
+
+  Future<bool> _existPet() async {
+    Pet? pet = await petService
+        .getPetId(widget.user.uid); // Busca o pet associado ao uid
+
+    if (pet?.id != null) {
+      print('existe pet');
+      return true;
+    } else {
+      print('não existe pet');
+      return false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +120,10 @@ class _RegisterAlertPageState extends State<RegisterAlertPage> {
         $box.borderRadius(20),
         $box.color(Colors.white),
       ),
-      child: const MapWidget(),
+      child: MapWidget(
+        read: pet!.read,
+        // write: pet!.write,
+      ),
     );
   }
 

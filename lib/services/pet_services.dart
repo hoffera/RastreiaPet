@@ -53,7 +53,7 @@ class PetService {
   }
 
   Future<void> removePet({required String pet}) async {
-    return firestore.collection(uid).doc(pet).delete();
+    return firestore.collection('pets').doc(pet).delete();
   }
 
   Future<void> updatePetBalance({

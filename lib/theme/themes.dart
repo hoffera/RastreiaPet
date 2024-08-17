@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rastreia_pet_app/enum/enum.dart';
 
 ThemeData primaryThemeData = ThemeData(
   fontFamily: 'SourceSans',
@@ -14,7 +15,7 @@ ThemeData primaryThemeData = ThemeData(
       onSecondary: Colors.white,
       onSurface: Colors.white,
       brightness: Brightness.dark),
-  scaffoldBackgroundColor: Colors.black,
+  scaffoldBackgroundColor: AppColors.background,
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
       foregroundColor: Colors.white,

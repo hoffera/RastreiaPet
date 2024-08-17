@@ -26,11 +26,15 @@ class _NavPageState extends State<NavPage> {
   void initState() {
     super.initState();
     _widgetOptions = <Widget>[
-      const HomePage(),
+      HomePage(
+        user: widget.user,
+      ),
       MapPage(
         user: widget.user,
       ),
-      UserPage(),
+      UserPage(
+        user: widget.user,
+      ),
     ];
   }
 
@@ -40,8 +44,7 @@ class _NavPageState extends State<NavPage> {
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: CurvedNavigationBar(
         height: 50,
-        backgroundColor:
-            _selectedIndex == 2 ? Colors.black : AppColors.background,
+        backgroundColor: AppColors.background,
         buttonBackgroundColor: AppColors.primary,
         color: AppColors.primary,
         animationDuration: const Duration(milliseconds: 300),

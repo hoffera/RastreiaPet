@@ -11,7 +11,6 @@ import 'package:rastreia_pet_app/view/navpage.dart';
 import 'package:rastreia_pet_app/view/register_alert_page.dart';
 import 'package:rastreia_pet_app/view/register_page.dart';
 import 'package:rastreia_pet_app/view/register_pet_page.dart';
-import 'package:rastreia_pet_app/view/user_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,7 +39,12 @@ class _MyAppState extends State<MyApp> {
       home: const RouteScreens(),
       routes: <String, WidgetBuilder>{
         '/HomeLoginPage': (BuildContext context) => const HomeLoginPage(),
-        '/HomePage': (BuildContext context) => const HomePage(),
+        '/HomePage': (BuildContext context) => Builder(
+              builder: (context) {
+                final user = FirebaseAuth.instance.currentUser;
+                return HomePage(user: user!);
+              },
+            ),
         '/LoginPage': (BuildContext context) => LoginPage(),
         '/RegisterAlertPage': (BuildContext context) => Builder(
               builder: (context) {
@@ -55,7 +59,6 @@ class _MyAppState extends State<MyApp> {
                 return RegisterPetPage(user: user!);
               },
             ),
-        '/RegisUserPageterPetPage': (BuildContext context) => UserPage(),
         '/NavPage': (BuildContext context) => Builder(
               builder: (context) {
                 final user = FirebaseAuth.instance.currentUser;

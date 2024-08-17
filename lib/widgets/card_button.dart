@@ -23,26 +23,22 @@ class CardButton extends StatelessWidget {
   }
 
   _card() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-          horizontal: 20.0), // Padding horizontal de 20
-      child: Box(
-        style: Style(
-          $box.borderRadius(20),
-          $box.maxWidth(double.infinity), // Largura máxima
-          $box.padding.vertical(20),
-          $box.padding.horizontal(20),
-          $box.height(96),
-          $box.color(Colors.white),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _icon(),
-            _textCard(),
-            _iconButton(),
-          ],
-        ),
+    return Box(
+      style: Style(
+        $box.borderRadius(20),
+        $box.maxWidth(double.infinity), // Largura máxima
+        $box.padding.vertical(20),
+        $box.padding.horizontal(20),
+        $box.height(96),
+        $box.color(Colors.white),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _icon(),
+          _textCard(),
+          _iconButton(),
+        ],
       ),
     );
   }

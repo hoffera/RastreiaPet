@@ -110,19 +110,20 @@ _card15s() {
       ),
     ),
     onPress: () async {
-      String apiKey = 'MQSFHANLRIA4AJ6O';
-      Map<String, String> data = {
-        'field1': '123456', // Valor para o campo 1
-        'field2': '5VLHEQBMZEFPHP0G', // Valor para o campo 2
-        'field3': 'SEAMNK2RIVQJ6BT7', // Valor para o campo 3
-      };
+      // String apiKey = 'CEWOAIKG6W1WP38J';
+      // Map<String, String> data = {
+      //   'field1': '-48.66420800264702', // Valor para o campo 1
+      //   'field2': '-26.91533041281881', // Valor para o campo 2
+      //   'field3': '23', // Valor para o campo 3
+      //   // Valor para o campo 3
+      // };
 
-      try {
-        await sendToThingspeak(apiKey, data);
-        print('Pressed and data sent!');
-      } catch (e) {
-        print(e);
-      }
+      // try {
+      //   await sendToThingspeak(apiKey, data);
+      //   print('Pressed and data sent!');
+      // } catch (e) {
+      //   print(e);
+      // }
     },
     child: VBox(
       children: [
@@ -198,8 +199,8 @@ _card5min() {
       ),
     ),
     onPress: () async {
-      const String code = '123456'; // Exemplo de código a ser buscado
-      await fromThingspeak(code);
+      // const String code = '123456'; // Exemplo de código a ser buscado
+      // await fromThingspeak(code);
     },
     child: VBox(
       children: [

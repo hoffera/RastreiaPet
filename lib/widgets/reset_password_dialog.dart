@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:flutter/material.dart';
+import 'package:mix/mix.dart';
+import 'package:rastreia_pet_app/enum/enum.dart';
 import 'package:rastreia_pet_app/services/auth_services.dart';
 import 'package:rastreia_pet_app/widgets/show_snackbar.dart';
 import 'package:rastreia_pet_app/widgets/text_input.dart';
@@ -26,11 +28,28 @@ class PasswordResetDialogState extends State<PasswordResetDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(
-        widget.password == true
-            ? 'Deletar conta, sua senha'
-            : 'Redefinir Senha',
-        style: const TextStyle(color: Colors.white, fontSize: 24),
+      backgroundColor: AppColors.secondary,
+      title: Column(
+        children: [
+          StyledText(
+            "Redefina sua Senha.",
+            style: Style(
+              $text.style.color(AppColors.primary),
+              $text.style.fontSize(30),
+              $text.style.fontWeight(FontWeight.bold),
+              $text.textAlign.center(),
+            ),
+          ),
+          StyledText(
+            "Você receberá um e-mail com instruções para criar uma nova senha. ",
+            style: Style(
+              $text.style.color.white(),
+              $text.style.fontSize(20),
+              $text.style.fontWeight(FontWeight.w400),
+              $text.textAlign.center(),
+            ),
+          ),
+        ],
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,

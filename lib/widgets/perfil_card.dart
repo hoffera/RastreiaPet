@@ -26,7 +26,9 @@ class PerfilCard extends StatelessWidget {
     return Box(
       style: Style(
         $box.maxWidth(double.infinity), // Largura máxima
-        $box.color(Colors.black),
+        $box.color(Colors.white),
+        $box.borderRadius(20),
+        $box.padding(10),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -61,7 +63,7 @@ class PerfilCard extends StatelessWidget {
       cardText,
       style: const TextStyle(
         fontSize: 20,
-        color: Colors.white,
+        color: Colors.black,
         fontWeight: FontWeight.bold,
       ),
     );
@@ -71,7 +73,7 @@ class PerfilCard extends StatelessWidget {
     return SizedBox(
       width: 250,
       child: TextInput(
-        off: false,
+        off: true,
         password: false,
         text: infoText,
         controller: controller,

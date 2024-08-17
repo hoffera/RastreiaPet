@@ -1,17 +1,29 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rastreia_pet_app/enum/enum.dart';
 import 'package:rastreia_pet_app/widgets/card_button.dart';
 import 'package:rastreia_pet_app/widgets/change_update_dialog.dart';
 import 'package:rastreia_pet_app/widgets/logo_widget.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class HomePage extends StatefulWidget {
+  final User user;
+  const HomePage({
+    super.key,
+    required this.user,
+  });
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.all(30.0),
         child: Center(
           child: Column(
             children: [
@@ -34,12 +46,12 @@ class HomePage extends StatelessWidget {
   }
 
   _helloText() {
-    return const Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
-          "Olá, Usuario",
-          style: TextStyle(
+          "Olá, ${widget.user.displayName}",
+          style: const TextStyle(
             fontSize: 32,
             color: Colors.black,
             fontWeight: FontWeight.bold,
