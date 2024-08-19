@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:mix/mix.dart';
 import 'package:rastreia_pet_app/enum/enum.dart';
 import 'package:rastreia_pet_app/models/pet.dart';
+import 'package:rastreia_pet_app/services/auth_services.dart';
+import 'package:rastreia_pet_app/services/pet_services.dart';
 import 'package:rastreia_pet_app/widgets/primary_button.dart';
+import 'package:rastreia_pet_app/widgets/show_snackbar.dart';
 import 'package:rastreia_pet_app/widgets/text_input.dart';
 
 class EditDetalisCard extends StatefulWidget {
@@ -37,7 +40,10 @@ class _EditDetalisCardState extends State<EditDetalisCard>
     return _card();
   }
 
+  final _formKey = GlobalKey<FormState>();
   bool _expanded = false;
+  AuthService authServices = AuthService();
+
   late final AnimationController _controller = AnimationController(
     duration: const Duration(milliseconds: 125),
     vsync: this,
@@ -104,6 +110,19 @@ class _EditDetalisCardState extends State<EditDetalisCard>
     );
   }
 
+  _input() {
+    return Form(
+        key: _formKey,
+        child: SizedBox(
+          width: 200,
+          child: TextInput(
+              off: false,
+              text: "Novo nome",
+              password: false,
+              controller: widget.controller),
+        ));
+  }
+
   _newInfo() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -119,28 +138,59 @@ class _EditDetalisCardState extends State<EditDetalisCard>
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(
-              width: 150,
-              child: TextInput(
-                  off: false,
-                  text: "Novo nome",
-                  password: false,
-                  controller: widget.controller),
-            )
+            _input(),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 30),
         PrimaryButton(
           funds: false,
           color: AppColors.primary,
           textColor: Colors.white,
           text: "Editar",
           onPressed: () {
-            print("editado");
+            if (widget.user) {
+              _editUserPressed(context);
+            } else {
+              _editPetPressed(context);
+              // _editPetPressed(context);
+            }
           },
         ),
       ],
     );
+  }
+
+  _editUserPressed(context) {
+    String name = widget.controller.text;
+
+    if (name != "") {
+      authServices.editUser(name: name).then((error) {
+        if (error != null) {
+          showSnackBar(context: context, mensagem: error, isErro: true);
+        } else {
+          showSnackBar(
+              context: context,
+              mensagem: "Nome atualizado com sucesso!",
+              isErro: false);
+        }
+      });
+    } else {
+      showSnackBar(
+          context: context, mensagem: "Insira um novo Nome!", isErro: true);
+    }
+  }
+
+  _editPetPressed(context) async {
+    PetService petService = PetService();
+    String name = widget.controller.text;
+    if (widget.pet != null) {
+      await petService.updatePetName(
+        newName: name,
+      );
+      showSnackBar(
+          context: context, mensagem: "Nome do Pet alterado!", isErro: false);
+    }
+    setState(() {}); // Atualiza a UI
   }
 
   _box() {

@@ -91,9 +91,9 @@ class _MapWidgetState extends State<MapWidget> {
         markers[markerId] = marker;
 
         // Move a câmera para a posição do novo marcador
-        mapController.animateCamera(
-          CameraUpdate.newLatLngZoom(LatLng(field2Value, field1Value), 15.0),
-        );
+        // mapController.animateCamera(
+        //   CameraUpdate.newLatLngZoom(LatLng(field2Value, field1Value), 15.0),
+        // );
 
         // Atualiza o ID do último marcador
         lastMarkerId = markerId;
@@ -137,9 +137,19 @@ class _MapWidgetState extends State<MapWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GoogleMap(
+        circles: {
+          Circle(
+            circleId: const CircleId('circle'),
+            center: const LatLng(-23.5505, -46.6333),
+            radius: 1000,
+            fillColor: Colors.blue.withOpacity(0.3),
+            strokeColor: Colors.blue,
+            strokeWidth: 1,
+          ),
+        },
         onMapCreated: _onMapCreated,
         initialCameraPosition: const CameraPosition(
-          target: LatLng(0, 0),
+          target: LatLng(-23.5505, -46.6333),
           zoom: 12.0,
         ),
         markers: Set<Marker>.of(markers.values),

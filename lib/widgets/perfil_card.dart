@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:mix/mix.dart';
 import 'package:rastreia_pet_app/enum/enum.dart';
-import 'package:rastreia_pet_app/widgets/text_input.dart';
 
 class PerfilCard extends StatelessWidget {
   const PerfilCard({
@@ -10,12 +9,10 @@ class PerfilCard extends StatelessWidget {
     required this.cardText,
     required this.infoText,
     required this.icon,
-    required this.controller,
   });
   final String cardText;
   final String infoText;
   final IconData icon;
-  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -72,11 +69,14 @@ class PerfilCard extends StatelessWidget {
   _infoText() {
     return SizedBox(
       width: 250,
-      child: TextInput(
-        off: true,
-        password: false,
-        text: infoText,
-        controller: controller,
+      child: StyledText(
+        infoText,
+        style: Style(
+          $text.style.color.black(),
+          $text.style.fontSize(18),
+          $text.style.fontWeight(FontWeight.normal),
+          $text.textAlign.start(),
+        ),
       ),
     );
   }

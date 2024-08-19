@@ -56,14 +56,9 @@ class PetService {
     return firestore.collection('pets').doc(pet).delete();
   }
 
-  Future<void> updatePetBalance({
-    required String pet,
-    required String newBalance,
-  }) async {
-    try {
-      await firestore.collection(uid).doc(pet).update({'balance': newBalance});
-    } catch (e) {
-      throw Exception('Failed to update Pet balance: $e');
-    }
+  Future<void> updatePetName({required String newName}) async {
+    return firestore.collection('pets').doc(uid).update({
+      'nome': newName,
+    });
   }
 }

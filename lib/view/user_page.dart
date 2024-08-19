@@ -4,6 +4,7 @@ import 'package:rastreia_pet_app/enum/enum.dart';
 import 'package:rastreia_pet_app/models/pet.dart';
 import 'package:rastreia_pet_app/services/auth_services.dart';
 import 'package:rastreia_pet_app/services/pet_services.dart';
+import 'package:rastreia_pet_app/view/nav_page.dart';
 import 'package:rastreia_pet_app/widgets/edit_user_details_dialog.dart';
 import 'package:rastreia_pet_app/widgets/logo_widget.dart';
 import 'package:rastreia_pet_app/widgets/perfil_card.dart';
@@ -91,7 +92,6 @@ class _UserPageState extends State<UserPage> {
       height: 50,
       width: double.infinity,
       child: PerfilCard(
-        controller: _nameController,
         icon: Icons.person,
         cardText: "Nome",
         infoText: "${widget.user.displayName}",
@@ -104,7 +104,6 @@ class _UserPageState extends State<UserPage> {
       height: 50,
       width: double.infinity,
       child: PerfilCard(
-        controller: _nameController,
         icon: Icons.email,
         cardText: "E-mail",
         infoText: "${widget.user.email}",
@@ -117,27 +116,25 @@ class _UserPageState extends State<UserPage> {
       height: 50,
       width: double.infinity,
       child: PerfilCard(
-        controller: _nameController,
         icon: Icons.pets,
         cardText: "Pet",
-        infoText: pet != null ? pet!.nome : "-",
+        infoText: pet != null ? pet!.nome : "",
       ),
     );
   }
 
   _editInfos(context) {
     return SizedBox(
-      height: 50,
-      child: PrimaryButton(
-        funds: false,
-        color: AppColors.primary,
-        textColor: Colors.white,
-        text: "Edite seus dados",
-        onPressed: () {
-          _changeUpdateDialog(context);
-        },
-      ),
-    );
+        height: 50,
+        child: PrimaryButton(
+          funds: false,
+          color: AppColors.primary,
+          textColor: Colors.white,
+          text: "Edite seus dados",
+          onPressed: () {
+            _changeUpdateDialog(context);
+          },
+        ));
   }
 
   void _changeUpdateDialog(BuildContext context) {
@@ -149,7 +146,20 @@ class _UserPageState extends State<UserPage> {
           pet: pet,
         );
       },
-    );
+    ).then((_) {
+      Navigator.pushReplacement(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, animation1, animation2) => NavPage(
+            user: widget.user,
+            initialIndex: 2,
+          ),
+          transitionDuration: Duration.zero, // Remove a duração da transição
+          reverseTransitionDuration:
+              Duration.zero, // Remove a duração da transição reversa
+        ),
+      );
+    });
   }
 
   _removePetButton(context) {

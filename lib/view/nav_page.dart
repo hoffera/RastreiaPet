@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,9 +8,12 @@ import 'package:rastreia_pet_app/view/user_page.dart';
 
 class NavPage extends StatefulWidget {
   final User user;
+  final int initialIndex; // Adicione esse parâmetro
+
   const NavPage({
     super.key,
     required this.user,
+    this.initialIndex = 0, // Define um valor padrão
   });
 
   @override
@@ -19,12 +21,13 @@ class NavPage extends StatefulWidget {
 }
 
 class _NavPageState extends State<NavPage> {
-  late int _selectedIndex = 0;
+  late int _selectedIndex;
   late final List<Widget> _widgetOptions;
 
   @override
   void initState() {
     super.initState();
+    _selectedIndex = widget.initialIndex; // Use o índice inicial passado
     _widgetOptions = <Widget>[
       HomePage(
         user: widget.user,

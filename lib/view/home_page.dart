@@ -2,9 +2,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rastreia_pet_app/enum/enum.dart';
+import 'package:rastreia_pet_app/models/pet.dart';
+import 'package:rastreia_pet_app/services/pet_services.dart';
 import 'package:rastreia_pet_app/widgets/card_button.dart';
 import 'package:rastreia_pet_app/widgets/change_update_dialog.dart';
 import 'package:rastreia_pet_app/widgets/logo_widget.dart';
+import 'package:rastreia_pet_app/widgets/show_snackbar.dart';
 
 class HomePage extends StatefulWidget {
   final User user;
@@ -18,6 +21,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  PetService petService = PetService();
+  late Future<bool> _petExistsFuture;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,7 +81,16 @@ class _HomePageState extends State<HomePage> {
       icon: Icons.add_alert,
       text: "Criar um alerta",
       onPressed: () {
-        Navigator.pushNamed(context, '/RegisterAlertPage');
+        _petExistsFuture.then((exists) {
+          if (exists) {
+            Navigator.pushNamed(context, '/RegisterAlertPage');
+          } else {
+            showSnackBar(
+                context: context,
+                mensagem: "Cadastre um Pet primeiro!",
+                isErro: true);
+          }
+        });
       },
     );
   }
@@ -98,5 +112,18 @@ class _HomePageState extends State<HomePage> {
         return const ChangeUpdateDialog();
       },
     );
+  }
+
+  Future<bool> _existPet() async {
+    Pet? pet = await petService
+        .getPetId(widget.user.uid); // Busca o pet associado ao uid
+
+    if (pet?.id != null) {
+      print('existe pet');
+      return true;
+    } else {
+      print('não existe pet');
+      return false;
+    }
   }
 }

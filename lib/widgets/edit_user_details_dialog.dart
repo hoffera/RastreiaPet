@@ -94,7 +94,7 @@ class EditUserDetailsDialogState extends State<EditUserDetailsDialog> {
 
   _namePet() {
     return EditDetalisCard(
-      controller: _nameController,
+      controller: _petController,
       icon: Icons.pets,
       cardText: "Pet",
       user: false,

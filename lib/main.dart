@@ -7,7 +7,7 @@ import 'package:rastreia_pet_app/theme/theme_provider.dart';
 import 'package:rastreia_pet_app/view/home_login_page.dart';
 import 'package:rastreia_pet_app/view/home_page.dart';
 import 'package:rastreia_pet_app/view/login_page.dart';
-import 'package:rastreia_pet_app/view/navpage.dart';
+import 'package:rastreia_pet_app/view/nav_page.dart';
 import 'package:rastreia_pet_app/view/register_alert_page.dart';
 import 'package:rastreia_pet_app/view/register_page.dart';
 import 'package:rastreia_pet_app/view/register_pet_page.dart';

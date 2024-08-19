@@ -128,11 +128,10 @@ class _RegisterAlertPageState extends State<RegisterAlertPage> {
   }
 
   _distance() {
-    return SizedBox(
+    return const SizedBox(
       height: 50,
       width: double.infinity,
       child: PerfilCard(
-        controller: _nameController,
         icon: Icons.pin_drop_rounded,
         cardText: "Raio",
         infoText: "0 metros",

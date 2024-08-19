@@ -50,17 +50,9 @@ class AuthService {
     required String name,
   }) async {
     try {
-      // UserCredential userCredential =
-      //     await _firebaseAuth.createUserWithEmailAndPassword(
-      //   email: email,
-      //   password: password,
-      // );
-
       User? userCredential = _firebaseAuth.currentUser;
 
       await userCredential!.updateDisplayName(name);
-
-      //print("Funcionou! Chegamos até essa linha!");
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "email-already-in-use":
