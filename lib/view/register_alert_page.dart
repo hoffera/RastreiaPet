@@ -4,10 +4,9 @@ import 'package:mix/mix.dart';
 import 'package:rastreia_pet_app/enum/enum.dart';
 import 'package:rastreia_pet_app/models/pet.dart';
 import 'package:rastreia_pet_app/services/pet_services.dart';
-import 'package:rastreia_pet_app/widgets/map_widget.dart';
-import 'package:rastreia_pet_app/widgets/perfil_card.dart';
-import 'package:rastreia_pet_app/widgets/primary_button.dart';
-import 'package:rastreia_pet_app/widgets/show_snackbar.dart';
+import 'package:rastreia_pet_app/widgets/dialog/show_snackbar.dart';
+import 'package:rastreia_pet_app/widgets/logo/logo_widget.dart';
+import 'package:rastreia_pet_app/widgets/map/map_alert_widget.dart';
 
 class RegisterAlertPage extends StatefulWidget {
   final User user;
@@ -19,19 +18,16 @@ class RegisterAlertPage extends StatefulWidget {
 
 class _RegisterAlertPageState extends State<RegisterAlertPage> {
   PetService petService = PetService();
-  final TextEditingController _nameController = TextEditingController();
-  late Future<bool> _petExistsFuture;
+  late final Future<Pet?> _petExistsFuture =
+      petService.getPetId(widget.user.uid);
+
   Pet? pet;
 
   @override
   void initState() {
     super.initState();
-    _petExistsFuture = _existPet();
-    _petExistsFuture.then((exists) {
-      if (exists) {
-        _loadPet();
-      }
-    });
+
+    _loadPet();
   }
 
   Future<void> _loadPet() async {
@@ -39,43 +35,71 @@ class _RegisterAlertPageState extends State<RegisterAlertPage> {
     setState(() {
       pet = fetchedPet;
     });
-    print(pet);
-  }
-
-  Future<bool> _existPet() async {
-    Pet? pet = await petService
-        .getPetId(widget.user.uid); // Busca o pet associado ao uid
-
-    if (pet?.id != null) {
-      print('existe pet');
-      return true;
-    } else {
-      print('não existe pet');
-      return false;
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.all(30.0),
         child: Center(
-          child: Column(
-            children: [
-              const SizedBox(height: 50.0),
-              _titleText(),
-              const SizedBox(height: 10),
-              _subtitleText(),
-              const SizedBox(height: 30),
-              _map(),
-              const SizedBox(height: 30),
-              _distance(),
-              const SizedBox(height: 30),
-              _registerButton(context),
-            ],
+          child: FutureBuilder<Pet?>(
+            future: _petExistsFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error ?? 'Unknown error'}');
+              } else if (snapshot.hasData) {
+                if (snapshot.data != null) {
+                  return _register();
+                } else {
+                  return _petNull();
+                }
+              } else {
+                return const Text('No data available');
+              }
+            },
           ),
         ),
+      ),
+    );
+  }
+
+  _register() {
+    return Column(
+      children: [
+        const SizedBox(height: 50.0),
+        _titleText(),
+        const SizedBox(height: 10),
+        _subtitleText(),
+        const SizedBox(height: 30),
+        _map(),
+      ],
+    );
+  }
+
+  _petNull() {
+    return Padding(
+      padding: const EdgeInsets.all(30.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const LogoWidget(),
+          const SizedBox(
+            height: 50,
+          ),
+          StyledText(
+            "Sem pet cadastrado ",
+            style: Style(
+              $text.style.color.black(),
+              $text.style.fontSize(30),
+              $text.style.fontWeight(FontWeight.bold),
+              $text.textAlign.center(),
+            ),
+          ),
+          const SizedBox(height: 100),
+        ],
       ),
     );
   }
@@ -104,7 +128,7 @@ class _RegisterAlertPageState extends State<RegisterAlertPage> {
           "Toque no mapa para selecionar o local e\ndefina um raio. Receba notificações caso\nseu animal saia dessa área. Mantenha seu\nPet seguro e sob controle!",
           style: TextStyle(
             fontSize: 24,
-            color: Colors.white,
+            color: Colors.black,
             fontWeight: FontWeight.normal,
           ),
         ),
@@ -116,45 +140,17 @@ class _RegisterAlertPageState extends State<RegisterAlertPage> {
     return Box(
       style: Style(
         $box.maxWidth(double.infinity),
-        $box.maxHeight(400),
         $box.borderRadius(20),
         $box.color(Colors.white),
       ),
-      child: MapWidget(
+      child: MapAlertWidget(
         read: pet!.read,
         // write: pet!.write,
       ),
     );
   }
 
-  _distance() {
-    return const SizedBox(
-      height: 50,
-      width: double.infinity,
-      child: PerfilCard(
-        icon: Icons.pin_drop_rounded,
-        cardText: "Raio",
-        infoText: "0 metros",
-      ),
-    );
-  }
-
-  _registerButton(context) {
-    return SizedBox(
-      height: 50,
-      child: PrimaryButton(
-        funds: false,
-        color: AppColors.primary,
-        textColor: Colors.white,
-        text: "Criar alerta",
-        onPressed: () {
-          _register(context);
-        },
-      ),
-    );
-  }
-
-  _register(context) async {
+  _registerV(context) async {
     Pet? pet = await petService.getPetById(widget.user.uid);
 
     if (pet == null) {

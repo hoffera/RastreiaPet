@@ -83,7 +83,9 @@ class RouteScreens extends StatelessWidget {
         } else {
           if (snapshot.hasData) {
             final user = FirebaseAuth.instance.currentUser;
-            return NavPage(user: user!);
+            return NavPage(
+              user: user!,
+            );
           } else {
             return const HomeLoginPage();
           }

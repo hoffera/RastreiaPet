@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:rastreia_pet_app/enum/enum.dart';
 import 'package:rastreia_pet_app/models/pet.dart';
 import 'package:rastreia_pet_app/services/pet_services.dart';
-import 'package:rastreia_pet_app/widgets/card_button.dart';
-import 'package:rastreia_pet_app/widgets/change_update_dialog.dart';
-import 'package:rastreia_pet_app/widgets/logo_widget.dart';
-import 'package:rastreia_pet_app/widgets/show_snackbar.dart';
+import 'package:rastreia_pet_app/widgets/card/card_button.dart';
+import 'package:rastreia_pet_app/widgets/dialog/change_update_dialog.dart';
+import 'package:rastreia_pet_app/widgets/dialog/show_snackbar.dart';
+import 'package:rastreia_pet_app/widgets/logo/logo_widget.dart';
 
 class HomePage extends StatefulWidget {
   final User user;
@@ -22,7 +22,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   PetService petService = PetService();
-  late Future<bool> _petExistsFuture;
+  late final Future<Pet?> _petExistsFuture =
+      petService.getPetId(widget.user.uid);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +83,7 @@ class _HomePageState extends State<HomePage> {
       text: "Criar um alerta",
       onPressed: () {
         _petExistsFuture.then((exists) {
-          if (exists) {
+          if (exists != null) {
             Navigator.pushNamed(context, '/RegisterAlertPage');
           } else {
             showSnackBar(
@@ -112,18 +113,5 @@ class _HomePageState extends State<HomePage> {
         return const ChangeUpdateDialog();
       },
     );
-  }
-
-  Future<bool> _existPet() async {
-    Pet? pet = await petService
-        .getPetId(widget.user.uid); // Busca o pet associado ao uid
-
-    if (pet?.id != null) {
-      print('existe pet');
-      return true;
-    } else {
-      print('não existe pet');
-      return false;
-    }
   }
 }

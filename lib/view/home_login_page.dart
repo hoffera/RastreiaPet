@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rastreia_pet_app/enum/enum.dart';
-import 'package:rastreia_pet_app/widgets/primary_button.dart';
+import 'package:rastreia_pet_app/widgets/button/primary_button.dart';
 
 class HomeLoginPage extends StatelessWidget {
   const HomeLoginPage({super.key});

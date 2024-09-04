@@ -7,7 +7,7 @@ import 'package:rastreia_pet_app/enum/enum.dart';
 import 'package:rastreia_pet_app/models/pet.dart';
 import 'package:rastreia_pet_app/services/auth_services.dart';
 import 'package:rastreia_pet_app/services/pet_services.dart';
-import 'package:rastreia_pet_app/widgets/edit_detalis_card.dart';
+import 'package:rastreia_pet_app/widgets/card/edit_detalis_card.dart';
 
 class EditUserDetailsDialog extends StatefulWidget {
   final User user;

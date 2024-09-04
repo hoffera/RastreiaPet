@@ -5,11 +5,11 @@ import 'package:rastreia_pet_app/models/pet.dart';
 import 'package:rastreia_pet_app/services/auth_services.dart';
 import 'package:rastreia_pet_app/services/pet_services.dart';
 import 'package:rastreia_pet_app/view/nav_page.dart';
-import 'package:rastreia_pet_app/widgets/edit_user_details_dialog.dart';
-import 'package:rastreia_pet_app/widgets/logo_widget.dart';
-import 'package:rastreia_pet_app/widgets/perfil_card.dart';
-import 'package:rastreia_pet_app/widgets/primary_button.dart';
-import 'package:rastreia_pet_app/widgets/show_snackbar.dart';
+import 'package:rastreia_pet_app/widgets/button/primary_button.dart';
+import 'package:rastreia_pet_app/widgets/card/perfil_card.dart';
+import 'package:rastreia_pet_app/widgets/dialog/edit_user_details_dialog.dart';
+import 'package:rastreia_pet_app/widgets/dialog/show_snackbar.dart';
+import 'package:rastreia_pet_app/widgets/logo/logo_widget.dart';
 
 class UserPage extends StatefulWidget {
   final User user;
@@ -21,8 +21,6 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
-  final TextEditingController _nameController = TextEditingController();
-
   PetService petService = PetService();
   Pet? pet;
 

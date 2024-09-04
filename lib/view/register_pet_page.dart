@@ -2,17 +2,18 @@ import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 import 'package:rastreia_pet_app/enum/enum.dart';
 import 'package:rastreia_pet_app/models/pet.dart';
 import 'package:rastreia_pet_app/services/auth_services.dart';
 import 'package:rastreia_pet_app/services/pet_services.dart';
-import 'package:rastreia_pet_app/widgets/logo_widget.dart';
-import 'package:rastreia_pet_app/widgets/or_widget.dart';
-import 'package:rastreia_pet_app/widgets/primary_button.dart';
-import 'package:rastreia_pet_app/widgets/qrcode_card.dart';
-import 'package:rastreia_pet_app/widgets/show_snackbar.dart';
-import 'package:rastreia_pet_app/widgets/text_input.dart';
+import 'package:rastreia_pet_app/widgets/button/primary_button.dart';
+import 'package:rastreia_pet_app/widgets/card/qrcode_card.dart';
+import 'package:rastreia_pet_app/widgets/dialog/show_snackbar.dart';
+import 'package:rastreia_pet_app/widgets/input/text_input.dart';
+import 'package:rastreia_pet_app/widgets/logo/logo_widget.dart';
+import 'package:rastreia_pet_app/widgets/logo/or_widget.dart';
 
 class RegisterPetPage extends StatefulWidget {
   final User user;

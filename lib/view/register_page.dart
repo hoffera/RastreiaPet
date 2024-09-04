@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:rastreia_pet_app/enum/enum.dart';
 import 'package:rastreia_pet_app/services/auth_services.dart';
-import 'package:rastreia_pet_app/widgets/primary_button.dart';
-import 'package:rastreia_pet_app/widgets/show_snackbar.dart';
-import 'package:rastreia_pet_app/widgets/text_input.dart';
+import 'package:rastreia_pet_app/widgets/button/primary_button.dart';
+import 'package:rastreia_pet_app/widgets/dialog/show_snackbar.dart';
+import 'package:rastreia_pet_app/widgets/input/text_input.dart';
 
+// ignore: must_be_immutable
 class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});
   final TextEditingController _nameController = TextEditingController();
@@ -18,7 +19,7 @@ class RegisterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.all(30.0),
         child: Center(
           child: Column(
             children: [
@@ -60,7 +61,7 @@ class RegisterPage extends StatelessWidget {
           "Crie uma conta na RastreiaPet",
           style: TextStyle(
             fontSize: 24,
-            color: Colors.white,
+            color: Colors.black,
             fontWeight: FontWeight.normal,
           ),
         ),
@@ -76,7 +77,7 @@ class RegisterPage extends StatelessWidget {
           text,
           style: const TextStyle(
             fontSize: 24,
-            color: Colors.white,
+            color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
         ),

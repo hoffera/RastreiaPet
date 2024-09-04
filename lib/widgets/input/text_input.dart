@@ -4,6 +4,7 @@ import 'package:rastreia_pet_app/enum/enum.dart';
 class TextInput extends StatelessWidget {
   final bool? email;
   final bool? name;
+  final bool? number;
   final bool off;
   final String text;
   final bool password;
@@ -17,6 +18,7 @@ class TextInput extends StatelessWidget {
     required this.text,
     required this.password,
     required this.controller,
+    this.number = false,
   });
 
   @override
@@ -26,6 +28,8 @@ class TextInput extends StatelessWidget {
       child: TextFormField(
         readOnly: off,
         controller: controller,
+        keyboardType:
+            number == true ? TextInputType.number : TextInputType.text,
         validator: (value) {
           if (name == true) {
             if (value == null || value == "") {
@@ -57,9 +61,6 @@ class TextInput extends StatelessWidget {
             borderSide: const BorderSide(color: AppColors.primary), // Cor cinza
             borderRadius: BorderRadius.circular(20.0),
           ),
-          // enabledBorder: InputBorder.none,
-          //  errorBorder: InputBorder.none,
-          // disabledBorder: InputBorder.none,
           filled: true,
           fillColor: Colors.white,
           hintText: text,

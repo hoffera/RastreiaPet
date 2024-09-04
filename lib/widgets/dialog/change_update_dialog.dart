@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 import 'package:mix/mix.dart';
 import 'package:rastreia_pet_app/enum/enum.dart';
@@ -19,8 +20,6 @@ class ChangeUpdateDialog extends StatefulWidget {
 }
 
 class ChangeUpdateDialogState extends State<ChangeUpdateDialog> {
-  // Renomeado para ser público
-  final TextEditingController _emailController = TextEditingController();
   final AuthService authServices = AuthService();
 
   @override

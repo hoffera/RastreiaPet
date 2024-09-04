@@ -45,8 +45,18 @@ dependencies:
   google_maps_flutter: ^2.9.0
   flutter_polyline_points: ^2.1.0
   uuid: ^4.4.2
+  flutter_map: ^7.0.2
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.13.1"
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "lib/assets/images/rastreiaPetLogo.png"
+  android_adaptive_icon_background: "#FDF2DC"
+  android_adaptive_icon_foreground: "#FDF2DC"
+
   flutter_test:
     sdk: flutter
 
@@ -69,6 +79,8 @@ flutter:
   uses-material-design: true
   assets:
     - lib/assets/images/
+    - lib/assets/map/
+  
 
   # To add assets to your application, add an assets section, like this:
   # assets:

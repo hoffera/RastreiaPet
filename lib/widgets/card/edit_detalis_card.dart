@@ -5,9 +5,9 @@ import 'package:rastreia_pet_app/enum/enum.dart';
 import 'package:rastreia_pet_app/models/pet.dart';
 import 'package:rastreia_pet_app/services/auth_services.dart';
 import 'package:rastreia_pet_app/services/pet_services.dart';
-import 'package:rastreia_pet_app/widgets/primary_button.dart';
-import 'package:rastreia_pet_app/widgets/show_snackbar.dart';
-import 'package:rastreia_pet_app/widgets/text_input.dart';
+import 'package:rastreia_pet_app/widgets/button/primary_button.dart';
+import 'package:rastreia_pet_app/widgets/dialog/show_snackbar.dart';
+import 'package:rastreia_pet_app/widgets/input/text_input.dart';
 
 class EditDetalisCard extends StatefulWidget {
   final String cardText;

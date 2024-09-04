@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rastreia_pet_app/widgets/core_button.dart';
+import 'package:rastreia_pet_app/widgets/button/core_button.dart';
 
 class PrimaryButton extends StatefulWidget {
   final void Function() onPressed;

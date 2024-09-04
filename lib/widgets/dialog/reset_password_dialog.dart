@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:mix/mix.dart';
 import 'package:rastreia_pet_app/enum/enum.dart';
 import 'package:rastreia_pet_app/services/auth_services.dart';
-import 'package:rastreia_pet_app/widgets/show_snackbar.dart';
-import 'package:rastreia_pet_app/widgets/text_input.dart';
+import 'package:rastreia_pet_app/widgets/dialog/show_snackbar.dart';
+import 'package:rastreia_pet_app/widgets/input/text_input.dart';
 
 class PasswordResetDialog extends StatefulWidget {
   final bool? password;

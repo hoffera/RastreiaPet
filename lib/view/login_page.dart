@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:mix/mix.dart';
 import 'package:rastreia_pet_app/enum/enum.dart';
 import 'package:rastreia_pet_app/services/auth_services.dart';
-import 'package:rastreia_pet_app/widgets/loading_alert.dart';
-import 'package:rastreia_pet_app/widgets/logo_widget.dart';
-import 'package:rastreia_pet_app/widgets/or_widget.dart';
-import 'package:rastreia_pet_app/widgets/primary_button.dart';
-import 'package:rastreia_pet_app/widgets/reset_password_dialog.dart';
-import 'package:rastreia_pet_app/widgets/show_snackbar.dart';
-import 'package:rastreia_pet_app/widgets/text_input.dart';
+import 'package:rastreia_pet_app/widgets/alert/loading_alert.dart';
+import 'package:rastreia_pet_app/widgets/button/primary_button.dart';
+import 'package:rastreia_pet_app/widgets/dialog/reset_password_dialog.dart';
+import 'package:rastreia_pet_app/widgets/dialog/show_snackbar.dart';
+import 'package:rastreia_pet_app/widgets/input/text_input.dart';
+import 'package:rastreia_pet_app/widgets/logo/logo_widget.dart';
+import 'package:rastreia_pet_app/widgets/logo/or_widget.dart';
 
+// ignore: must_be_immutable
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
   final TextEditingController _emailController = TextEditingController();
