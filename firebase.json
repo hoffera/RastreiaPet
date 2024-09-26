@@ -1,1 +1,98 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"rastreiapet-11b60","appId":"1:886544095346:android:f953bb0ba9f00eaa3e0aeb","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"rastreiapet-11b60","configurations":{"android":"1:886544095346:android:f953bb0ba9f00eaa3e0aeb","ios":"1:886544095346:ios:b5cf184486c9d9d13e0aeb","macos":"1:886544095346:ios:b5cf184486c9d9d13e0aeb","web":"1:886544095346:web:3ed55ad0591231e63e0aeb","windows":"1:886544095346:web:38022046bf2c40db3e0aeb"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "rastreiapet-11b60",
+          "appId": "1:886544095346:android:f953bb0ba9f00eaa3e0aeb",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "rastreiapet-11b60",
+          "configurations": {
+            "android": "1:886544095346:android:f953bb0ba9f00eaa3e0aeb",
+            "ios": "1:886544095346:ios:b5cf184486c9d9d13e0aeb",
+            "macos": "1:886544095346:ios:b5cf184486c9d9d13e0aeb",
+            "web": "1:886544095346:web:3ed55ad0591231e63e0aeb",
+            "windows": "1:886544095346:web:38022046bf2c40db3e0aeb"
+          }
+        }
+      }
+    }
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ]
+    },
+    {
+      "source": "nofica/cloud_functions",
+      "codebase": "nofica",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ]
+    },
+    {
+      "source": "notify",
+      "codebase": "notify",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ]
+    },
+    {
+      "source": "oie",
+      "codebase": "oie",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ]
+    },
+    {
+      "source": "agoravai",
+      "codebase": "agoravai",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ]
+    }
+  ],
+  "emulators": {
+    "functions": {
+      "port": 5001
+    },
+    "firestore": {
+      "port": 8080
+    },
+    "ui": {
+      "enabled": true
+    },
+    "singleProjectMode": true
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  }
+}

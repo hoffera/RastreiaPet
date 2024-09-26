@@ -182,9 +182,9 @@ class _MapWidgetState extends State<MapAlertWidget> {
       circleId: circleId,
       center: tappedPoint,
       radius: radius,
-      fillColor: Colors.blue.withOpacity(0.3),
-      strokeColor: Colors.blue,
-      strokeWidth: 1,
+      fillColor: AppColors.primary.withOpacity(0.3),
+      strokeColor: AppColors.primary,
+      strokeWidth: 2,
     );
 
     setState(() {

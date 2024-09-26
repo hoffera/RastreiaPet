@@ -7,12 +7,14 @@ class MapDialog extends StatelessWidget {
   final String latitude;
   final String longitude;
   final String distance;
+  final String dateTime;
 
   const MapDialog({
     super.key,
     required this.latitude,
     required this.longitude,
     required this.distance,
+    required this.dateTime,
   });
 
   @override
@@ -99,6 +101,14 @@ class MapDialog extends StatelessWidget {
               StyledText("Precisão da distância:", style: style),
               const SizedBox(width: 10),
               StyledText("$distance metros", style: styleInfo),
+            ],
+          ),
+          HBox(
+            style: hStyle,
+            children: [
+              StyledText("Data e Hora:", style: style),
+              const SizedBox(width: 10),
+              StyledText("$dateTime", style: styleInfo),
             ],
           ),
           HBox(

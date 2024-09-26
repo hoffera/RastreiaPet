@@ -9,11 +9,9 @@ import 'package:rastreia_pet_app/models/pet.dart';
 import 'package:rastreia_pet_app/services/auth_services.dart';
 import 'package:rastreia_pet_app/services/pet_services.dart';
 import 'package:rastreia_pet_app/widgets/button/primary_button.dart';
-import 'package:rastreia_pet_app/widgets/card/qrcode_card.dart';
 import 'package:rastreia_pet_app/widgets/dialog/show_snackbar.dart';
 import 'package:rastreia_pet_app/widgets/input/text_input.dart';
 import 'package:rastreia_pet_app/widgets/logo/logo_widget.dart';
-import 'package:rastreia_pet_app/widgets/logo/or_widget.dart';
 
 class RegisterPetPage extends StatefulWidget {
   final User user;
@@ -41,14 +39,14 @@ class _RegisterPetPageState extends State<RegisterPetPage> {
             children: [
               const SizedBox(height: 70),
               const LogoWidget(),
-              const SizedBox(height: 10.0),
+              const SizedBox(height: 50.0),
               _inputs(),
-              const SizedBox(height: 30.0),
+              const SizedBox(height: 50.0),
               _registerButton(context),
-              const SizedBox(height: 20.0),
-              const Orwidget(color: Colors.black),
-              const SizedBox(height: 20.0),
-              const QrcodeCard(),
+              // const SizedBox(height: 20.0),
+              // const Orwidget(color: Colors.black),
+              // const SizedBox(height: 20.0),
+              // const QrcodeCard(),
             ],
           ),
         ),
@@ -146,12 +144,12 @@ class _RegisterPetPageState extends State<RegisterPetPage> {
     } else if (_formKey.currentState!.validate()) {
       final result = await fromThingspeak(code);
       if (result != null) {
-        final field2 = result['field2'];
+        final field1 = result['field1'];
         final field3 = result['field3'];
         Pet newPet = Pet(
           id: FirebaseAuth.instance.currentUser!.uid,
           nome: name,
-          write: field2,
+          write: field1,
           read: field3,
         );
         await petService.addPet(pet: newPet);
@@ -178,13 +176,16 @@ class _RegisterPetPageState extends State<RegisterPetPage> {
 
       // Itera sobre os feeds para encontrar o código no field1
       for (var feed in feeds) {
-        if (feed['field1'] == code) {
-          final field2 = feed['field2'];
+        if (feed['field2'] == code) {
+          print("code");
+          print(code);
+
+          final field1 = feed['field1'];
           final field3 = feed['field3'];
 
           // Retorna os valores dos fields 2 e 3
           return {
-            'field2': field2,
+            'field1': field1,
             'field3': field3,
           };
         }

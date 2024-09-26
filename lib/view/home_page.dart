@@ -101,7 +101,16 @@ class _HomePageState extends State<HomePage> {
       icon: Icons.edit_location_sharp,
       text: "Alterar atualização da coleira",
       onPressed: () {
-        _changeUpdateDialog(context);
+        _petExistsFuture.then((exists) {
+          if (exists != null) {
+            _changeUpdateDialog(context);
+          } else {
+            showSnackBar(
+                context: context,
+                mensagem: "Cadastre um Pet primeiro!",
+                isErro: true);
+          }
+        });
       },
     );
   }
@@ -110,7 +119,7 @@ class _HomePageState extends State<HomePage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return const ChangeUpdateDialog();
+        return ChangeUpdateDialog();
       },
     );
   }

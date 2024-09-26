@@ -4,7 +4,6 @@ import 'package:mix/mix.dart';
 import 'package:rastreia_pet_app/enum/enum.dart';
 import 'package:rastreia_pet_app/models/pet.dart';
 import 'package:rastreia_pet_app/services/pet_services.dart';
-import 'package:rastreia_pet_app/widgets/dialog/show_snackbar.dart';
 import 'package:rastreia_pet_app/widgets/logo/logo_widget.dart';
 import 'package:rastreia_pet_app/widgets/map/map_alert_widget.dart';
 
@@ -150,15 +149,15 @@ class _RegisterAlertPageState extends State<RegisterAlertPage> {
     );
   }
 
-  _registerV(context) async {
-    Pet? pet = await petService.getPetById(widget.user.uid);
+  // _registerV(context) async {
+  //   Pet? pet = await petService.getPetById(widget.user.uid);
 
-    if (pet == null) {
-      showSnackBar(
-          context: context,
-          mensagem: "Pet adicionado com sucesso!",
-          isErro: false);
-    }
-    setState(() {}); // Atualiza a UI
-  }
+  //   if (pet == null) {
+  //     showSnackBar(
+  //         context: context,
+  //         mensagem: "Pet adicionado com sucesso!",
+  //         isErro: false);
+  //   }
+  //   setState(() {}); // Atualiza a UI
+  // }
 }

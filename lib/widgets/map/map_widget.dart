@@ -38,7 +38,7 @@ class _MapWidgetState extends State<MapWidget> {
     if (widget.alertPet != null) {
       updateCircles();
     }
-    customMarkers();
+    //  customMarkers();
 
     fromThingspeak();
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -133,9 +133,16 @@ class _MapWidgetState extends State<MapWidget> {
   Future<void> fromThingspeak() async {
     try {
       final response = await http.get(Uri.parse(widget.read));
+
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        await updateMarkers(data);
+        print(data);
+        // Verifica se o dado é realmente um Map
+        if (data is Map<String, dynamic>) {
+          await updateMarkers(data);
+        } else {
+          throw Exception('Os dados retornados não são do tipo esperado');
+        }
       } else {
         throw Exception('Falha ao carregar os dados do ThingSpeak');
       }
@@ -149,13 +156,17 @@ class _MapWidgetState extends State<MapWidget> {
       var firstFeed = data['feeds'][0];
       if (firstFeed['field1'] != null &&
           firstFeed['field2'] != null &&
-          firstFeed['field3'] != null) {
-        setState(() async {
-          var field1Value = double.parse(firstFeed['field1']);
-          var field2Value = double.parse(firstFeed['field2']);
-          var field3Value = double.parse(firstFeed['field3']);
+          firstFeed['field3'] != null &&
+          firstFeed['created_at'] != null) {
+        var field1Value = double.parse(firstFeed['field1']);
+        var field2Value = double.parse(firstFeed['field2']);
+        var field3Value = double.parse(firstFeed['field3']);
+        var createdAt = firstFeed['created_at']; // Timestamp do feed
 
-          initialPosition = LatLng(field2Value, field1Value);
+        LatLng newPosition = LatLng(field2Value, field1Value);
+
+        setState(() {
+          initialPosition = newPosition;
 
           if (lastMarkerId != null) {
             markers.remove(lastMarkerId);
@@ -165,15 +176,20 @@ class _MapWidgetState extends State<MapWidget> {
           final marker = Marker(
             markerId: markerId,
             icon: customMarkerDescriptor,
-            position: LatLng(field2Value, field1Value),
+            position: newPosition,
             onTap: () {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
+                  // Formata o timestamp para exibir data e hora
+                  DateTime dateTime = DateTime.parse(createdAt);
+                  String formattedDateTime = "${dateTime.toLocal()}"
+                      .split('.')[0]; // Remove microssegundos
                   return MapDialog(
                     latitude: field1Value.toStringAsFixed(4),
                     longitude: field2Value.toStringAsFixed(4),
                     distance: field3Value.toStringAsFixed(2),
+                    dateTime: formattedDateTime,
                   );
                 },
               );
@@ -182,13 +198,12 @@ class _MapWidgetState extends State<MapWidget> {
 
           markers[markerId] = marker;
           lastMarkerId = markerId;
-
-          if (mapCreated) {
-            mapController.animateCamera(CameraUpdate.newLatLng(
-              LatLng(field2Value, field1Value),
-            ));
-          }
         });
+
+        if (mapCreated) {
+          await mapController
+              .animateCamera(CameraUpdate.newLatLng(newPosition));
+        }
       }
     }
   }

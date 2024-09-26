@@ -1,22 +1,50 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rastreia_pet_app/firebase_options.dart';
+import 'package:rastreia_pet_app/services/notification_service.dart';
 import 'package:rastreia_pet_app/theme/theme_provider.dart';
 import 'package:rastreia_pet_app/view/home_login_page.dart';
 import 'package:rastreia_pet_app/view/home_page.dart';
 import 'package:rastreia_pet_app/view/login_page.dart';
+import 'package:rastreia_pet_app/view/message.dart';
 import 'package:rastreia_pet_app/view/nav_page.dart';
 import 'package:rastreia_pet_app/view/register_alert_page.dart';
 import 'package:rastreia_pet_app/view/register_page.dart';
 import 'package:rastreia_pet_app/view/register_pet_page.dart';
+
+final navigatorKey = GlobalKey<NavigatorState>();
+
+Future _firebaseBackgroundMessage(RemoteMessage message) async {
+  if (message.notification != null) {
+    print("Recebeu alguma notificasaum");
+  }
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  //Iniciar Firebase Message
+  await PushNotifications.init();
+
+  //Iniciar notificacao local
+  await PushNotifications.localNotInit();
+
+  // background notification
+  FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundMessage);
+
+  // on background notification tapped
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    if (message.notification != null) {
+      print("Background Notification Tapped");
+      navigatorKey.currentState!.pushNamed("/Message", arguments: message);
+    }
+  });
+
   runApp(ChangeNotifierProvider(
     create: (context) => ThemeProvider(),
     child: const MyApp(),
@@ -37,8 +65,10 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       theme: Provider.of<ThemeProvider>(context).themeData,
       home: const RouteScreens(),
+      navigatorKey: navigatorKey,
       routes: <String, WidgetBuilder>{
         '/HomeLoginPage': (BuildContext context) => const HomeLoginPage(),
+        '/Message': (context) => MessagePage(),
         '/HomePage': (BuildContext context) => Builder(
               builder: (context) {
                 final user = FirebaseAuth.instance.currentUser;
