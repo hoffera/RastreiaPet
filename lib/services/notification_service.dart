@@ -19,15 +19,25 @@ class PushNotifications {
 
     final token = await _firebaseMessaging.getToken();
     print("Device: $token");
-  }
 
-  //Iniciar notificacao local
+    // Configurar o listener para mensagens em primeiro plano
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('Recebida uma mensagem: ${message.data}');
+      if (message.notification != null) {
+        _showLocalNotification(message.notification!);
+      }
+    });
+
+    // Configurar o listener para mensagens em segundo plano
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('A mensagem foi aberta: ${message.data}');
+      // Aqui você pode navegar para uma tela específica se necessário
+    });
+  }
 
   static Future localNotInit() async {
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings(
-      '@mipmap/ic_launcher',
-    );
+        AndroidInitializationSettings('@mipmap/ic_launcher');
 
     final DarwinInitializationSettings initializationSettingsDarwin =
         DarwinInitializationSettings(
@@ -41,7 +51,7 @@ class PushNotifications {
             iOS: initializationSettingsDarwin,
             linux: initializationSettingsLinux);
 
-    // request notification permissions for android 13 or above
+    // Request notification permissions for Android 13 or above
     _flutterLocalNotificationPlugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()!
@@ -52,6 +62,33 @@ class PushNotifications {
         onDidReceiveBackgroundNotificationResponse: onNotificationTap);
   }
 
-  // on tap local notification in foreground
-  static void onNotificationTap(NotificationResponse notificationResponse) {}
+  // Mostrar notificação local
+  static Future<void> _showLocalNotification(
+      RemoteNotification notification) async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      'pets_channel', // ID do canal
+      'Pets Notifications', // Nome do canal
+      channelDescription: 'Descrição do canal',
+      importance: Importance.max,
+      priority: Priority.high,
+      showWhen: false,
+    );
+
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    await _flutterLocalNotificationPlugin.show(
+      notification.hashCode, // ID da notificação
+      notification.title, // Título
+      notification.body, // Corpo
+      platformChannelSpecifics,
+      payload: 'item x', // Dados adicionais que podem ser passados
+    );
+  }
+
+  // Ação ao tocar na notificação local
+  static void onNotificationTap(NotificationResponse notificationResponse) {
+    // Navegar ou realizar alguma ação com base na resposta da notificação
+  }
 }

@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rastreia_pet_app/enum/enum.dart';
 import 'package:rastreia_pet_app/services/auth_services.dart';
+import 'package:rastreia_pet_app/services/token_services.dart';
 import 'package:rastreia_pet_app/widgets/button/primary_button.dart';
 import 'package:rastreia_pet_app/widgets/dialog/show_snackbar.dart';
 import 'package:rastreia_pet_app/widgets/input/text_input.dart';
@@ -191,6 +193,8 @@ class RegisterPage extends StatelessWidget {
           .registerUser(name: name, email: email, password: password)
           .then((error) {
         if (error == null) {
+          final user = FirebaseAuth.instance.currentUser;
+          _saveUserToken(user);
           showSnackBar(
               context: context,
               mensagem: "Usuário cadastrado com sucesso!",
@@ -215,5 +219,13 @@ class RegisterPage extends StatelessWidget {
     }
     print("erro senha");
     return false;
+  }
+
+  Future<void> _saveUserToken(User? user) async {
+    if (user != null) {
+      final userId = user.uid; // Obtém o ID do usuário
+      final tokenServices = TokenServices();
+      await tokenServices.saveToken(userId); // Armazena o token no Firestore
+    }
   }
 }

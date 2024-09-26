@@ -1,36 +1,59 @@
-const functions = require('firebase-functions');
-const admin = require('firebase-admin');
+const functions = require("firebase-functions");
+const admin = require("firebase-admin");
 
-admin.initializeApp();
+admin.initializeApp({
+  credential: admin.credential.applicationDefault(),
+});
 
-exports.sendNotificationOnDistanceChange = functions.firestore
-    .document('alerts/{userId}')
-    .onUpdate((change, context) => {
-        const newValue = change.after.data();
-        const oldValue = change.before.data();
+exports.notificacao = functions.firestore
+  .document("pets/{userid}")
+  .onUpdate(async (change, context) => {
+    const beforeData = change.before.exists ? change.before.data() : null;
+    const afterData = change.after.exists ? change.after.data() : null;
 
-        // Verifica se a distância foi atualizada para 10
-        if (newValue.distancia === 10 && oldValue.distancia !== 10) {
-            const userId = context.params.userId;
+    // Verifica se a variável 'nome' foi alterada
+    if (beforeData.nome !== afterData.nome) {
+      try {
+        const userId = context.params.userid; // Obtém o ID do usuário do contexto
 
-            // Mensagem que você deseja enviar
-            const message = {
-                notification: {
-                    title: 'Alerta de Distância',
-                    body: `A distância do usuário ${userId} atingiu 10!`,
-                },
-                topic: userId, // ou use um token específico
-            };
-
-            // Enviar a notificação
-            return admin.messaging().send(message)
-                .then((response) => {
-                    console.log('Notificação enviada:', response);
-                })
-                .catch((error) => {
-                    console.error('Erro ao enviar a notificação:', error);
-                });
+        // Aqui você pode querer obter o token do Firestore
+        const userDoc = await admin.firestore().collection("users").doc(userId).get();
+        
+        let token;
+        if (userDoc.exists) {
+          token = userDoc.data().fcmToken; // Obtém o token FCM se existir
         }
 
-        return null; // Para indicar que a função completou
-    });
+        // Se o token não existir, salve-o
+        if (!token) {
+          // Supondo que você tenha um método para obter o token do cliente
+          // Aqui, você pode implementar a lógica para salvar um novo token
+          // Para exemplo, vamos usar um valor fixo
+          token = "NEW_FCM_TOKEN"; // Você precisa substituir isso pelo token real do cliente
+
+          // Salvar o token no Firestore
+          await admin.firestore().collection("users").doc(userId).set({
+            fcmToken: token,
+          }, { merge: true });
+        }
+
+        // Cria a mensagem de notificação
+        const message = {
+          notification: {
+            title: "Pet Name Changed", // Personalize conforme necessário
+            body: `The pet's name has been changed to ${afterData.nome}`, // Personalize conforme necessário
+          },
+          token: token,
+        };
+
+        // Envia a notificação
+        await admin.messaging().send(message);
+        console.log("Successfully sent message:", message);
+        
+      } catch (error) {
+        console.error("Error sending notifications:", error);
+      }
+    } else {
+      console.log("Nenhuma alteração no nome");
+    }
+  });
