@@ -1,9 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rastreia_pet_app/enum/enum.dart';
 import 'package:rastreia_pet_app/models/pet.dart';
-import 'package:rastreia_pet_app/services/pet_services.dart';
+import 'package:rastreia_pet_app/services/change_notifier.dart';
 import 'package:rastreia_pet_app/widgets/card/card_button.dart';
 import 'package:rastreia_pet_app/widgets/dialog/change_update_dialog.dart';
 import 'package:rastreia_pet_app/widgets/dialog/show_snackbar.dart';
@@ -21,9 +22,34 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  PetService petService = PetService();
   late final Future<Pet?> _petExistsFuture =
       petService.getPetId(widget.user.uid);
+
+  Pet? pet;
+  void initState() {
+    super.initState();
+    _loadPet();
+    Provider.of<DataSender>(context, listen: false).startSendingData();
+  }
+
+  @override
+  void dispose() {
+    Provider.of<DataSender>(context, listen: false).stopSendingData();
+    super.dispose();
+  }
+
+  Future<void> _loadPet() async {
+    try {
+      Pet? fetchedPet = await petService.getPetId(widget.user.uid);
+
+      setState(() {
+        pet = fetchedPet;
+      });
+    } catch (e) {
+      print('Error loading pet data: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

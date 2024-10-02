@@ -6,7 +6,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:rastreia_pet_app/enum/enum.dart';
 import 'package:rastreia_pet_app/models/alert_pet.dart';
+import 'package:rastreia_pet_app/widgets/button/primary_button.dart';
 import 'package:rastreia_pet_app/widgets/dialog/map_dialog.dart';
+import 'package:share_plus/share_plus.dart';
 
 class MapWidget extends StatefulWidget {
   final String read;
@@ -28,6 +30,7 @@ class _MapWidgetState extends State<MapWidget> {
   Map<MarkerId, Marker> markers = {};
   Timer? timer;
   LatLng? initialPosition;
+  LatLng actualPosition = LatLng(0, 0);
   Map<CircleId, Circle> circles = {};
   bool mapCreated = false;
   BitmapDescriptor customMarkerDescriptor = BitmapDescriptor.defaultMarker;
@@ -41,7 +44,7 @@ class _MapWidgetState extends State<MapWidget> {
     //  customMarkers();
 
     fromThingspeak();
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 15), (timer) {
       customMarkers();
       fromThingspeak();
     });
@@ -66,6 +69,7 @@ class _MapWidgetState extends State<MapWidget> {
         double.parse(widget.alertPet!.latitude),
         double.parse(widget.alertPet!.longitude),
       );
+      actualPosition = position;
       final circleId = CircleId(position.toString());
       final circle = Circle(
         circleId: circleId,
@@ -93,21 +97,58 @@ class _MapWidgetState extends State<MapWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GoogleMap(
-        onMapCreated: _onMapCreated,
-        circles: Set<Circle>.of(circles.values),
-        initialCameraPosition: initialPosition != null
-            ? CameraPosition(
-                target: initialPosition!,
-                zoom: 15.0,
-              )
-            : const CameraPosition(
-                target: LatLng(0, 0),
-                zoom: 15.0,
-              ),
-        markers: Set<Marker>.of(markers.values),
+      body: Column(
+        children: [
+          // Mapa ocupando 50% da tela
+          Expanded(
+            flex: 9, // 5 partes do espaço total
+            child: GoogleMap(
+              onMapCreated: _onMapCreated,
+              circles: Set<Circle>.of(circles.values),
+              initialCameraPosition: initialPosition != null
+                  ? CameraPosition(
+                      target: initialPosition!,
+                      zoom: 15.0,
+                    )
+                  : const CameraPosition(
+                      target: LatLng(0, 0),
+                      zoom: 15.0,
+                    ),
+              markers: Set<Marker>.of(markers.values),
+            ),
+          ),
+          // Botões ocupando o restante da tela (50%)
+          Expanded(
+            flex: 1, // 5 partes do espaço total
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: _button(context, 'Compartilhar Localização'),
+            ),
+          ),
+        ],
       ),
     );
+  }
+
+  _button(context, String text) {
+    return SizedBox(
+        height: 50,
+        child: PrimaryButton(
+          funds: false,
+          color: AppColors.primary,
+          textColor: Colors.white,
+          text: text,
+          onPressed: () {
+            shareLocation(actualPosition);
+          },
+        ));
+  }
+
+  void shareLocation(LatLng location) {
+    final String googleMapsUrl =
+        'https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}';
+
+    Share.share('Veja esta localização no Google Maps: $googleMapsUrl');
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -156,15 +197,16 @@ class _MapWidgetState extends State<MapWidget> {
       var firstFeed = data['feeds'][0];
       if (firstFeed['field1'] != null &&
           firstFeed['field2'] != null &&
-          firstFeed['field3'] != null &&
           firstFeed['created_at'] != null) {
         var field1Value = double.parse(firstFeed['field1']);
         var field2Value = double.parse(firstFeed['field2']);
-        var field3Value = double.parse(firstFeed['field3']);
+        var field3Value = 0.0;
+
         var createdAt = firstFeed['created_at']; // Timestamp do feed
 
-        LatLng newPosition = LatLng(field2Value, field1Value);
-
+        LatLng newPosition = LatLng(field1Value, field2Value);
+        print("newPosition: ");
+        print(newPosition);
         setState(() {
           initialPosition = newPosition;
 

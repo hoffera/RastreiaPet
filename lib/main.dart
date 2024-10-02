@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rastreia_pet_app/services/change_notifier.dart';
 import 'package:rastreia_pet_app/services/notification_service.dart';
 import 'package:rastreia_pet_app/services/token_services.dart';
 import 'package:rastreia_pet_app/theme/theme_provider.dart';
@@ -37,10 +38,17 @@ void main() async {
   //     navigatorKey.currentState!.pushNamed("/Message", arguments: message);
   //   }
   // });
-  runApp(ChangeNotifierProvider(
-    create: (context) => ThemeProvider(),
-    child: const MyApp(),
-  ));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(
+            create: (context) =>
+                DataSender()..startSendingData()), // Inicia o envio de dados
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {

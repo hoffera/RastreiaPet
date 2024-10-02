@@ -11,7 +11,7 @@ showSnackBar({
         top: Radius.circular(20),
       ),
     ),
-    duration: const Duration(milliseconds: 1000),
+    duration: const Duration(milliseconds: 2000),
     content: Text(
       mensagem,
       style: const TextStyle(

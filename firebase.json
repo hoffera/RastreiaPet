@@ -46,6 +46,17 @@
       ]
     },
     {
+      "source": "thingspeak/cloud_functions",
+      "codebase": "thingspeak",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ]
+    },
+    {
       "source": "notify",
       "codebase": "notify",
       "ignore": [
@@ -70,6 +81,28 @@
     {
       "source": "agoravai",
       "codebase": "agoravai",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ]
+    },
+    {
+      "source": "send",
+      "codebase": "send",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ]
+    },
+    {
+      "source": "enviarthingspeak",
+      "codebase": "enviarthingspeak",
       "ignore": [
         "node_modules",
         ".git",

@@ -26,14 +26,17 @@ class MapAlertWidget extends StatefulWidget {
 class _MapWidgetState extends State<MapAlertWidget> {
   late GoogleMapController mapController;
   Map<CircleId, Circle> circles = {};
-  double radius = 100.0; // Raio inicial padrão
+  double radius = 50.0; // Raio inicial padrão
   LatLng? initialPosition;
   AlertPetService alertPetService = AlertPetService();
+  final user = FirebaseAuth.instance.currentUser;
   final TextEditingController _inputController = TextEditingController();
+  String alertMessage = "Procurando alerta...";
 
   @override
   void initState() {
     super.initState();
+    _getAlert(user!.uid);
     fromThingspeak();
     _inputController.addListener(_updateRadiusFromInput);
   }
@@ -72,10 +75,14 @@ class _MapWidgetState extends State<MapAlertWidget> {
       child: Column(
         children: [
           _map(),
-          const SizedBox(height: 20),
+          SizedBox(height: 10),
           _distance(),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           _registerButton(context),
+          const SizedBox(height: 10),
+          _deletButton(context),
+          _text(),
+          SizedBox(height: 10),
         ],
       ),
     );
@@ -90,7 +97,38 @@ class _MapWidgetState extends State<MapAlertWidget> {
         textColor: Colors.white,
         text: "Criar alerta",
         onPressed: () {
-          _saveAlert();
+          _saveAlert(context);
+        },
+      ),
+    );
+  }
+
+  _text() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          alertMessage,
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+
+  _deletButton(context) {
+    return SizedBox(
+      height: 50,
+      child: PrimaryButton(
+        funds: false,
+        color: Colors.red,
+        textColor: Colors.white,
+        text: "Deletar alerta",
+        onPressed: () {
+          _deleteAlert(context, user!.uid);
         },
       ),
     );
@@ -98,14 +136,14 @@ class _MapWidgetState extends State<MapAlertWidget> {
 
   _map() {
     return SizedBox(
-      height: 300,
+      height: 400,
       width: double.infinity,
       child: GoogleMap(
         circles: Set<Circle>.of(circles.values),
         onMapCreated: _onMapCreated,
         initialCameraPosition: CameraPosition(
           target: initialPosition!,
-          zoom: 17.0,
+          zoom: 18.0,
         ),
         onTap: _handleTap,
       ),
@@ -141,8 +179,8 @@ class _MapWidgetState extends State<MapAlertWidget> {
             var field1Value = double.parse(firstFeed['field1']);
             var field2Value = double.parse(firstFeed['field2']);
             setState(() {
-              initialPosition = LatLng(field2Value, field1Value);
-              updateCircles(field2Value, field1Value);
+              initialPosition = LatLng(field1Value, field2Value);
+              updateCircles(field1Value, field2Value);
             });
           }
         }
@@ -193,7 +231,7 @@ class _MapWidgetState extends State<MapAlertWidget> {
     });
   }
 
-  void _saveAlert() async {
+  void _saveAlert(context) async {
     if (circles.isNotEmpty) {
       final circle = circles.values.first;
 
@@ -214,6 +252,40 @@ class _MapWidgetState extends State<MapAlertWidget> {
     } else {
       // Caso não haja círculos criados
       showSnackBar(context: context, mensagem: "Erro!", isErro: true);
+    }
+  }
+
+  void _deleteAlert(context, String alertId) async {
+    try {
+      await alertPetService.removeAlertPet(alert: alertId);
+      showSnackBar(
+          context: context,
+          mensagem: "Alerta deletado com sucesso!",
+          isErro: false);
+      Navigator.pushNamed(context, '/NavPage');
+    } catch (e) {
+      showSnackBar(
+          context: context, mensagem: "Erro ao deletar alerta!", isErro: true);
+    }
+  }
+
+  void _getAlert(String alertId) async {
+    try {
+      final alert = await alertPetService.getAlertPetId(alertId);
+
+      // Atualizar a mensagem baseada na existência do alerta
+      setState(() {
+        if (alert != null) {
+          alertMessage = "Você já possui um alerta cadastrado.";
+        } else {
+          alertMessage = "Você não possui alerta cadastrado.";
+        }
+      });
+    } catch (e) {
+      // Atualizar a mensagem em caso de erro
+      setState(() {
+        alertMessage = "Erro ao procurar o alerta.";
+      });
     }
   }
 }

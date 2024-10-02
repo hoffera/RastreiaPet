@@ -115,7 +115,7 @@ class _MapPageState extends State<MapPage> {
 
   Widget _map() {
     if (pet == null) {
-      return const Center(child: Text('Pet data is not available.'));
+      return const Center(child: Text('Sem pet cadastrado'));
     }
 
     return SizedBox(

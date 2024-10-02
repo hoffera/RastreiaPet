@@ -97,16 +97,17 @@ class ChangeUpdateDialogState extends State<ChangeUpdateDialog> {
     );
   }
 
-  Future<void> sendToThingspeak(String apiKey, String data) async {
-    print("$apiKey$data");
-    final url = Uri.parse("$apiKey$data");
+  Future<void> sendToThingspeak(
+      String apiKey, String data1, String data2) async {
+    final url = Uri.parse(
+        "https://api.thingspeak.com/update?api_key=$apiKey&field1=$data1&field2=$data2");
 
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
-      print('Field4 atualizado com sucesso para $data!');
+      print('Field1 e Field2 atualizados com sucesso para $data1 e $data2!');
     } else {
-      throw Exception('Falha ao atualizar Field4: ${response.body}');
+      throw Exception('Falha ao atualizar Field1 e Field2: ${response.body}');
     }
   }
 
@@ -124,10 +125,10 @@ class ChangeUpdateDialogState extends State<ChangeUpdateDialog> {
         ),
       ),
       onPress: () async {
-        String apiKey = pet!.write;
-        String data = '1';
+        // String apiKey = "7CUCVMS7J0USMUFU";
+        // String data = '1';
         try {
-          await sendToThingspeak(apiKey, data);
+          await sendToThingspeak("7CUCVMS7J0USMUFU", "10000", "0");
           print('Pressed and data sent!');
         } catch (e) {
           print(e);
@@ -201,17 +202,17 @@ class ChangeUpdateDialogState extends State<ChangeUpdateDialog> {
         $box.padding(15),
         $box.borderRadius(20),
         $on.press(
-          $box.color.blue(),
+          $box.color.black(),
         ),
         $on.hover(
           $box.color.green(),
         ),
       ),
       onPress: () async {
-        String apiKey = pet!.write;
-        String data = '0';
+        // String apiKey = "7CUCVMS7J0USMUFU";
+        // String data = '1';
         try {
-          await sendToThingspeak(apiKey, data);
+          await sendToThingspeak("7CUCVMS7J0USMUFU", "295000", "0");
           print('Pressed and data sent!');
         } catch (e) {
           print(e);
