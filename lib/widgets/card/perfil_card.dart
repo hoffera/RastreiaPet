@@ -42,10 +42,10 @@ class _PerfilCardState extends State<PerfilCard> {
         $box.maxWidth(double.infinity), // Largura máxima
         $box.color(Colors.white),
         $box.borderRadius(20),
-        $box.padding(10),
+        // $box.padding(5),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           _box(),
           if (widget.map == false) _infoText(),
@@ -69,7 +69,7 @@ class _PerfilCardState extends State<PerfilCard> {
     return Icon(
       widget.icon, // Nome do ícone
       color: AppColors.primary,
-      size: 30.0, // Tamanho do ícone
+      size: 24.0, // Tamanho do ícone
     );
   }
 
@@ -77,7 +77,7 @@ class _PerfilCardState extends State<PerfilCard> {
     return Text(
       widget.cardText,
       style: const TextStyle(
-        fontSize: 20,
+        fontSize: 18,
         color: Colors.black,
         fontWeight: FontWeight.bold,
       ),
@@ -86,14 +86,14 @@ class _PerfilCardState extends State<PerfilCard> {
 
   _infoText() {
     return SizedBox(
-      width: 250,
       child: StyledText(
         widget.infoText,
         style: Style(
           $text.style.color.black(),
-          $text.style.fontSize(18),
+          $text.style.fontSize(16),
           $text.style.fontWeight(FontWeight.normal),
           $text.textAlign.start(),
+          $text.overflow.ellipsis(),
         ),
       ),
     );
@@ -105,6 +105,7 @@ class _PerfilCardState extends State<PerfilCard> {
       child: SizedBox(
         width: 250,
         child: TextInput(
+          number: true,
           off: false,
           password: false, // Corrigido para não ser uma senha
           text: widget.infoText,

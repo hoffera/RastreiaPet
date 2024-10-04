@@ -33,11 +33,14 @@ class EditUserDetailsDialogState extends State<EditUserDetailsDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: AppColors.primary,
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _body(),
-        ],
+      content: SingleChildScrollView(
+        reverse: true,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _body(),
+          ],
+        ),
       ),
       actions: const [],
     );
@@ -63,7 +66,7 @@ class EditUserDetailsDialogState extends State<EditUserDetailsDialog> {
       "Edite seus dados",
       style: Style(
         $text.style.color.white(),
-        $text.style.fontSize(30),
+        $text.style.fontSize(24),
         $text.style.fontWeight(FontWeight.bold),
         $text.textAlign.start(),
       ),
@@ -75,9 +78,9 @@ class EditUserDetailsDialogState extends State<EditUserDetailsDialog> {
       "Atualize suas informações pessoais e mantenha seu perfil sempre atualizado.",
       style: Style(
         $text.style.color.black(),
-        $text.style.fontSize(20),
-        $text.style.fontWeight(FontWeight.w700),
-        $text.textAlign.start(),
+        $text.style.fontSize(18),
+        $text.style.fontWeight(FontWeight.normal),
+        $text.textAlign.center(),
       ),
     );
   }

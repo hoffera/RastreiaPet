@@ -78,7 +78,7 @@ class ChangeUpdateDialogState extends State<ChangeUpdateDialog> {
       "Ajuste o Tempo de Resposta da Coleira Inteligente",
       style: Style(
         $text.style.color.white(),
-        $text.style.fontSize(30),
+        $text.style.fontSize(24),
         $text.style.fontWeight(FontWeight.bold),
         $text.textAlign.center(),
       ),
@@ -90,7 +90,7 @@ class ChangeUpdateDialogState extends State<ChangeUpdateDialog> {
       "A escolha é sua! Ajuste o tempo de resposta de acordo com a situação para equilibrar a precisão com a vida útil da bateria da coleira.",
       style: Style(
         $text.style.color.black(),
-        $text.style.fontSize(20),
+        $text.style.fontSize(16),
         $text.style.fontWeight(FontWeight.w700),
         $text.textAlign.center(),
       ),
@@ -140,7 +140,7 @@ class ChangeUpdateDialogState extends State<ChangeUpdateDialog> {
             "Resposta Rápida (15 segundos) ",
             style: Style(
               $text.style.color.black(),
-              $text.style.fontSize(24),
+              $text.style.fontSize(17),
               $text.style.fontWeight(FontWeight.bold),
               $text.textAlign.center(),
             ),
@@ -149,7 +149,7 @@ class ChangeUpdateDialogState extends State<ChangeUpdateDialog> {
             "Ideal para monitoramento em tempo real, mas pode reduzir a duração da bateria mais rapidamente.",
             style: Style(
               $text.style.color.black(),
-              $text.style.fontSize(20),
+              $text.style.fontSize(14),
               $text.style.fontWeight(FontWeight.w400),
               $text.textAlign.center(),
             ),
@@ -224,7 +224,7 @@ class ChangeUpdateDialogState extends State<ChangeUpdateDialog> {
             "Intervalos Maiores (5 minutos) ",
             style: Style(
               $text.style.color.black(),
-              $text.style.fontSize(24),
+              $text.style.fontSize(17),
               $text.style.fontWeight(FontWeight.bold),
               $text.textAlign.center(),
             ),
@@ -233,7 +233,7 @@ class ChangeUpdateDialogState extends State<ChangeUpdateDialog> {
             "Prolonga a duração da bateria, ótimo para uso contínuo, com atualizações menos frequentes.",
             style: Style(
               $text.style.color.black(),
-              $text.style.fontSize(20),
+              $text.style.fontSize(14),
               $text.style.fontWeight(FontWeight.w400),
               $text.textAlign.center(),
             ),

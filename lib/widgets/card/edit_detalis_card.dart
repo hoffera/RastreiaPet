@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mix/mix.dart';
 import 'package:rastreia_pet_app/enum/enum.dart';
@@ -86,15 +87,17 @@ class _EditDetalisCardState extends State<EditDetalisCard>
   Widget _buildExtendedCard() {
     return SizeTransition(
       sizeFactor: _animation,
-      child: VBox(
-        children: [
-          const SizedBox(
-            height: 30,
-          ),
-          Box(
-            child: _newInfo(),
-          )
-        ],
+      child: SingleChildScrollView(
+        child: VBox(
+          children: [
+            const SizedBox(
+              height: 30,
+            ),
+            Box(
+              child: _newInfo(),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -114,10 +117,9 @@ class _EditDetalisCardState extends State<EditDetalisCard>
     return Form(
         key: _formKey,
         child: SizedBox(
-          width: 200,
           child: TextInput(
               off: false,
-              text: "Novo nome",
+              text: "Nome",
               password: false,
               controller: widget.controller),
         ));
@@ -127,21 +129,22 @@ class _EditDetalisCardState extends State<EditDetalisCard>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              "Novo nome:",
+              "Insira o novo nome:",
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 18,
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
               ),
             ),
+            SizedBox(height: 10),
             _input(),
           ],
         ),
-        const SizedBox(height: 30),
+        const SizedBox(height: 10),
         PrimaryButton(
           funds: false,
           color: AppColors.primary,
@@ -168,6 +171,11 @@ class _EditDetalisCardState extends State<EditDetalisCard>
         if (error != null) {
           showSnackBar(context: context, mensagem: error, isErro: true);
         } else {
+          User? user = FirebaseAuth.instance.currentUser;
+          user!.reload(); // Recarrega os dados do usuário
+          user = FirebaseAuth.instance.currentUser;
+          print("user!.displayName");
+          print(user!.displayName);
           showSnackBar(
               context: context,
               mensagem: "Nome atualizado com sucesso!",
@@ -195,11 +203,11 @@ class _EditDetalisCardState extends State<EditDetalisCard>
 
   _box() {
     return SizedBox(
-      width: 100,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _icon(),
+          SizedBox(width: 10),
           _cardText(),
         ],
       ),
@@ -210,7 +218,7 @@ class _EditDetalisCardState extends State<EditDetalisCard>
     return Icon(
       widget.icon,
       color: AppColors.primary,
-      size: 30.0,
+      size: 24.0,
     );
   }
 
@@ -218,7 +226,7 @@ class _EditDetalisCardState extends State<EditDetalisCard>
     return const Icon(
       Icons.arrow_forward_ios,
       color: Colors.grey,
-      size: 20.0,
+      size: 18.0,
     );
   }
 
@@ -235,14 +243,17 @@ class _EditDetalisCardState extends State<EditDetalisCard>
 
   _infoText() {
     return SizedBox(
-        child: StyledText(
-      widget.infoText,
-      style: Style(
-        $text.style.color.black(),
-        $text.style.fontSize(20),
-        $text.style.fontWeight(FontWeight.normal),
-        $text.textAlign.center(),
+      child: StyledText(
+        widget.infoText,
+        style: Style(
+          $text.style.color.black(),
+          $text.style.fontSize(16),
+          $text.style.fontWeight(FontWeight.normal),
+          $text.textAlign.start(),
+          $text.overflow.ellipsis(),
+          // Mantenha o overflow padrão
+        ),
       ),
-    ));
+    );
   }
 }

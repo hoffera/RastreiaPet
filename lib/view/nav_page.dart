@@ -50,7 +50,7 @@ class _NavPageState extends State<NavPage> {
         backgroundColor: AppColors.background,
         buttonBackgroundColor: AppColors.primary,
         color: AppColors.primary,
-        animationDuration: const Duration(milliseconds: 300),
+        animationDuration: const Duration(milliseconds: 500),
         items: const [
           Icon(Icons.home, size: 26, color: Colors.white),
           Icon(Icons.navigation, size: 26, color: Colors.white),

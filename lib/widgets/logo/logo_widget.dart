@@ -11,14 +11,14 @@ class LogoWidget extends StatelessWidget {
 
   _logo() {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(20.0), // Defina o raio da borda
+      borderRadius: BorderRadius.circular(10.0), // Defina o raio da borda
       child: Container(
         width: double.infinity,
         color: AppColors.background,
         child: Center(
           child: Image.asset(
             'lib/assets/images/rastreiaPetLogo.png',
-            height: 250, // Altura da imagem definida como 100
+            height: 200, // Altura da imagem definida como 100
             fit: BoxFit.contain, // Ajusta a imagem para caber na altura
           ),
         ),

@@ -17,9 +17,9 @@ class HomeLoginPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _logo(),
-              const SizedBox(height: 10.0),
+              const SizedBox(height: 50.0),
               _enterButton(context),
-              const SizedBox(height: 10.0),
+              const SizedBox(height: 20.0),
               _registerButton(context),
             ],
           ),
@@ -29,11 +29,9 @@ class HomeLoginPage extends StatelessWidget {
   }
 
   _logo() {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Image.asset(
-        'lib/assets/images/rastreiaPetLogo.png',
-      ),
+    return Image.asset(
+      'lib/assets/images/rastreiaPetLogo.png',
+      cacheHeight: 300,
     );
   }
 

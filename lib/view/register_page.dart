@@ -23,16 +23,18 @@ class RegisterPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: Center(
-          child: Column(
-            children: [
-              const SizedBox(height: 50.0),
-              _titleText(),
-              _subtitleText(),
-              const SizedBox(height: 30.0),
-              _inputs(),
-              const SizedBox(height: 30.0),
-              _registerButton(context),
-            ],
+          child: SingleChildScrollView(
+            reverse: true,
+            child: Column(
+              children: [
+                _titleText(),
+                _subtitleText(),
+                const SizedBox(height: 10.0),
+                _inputs(),
+                const SizedBox(height: 30.0),
+                _registerButton(context),
+              ],
+            ),
           ),
         ),
       ),
@@ -46,7 +48,7 @@ class RegisterPage extends StatelessWidget {
         Text(
           "Cadastrar",
           style: TextStyle(
-            fontSize: 32,
+            fontSize: 30,
             color: AppColors.primary,
             fontWeight: FontWeight.bold,
           ),
@@ -78,7 +80,7 @@ class RegisterPage extends StatelessWidget {
         Text(
           text,
           style: const TextStyle(
-            fontSize: 24,
+            fontSize: 20,
             color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
@@ -93,11 +95,11 @@ class RegisterPage extends StatelessWidget {
       child: Column(
         children: [
           _nameInput(),
-          const SizedBox(height: 20.0),
+          const SizedBox(height: 10.0),
           _emailInput(),
-          const SizedBox(height: 20.0),
+          const SizedBox(height: 10.0),
           _passwordInput(),
-          const SizedBox(height: 20.0),
+          const SizedBox(height: 10.0),
           _repasswordInput(),
         ],
       ),

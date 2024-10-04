@@ -39,26 +39,37 @@ class _RegisterAlertPageState extends State<RegisterAlertPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: Center(
-          child: FutureBuilder<Pet?>(
-            future: _petExistsFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
-              } else if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error ?? 'Unknown error'}');
-              } else if (snapshot.hasData) {
-                if (snapshot.data != null) {
-                  return _register();
-                } else {
-                  return _petNull();
-                }
-              } else {
-                return const Text('No data available');
-              }
-            },
+      body: RawScrollbar(
+        thumbColor: AppColors.primary, // Cor do scrollbar
+        thickness: 8, // Espessura do scrollbar
+
+        padding: EdgeInsets.all(5),
+        radius: Radius.circular(20), // Raio das bordas
+        thumbVisibility: true, // Sempre aparente
+        // padding: EdgeInsets.all(5),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Center(
+              child: FutureBuilder<Pet?>(
+                future: _petExistsFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error ?? 'Unknown error'}');
+                  } else if (snapshot.hasData) {
+                    if (snapshot.data != null) {
+                      return _register();
+                    } else {
+                      return _petNull();
+                    }
+                  } else {
+                    return const Text('No data available');
+                  }
+                },
+              ),
+            ),
           ),
         ),
       ),
@@ -68,11 +79,9 @@ class _RegisterAlertPageState extends State<RegisterAlertPage> {
   _register() {
     return Column(
       children: [
-        const SizedBox(height: 50.0),
+        SizedBox(height: 10),
         _titleText(),
-        const SizedBox(height: 10),
         _subtitleText(),
-        const SizedBox(height: 30),
         _map(),
       ],
     );
@@ -108,30 +117,39 @@ class _RegisterAlertPageState extends State<RegisterAlertPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          "Criar um alerta",
+          "Criar um alerta  ",
           style: TextStyle(
-            fontSize: 32,
-            color: AppColors.primary,
+            fontSize: 28,
+            color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
         ),
+        Icon(
+          Icons.add_alert,
+          size: 30,
+          color: AppColors.primary,
+        )
       ],
     );
   }
 
   _subtitleText() {
-    return const Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          "Toque no mapa para selecionar o local e\ndefina um raio. Receba notificações caso\nseu animal saia dessa área. Mantenha seu\nPet seguro e sob controle!",
-          style: TextStyle(
-            fontSize: 24,
-            color: Colors.black,
-            fontWeight: FontWeight.normal,
+    return const Center(
+      child: Wrap(
+        alignment: WrapAlignment.center,
+        children: [
+          Text(
+            "Toque no mapa para selecionar o local\n e defina um raio. Receba notificações caso seu animal saia dessa área. Mantenha seu Pet seguro e sob controle!",
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.black,
+              fontWeight: FontWeight.normal,
+            ),
+            textAlign:
+                TextAlign.center, // Adicione isso para centralizar o texto
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

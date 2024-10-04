@@ -101,27 +101,27 @@ class _MapWidgetState extends State<MapWidget> {
         children: [
           // Mapa ocupando 50% da tela
           Expanded(
-            flex: 9, // 5 partes do espaço total
+            flex: 8, // 5 partes do espaço total
             child: GoogleMap(
               onMapCreated: _onMapCreated,
               circles: Set<Circle>.of(circles.values),
               initialCameraPosition: initialPosition != null
                   ? CameraPosition(
                       target: initialPosition!,
-                      zoom: 15.0,
+                      zoom: 17.0,
                     )
                   : const CameraPosition(
                       target: LatLng(0, 0),
-                      zoom: 15.0,
+                      zoom: 17.0,
                     ),
               markers: Set<Marker>.of(markers.values),
             ),
           ),
           // Botões ocupando o restante da tela (50%)
           Expanded(
-            flex: 1, // 5 partes do espaço total
+            flex: 2, //
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(30.0),
               child: _button(context, 'Compartilhar Localização'),
             ),
           ),

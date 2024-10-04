@@ -52,12 +52,13 @@ class CardButton extends StatelessWidget {
   }
 
   _textCard() {
-    return Text(
+    return StyledText(
       text,
-      style: const TextStyle(
-        fontSize: 20,
-        color: Colors.black,
-        fontWeight: FontWeight.bold,
+      style: Style(
+        $text.style.color.black(),
+        $text.style.fontSize(19),
+        $text.style.fontWeight(FontWeight.bold),
+        $text.textAlign.center(),
       ),
     );
   }

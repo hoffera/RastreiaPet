@@ -65,10 +65,10 @@ class _MapPageState extends State<MapPage> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const CircularProgressIndicator();
             } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error ?? 'Unknown error'}');
+              return _noPet(context);
             } else if (snapshot.hasData) {
               if (snapshot.data != null) {
-                return _map();
+                return _map(context);
               } else {
                 return Padding(
                   padding: const EdgeInsets.all(30.0),
@@ -83,7 +83,7 @@ class _MapPageState extends State<MapPage> {
                         "Sem pet cadastrado",
                         style: Style(
                           $text.style.color.black(),
-                          $text.style.fontSize(30),
+                          $text.style.fontSize(24),
                           $text.style.fontWeight(FontWeight.bold),
                           $text.textAlign.center(),
                         ),
@@ -95,7 +95,7 @@ class _MapPageState extends State<MapPage> {
                 );
               }
             } else {
-              return const Text('No data available');
+              return _noPet(context);
             }
           },
         ),
@@ -113,9 +113,45 @@ class _MapPageState extends State<MapPage> {
     );
   }
 
-  Widget _map() {
+  Widget _noPet(context) {
+    return Padding(
+      padding: const EdgeInsets.all(30.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const LogoWidget(),
+          const SizedBox(
+            height: 50,
+          ),
+          StyledText(
+            "Sem pet cadastrado",
+            style: Style(
+              $text.style.color.black(),
+              $text.style.fontSize(30),
+              $text.style.fontWeight(FontWeight.bold),
+              $text.textAlign.center(),
+            ),
+          ),
+          const SizedBox(height: 10),
+          StyledText(
+            "Cadastre um pet para ter acesso ao mapa, cadastre aqui:",
+            style: Style(
+              $text.style.color.black(),
+              $text.style.fontSize(20),
+              $text.style.fontWeight(FontWeight.normal),
+              $text.textAlign.center(),
+            ),
+          ),
+          const SizedBox(height: 30),
+          _registerPetCard(context),
+        ],
+      ),
+    );
+  }
+
+  Widget _map(context) {
     if (pet == null) {
-      return const Center(child: Text('Sem pet cadastrado'));
+      return _noPet(context);
     }
 
     return SizedBox(

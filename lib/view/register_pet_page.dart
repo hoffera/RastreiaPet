@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
+import 'package:mix/mix.dart';
 import 'package:rastreia_pet_app/enum/enum.dart';
 import 'package:rastreia_pet_app/models/pet.dart';
 import 'package:rastreia_pet_app/services/auth_services.dart';
@@ -35,22 +36,43 @@ class _RegisterPetPageState extends State<RegisterPetPage> {
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Center(
-          child: Column(
-            children: [
-              const SizedBox(height: 70),
-              const LogoWidget(),
-              const SizedBox(height: 50.0),
-              _inputs(),
-              const SizedBox(height: 50.0),
-              _registerButton(context),
-              // const SizedBox(height: 20.0),
-              // const Orwidget(color: Colors.black),
-              // const SizedBox(height: 20.0),
-              // const QrcodeCard(),
-            ],
+          child: SingleChildScrollView(
+            reverse: true,
+            child: Column(
+              children: [
+                // _titleText(),
+                const LogoWidget(),
+                const SizedBox(height: 10.0),
+                _subtitleText(),
+                _inputs(),
+                const SizedBox(height: 50.0),
+                _registerButton(context),
+                // const SizedBox(height: 20.0),
+                // const Orwidget(color: Colors.black),
+                // const SizedBox(height: 20.0),
+                // const QrcodeCard(),
+              ],
+            ),
           ),
         ),
       ),
+    );
+  }
+
+  _subtitleText() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        StyledText(
+          "Para cadastrar seu pet,\n insira o nome do seu pet e o código de\n cadastro da coleira inteligente.",
+          style: Style(
+            $text.style.color.black(),
+            $text.style.fontSize(20),
+            $text.style.fontWeight(FontWeight.normal),
+            $text.textAlign.center(),
+          ),
+        ),
+      ],
     );
   }
 
@@ -61,7 +83,7 @@ class _RegisterPetPageState extends State<RegisterPetPage> {
         Text(
           text,
           style: const TextStyle(
-            fontSize: 24,
+            fontSize: 20,
             color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
@@ -160,7 +182,7 @@ class _RegisterPetPageState extends State<RegisterPetPage> {
         Navigator.pushNamed(context, '/NavPage');
       } else {
         showSnackBar(
-            context: context, mensagem: "Codigo nao cadastrado!", isErro: true);
+            context: context, mensagem: "Código não cadastrado!", isErro: true);
       }
     }
     setState(() {}); // Atualiza a UI

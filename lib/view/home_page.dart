@@ -57,20 +57,21 @@ class _HomePageState extends State<HomePage> {
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: Center(
-          child: Column(
-            children: [
-              const SizedBox(height: 70.0),
-              const LogoWidget(),
-              const SizedBox(height: 30.0),
-              _helloText(),
-              const SizedBox(height: 30.0),
-              _registerPetCard(context),
-              const SizedBox(height: 30.0),
-              _registerAlert(context),
-              const SizedBox(height: 30.0),
-              _changeUpdate(context),
-              const SizedBox(height: 30.0),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const LogoWidget(),
+                const SizedBox(height: 10.0),
+                _helloText(),
+                const SizedBox(height: 20.0),
+                _registerPetCard(context),
+                const SizedBox(height: 10.0),
+                _registerAlert(context),
+                const SizedBox(height: 10.0),
+                _changeUpdate(context),
+                const SizedBox(height: 10.0),
+              ],
+            ),
           ),
         ),
       ),
@@ -84,7 +85,7 @@ class _HomePageState extends State<HomePage> {
         Text(
           "Olá, ${widget.user.displayName}",
           style: const TextStyle(
-            fontSize: 32,
+            fontSize: 24,
             color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
@@ -125,7 +126,7 @@ class _HomePageState extends State<HomePage> {
   _changeUpdate(context) {
     return CardButton(
       icon: Icons.edit_location_sharp,
-      text: "Alterar atualização da coleira",
+      text: "Alterar atualização\nda coleira",
       onPressed: () {
         _petExistsFuture.then((exists) {
           if (exists != null) {

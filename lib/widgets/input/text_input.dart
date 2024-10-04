@@ -64,12 +64,12 @@ class TextInput extends StatelessWidget {
           filled: true,
           fillColor: Colors.white,
           hintText: text,
-          hintStyle: const TextStyle(color: Colors.grey, fontSize: 14.0),
+          hintStyle: const TextStyle(color: Colors.grey, fontSize: 12.0),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20.0),
           ),
         ),
-        style: const TextStyle(color: Colors.black, fontSize: 14.0),
+        style: const TextStyle(color: Colors.black, fontSize: 12.0),
       ),
     );
   }

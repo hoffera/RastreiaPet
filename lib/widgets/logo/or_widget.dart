@@ -28,7 +28,7 @@ class Orwidget extends StatelessWidget {
         Text(
           "ou",
           style: TextStyle(
-            fontSize: 28,
+            fontSize: 24,
             color: color,
             fontWeight: FontWeight.bold,
           ),

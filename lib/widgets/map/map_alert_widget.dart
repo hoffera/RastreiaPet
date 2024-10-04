@@ -74,6 +74,8 @@ class _MapWidgetState extends State<MapAlertWidget> {
       color: AppColors.background,
       child: Column(
         children: [
+          _text(),
+          SizedBox(height: 10),
           _map(),
           SizedBox(height: 10),
           _distance(),
@@ -81,8 +83,6 @@ class _MapWidgetState extends State<MapAlertWidget> {
           _registerButton(context),
           const SizedBox(height: 10),
           _deletButton(context),
-          _text(),
-          SizedBox(height: 10),
         ],
       ),
     );
@@ -111,7 +111,7 @@ class _MapWidgetState extends State<MapAlertWidget> {
           alertMessage,
           style: TextStyle(
             fontSize: 20,
-            color: Colors.black,
+            color: AppColors.primary,
             fontWeight: FontWeight.bold,
           ),
         ),

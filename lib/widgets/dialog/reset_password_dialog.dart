@@ -28,13 +28,13 @@ class PasswordResetDialogState extends State<PasswordResetDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: AppColors.secondary,
+      backgroundColor: AppColors.primary,
       title: Column(
         children: [
           StyledText(
             "Redefina sua Senha.",
             style: Style(
-              $text.style.color(AppColors.primary),
+              $text.style.color(AppColors.background),
               $text.style.fontSize(30),
               $text.style.fontWeight(FontWeight.bold),
               $text.textAlign.center(),
@@ -43,7 +43,7 @@ class PasswordResetDialogState extends State<PasswordResetDialog> {
           StyledText(
             "Você receberá um e-mail com instruções para criar uma nova senha. ",
             style: Style(
-              $text.style.color.white(),
+              $text.style.color.black(),
               $text.style.fontSize(20),
               $text.style.fontWeight(FontWeight.w400),
               $text.textAlign.center(),
@@ -90,7 +90,7 @@ class PasswordResetDialogState extends State<PasswordResetDialog> {
           },
           child: const Text(
             'Enviar',
-            style: TextStyle(color: Colors.white, fontSize: 20),
+            style: TextStyle(color: AppColors.background, fontSize: 20),
           ),
         ),
       ],

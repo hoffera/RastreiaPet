@@ -27,28 +27,31 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: Center(
-          child: Column(
-            children: [
-              const SizedBox(height: 20.0),
-              const LogoWidget(),
-              const SizedBox(height: 30.0),
-              _title(),
-              const SizedBox(height: 10.0),
-              _nameUser(),
-              const SizedBox(height: 30.0),
-              _email(),
-              const SizedBox(height: 30.0),
-              _pet(),
-              const SizedBox(height: 30.0),
-              _editInfos(context),
-              const SizedBox(height: 30.0),
-              _removePetButton(context),
-              const SizedBox(height: 30.0),
-              _logout(context),
-            ],
+          child: SingleChildScrollView(
+            reverse: true,
+            child: Column(
+              children: [
+                const LogoWidget(),
+                const SizedBox(height: 10.0),
+                _title(),
+                const SizedBox(height: 10.0),
+                _nameUser(),
+                const SizedBox(height: 10.0),
+                _email(),
+                const SizedBox(height: 10.0),
+                _pet(),
+                const SizedBox(height: 20.0),
+                _editInfos(context),
+                const SizedBox(height: 10.0),
+                // _removePetButton(context),
+                // const SizedBox(height: 10.0),
+                _logout(context),
+              ],
+            ),
           ),
         ),
       ),
@@ -76,7 +79,7 @@ class _UserPageState extends State<UserPage> {
         Text(
           "Perfil",
           style: TextStyle(
-            fontSize: 30,
+            fontSize: 24,
             color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
@@ -116,7 +119,7 @@ class _UserPageState extends State<UserPage> {
       child: PerfilCard(
         icon: Icons.pets,
         cardText: "Pet",
-        infoText: pet != null ? pet!.nome : "",
+        infoText: pet != null ? pet!.nome : "Sem pet cadastrado",
       ),
     );
   }

@@ -15,7 +15,7 @@ showSnackBar({
     content: Text(
       mensagem,
       style: const TextStyle(
-        fontSize: 24,
+        fontSize: 20,
         color: Colors.white,
         fontWeight: FontWeight.bold,
       ),

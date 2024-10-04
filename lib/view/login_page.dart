@@ -24,22 +24,24 @@ class LoginPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: Center(
-          child: Column(
-            children: [
-              const SizedBox(height: 70.0),
-              const LogoWidget(),
-              const SizedBox(height: 30.0),
-              _enterText(),
-              const SizedBox(height: 30.0),
-              _inputs(),
-              const SizedBox(height: 20.0),
-              _enterButton(context),
-              const SizedBox(height: 20.0),
-              _resetPasswordButton(context),
-              const Orwidget(color: Colors.black),
-              const SizedBox(height: 20.0),
-              _registerPageButton(context),
-            ],
+          child: SingleChildScrollView(
+            reverse: true,
+            child: Column(
+              children: [
+                const LogoWidget(),
+                const SizedBox(height: 10.0),
+                _enterText(),
+                const SizedBox(height: 10.0),
+                _inputs(),
+                const SizedBox(height: 20.0),
+                _enterButton(context),
+                const SizedBox(height: 10.0),
+                _resetPasswordButton(context),
+                const Orwidget(color: Colors.black),
+                const SizedBox(height: 20.0),
+                _registerPageButton(context),
+              ],
+            ),
           ),
         ),
       ),
@@ -53,7 +55,7 @@ class LoginPage extends StatelessWidget {
         Text(
           "Entrar",
           style: TextStyle(
-            fontSize: 30,
+            fontSize: 24,
             color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
@@ -68,7 +70,7 @@ class LoginPage extends StatelessWidget {
       child: Column(
         children: [
           _emailInput(),
-          const SizedBox(height: 20.0),
+          const SizedBox(height: 10.0),
           _passwordInput(),
         ],
       ),
@@ -149,8 +151,8 @@ class LoginPage extends StatelessWidget {
             child: const Text(
               "Esqueci minha senha",
               style: TextStyle(
-                fontSize: 20,
-                color: AppColors.primary,
+                fontSize: 18,
+                color: Colors.black,
                 fontWeight: FontWeight.w400,
               ),
             ),
