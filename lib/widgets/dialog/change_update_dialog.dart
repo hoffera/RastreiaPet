@@ -114,16 +114,17 @@ class ChangeUpdateDialogState extends State<ChangeUpdateDialog> {
   _card15s() {
     return PressableBox(
       style: Style(
-        $box.color(AppColors.background),
-        $box.padding(15),
-        $box.borderRadius(20),
-        $on.press(
-          $box.color.red(),
-        ),
-        $on.hover(
-          $box.color.green(),
-        ),
-      ),
+          $box.color(AppColors.background),
+          $box.padding(15),
+          $box.borderRadius(20),
+          $on.press(
+            $box.color(AppColors.background
+                .withOpacity(0.3)), // Efeito de sombra interna
+          ),
+          $on.hover(
+            $box.color(AppColors.background
+                .withOpacity(0.3)), // Efeito de sombra interna
+          )),
       onPress: () async {
         // String apiKey = "7CUCVMS7J0USMUFU";
         // String data = '1';
@@ -198,16 +199,17 @@ class ChangeUpdateDialogState extends State<ChangeUpdateDialog> {
   _card5min() {
     return PressableBox(
       style: Style(
-        $box.color(AppColors.background),
-        $box.padding(15),
-        $box.borderRadius(20),
-        $on.press(
-          $box.color.black(),
-        ),
-        $on.hover(
-          $box.color.green(),
-        ),
-      ),
+          $box.color(AppColors.background),
+          $box.padding(15),
+          $box.borderRadius(20),
+          $on.press(
+            $box.color(AppColors.background
+                .withOpacity(0.3)), // Efeito de sombra interna
+          ),
+          $on.hover(
+            $box.color(AppColors.background
+                .withOpacity(0.3)), // Efeito de sombra interna
+          )),
       onPress: () async {
         // String apiKey = "7CUCVMS7J0USMUFU";
         // String data = '1';

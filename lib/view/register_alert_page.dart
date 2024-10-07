@@ -8,17 +8,16 @@ import 'package:rastreia_pet_app/widgets/logo/logo_widget.dart';
 import 'package:rastreia_pet_app/widgets/map/map_alert_widget.dart';
 
 class RegisterAlertPage extends StatefulWidget {
-  final User user;
-  const RegisterAlertPage({super.key, required this.user});
+  const RegisterAlertPage({super.key});
 
   @override
   State<RegisterAlertPage> createState() => _RegisterAlertPageState();
 }
 
 class _RegisterAlertPageState extends State<RegisterAlertPage> {
+  User? user = FirebaseAuth.instance.currentUser;
   PetService petService = PetService();
-  late final Future<Pet?> _petExistsFuture =
-      petService.getPetId(widget.user.uid);
+  late final Future<Pet?> _petExistsFuture = petService.getPetId(user!.uid);
 
   Pet? pet;
 
@@ -30,7 +29,7 @@ class _RegisterAlertPageState extends State<RegisterAlertPage> {
   }
 
   Future<void> _loadPet() async {
-    Pet? fetchedPet = await petService.getPetId(widget.user.uid);
+    Pet? fetchedPet = await petService.getPetId(user!.uid);
     setState(() {
       pet = fetchedPet;
     });

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rastreia_pet_app/enum/enum.dart';
 
 ThemeData primaryThemeData = ThemeData(
-  fontFamily: 'SourceSans',
+  fontFamily: 'roboto',
   colorScheme: const ColorScheme(
       primary: Colors.white,
       secondary: Colors.black,

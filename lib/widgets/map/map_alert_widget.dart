@@ -81,8 +81,6 @@ class _MapWidgetState extends State<MapAlertWidget> {
           _distance(),
           const SizedBox(height: 10),
           _registerButton(context),
-          const SizedBox(height: 10),
-          _deletButton(context),
         ],
       ),
     );
@@ -119,24 +117,9 @@ class _MapWidgetState extends State<MapAlertWidget> {
     );
   }
 
-  _deletButton(context) {
-    return SizedBox(
-      height: 50,
-      child: PrimaryButton(
-        funds: false,
-        color: Colors.red,
-        textColor: Colors.white,
-        text: "Deletar alerta",
-        onPressed: () {
-          _deleteAlert(context, user!.uid);
-        },
-      ),
-    );
-  }
-
   _map() {
     return SizedBox(
-      height: 400,
+      height: 300,
       width: double.infinity,
       child: GoogleMap(
         circles: Set<Circle>.of(circles.values),
@@ -152,7 +135,7 @@ class _MapWidgetState extends State<MapAlertWidget> {
 
   _distance() {
     return SizedBox(
-      height: 50,
+      height: 70,
       width: double.infinity,
       child: PerfilCard(
         inputController: _inputController,

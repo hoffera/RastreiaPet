@@ -39,18 +39,23 @@ class _PerfilCardState extends State<PerfilCard> {
   _card() {
     return Box(
       style: Style(
-        $box.maxWidth(double.infinity), // Largura máxima
-        $box.color(Colors.white),
-        $box.borderRadius(20),
-        // $box.padding(5),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _box(),
-          if (widget.map == false) _infoText(),
-          if (widget.map == true) _input(),
-        ],
+          $box.maxWidth(double.infinity), // Largura máxima
+
+          $box.color(Colors.white),
+          $box.borderRadius(20),
+          $box.border.color(AppColors.primary)
+          // $box.padding(5),
+          ),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 15, right: 15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _box(),
+            if (widget.map == false) _infoText(),
+            if (widget.map == true) _input(),
+          ],
+        ),
       ),
     );
   }
@@ -103,7 +108,8 @@ class _PerfilCardState extends State<PerfilCard> {
     return Form(
       key: _formKey,
       child: SizedBox(
-        width: 250,
+        width: 200,
+        height: 50,
         child: TextInput(
           number: true,
           off: false,

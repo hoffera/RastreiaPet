@@ -12,15 +12,14 @@ import 'package:rastreia_pet_app/widgets/dialog/show_snackbar.dart';
 import 'package:rastreia_pet_app/widgets/logo/logo_widget.dart';
 
 class UserPage extends StatefulWidget {
-  final User user;
-
-  const UserPage({super.key, required this.user});
+  const UserPage({super.key});
 
   @override
   State<UserPage> createState() => _UserPageState();
 }
 
 class _UserPageState extends State<UserPage> {
+  User? user = FirebaseAuth.instance.currentUser;
   PetService petService = PetService();
   Pet? pet;
 
@@ -32,10 +31,10 @@ class _UserPageState extends State<UserPage> {
         padding: const EdgeInsets.all(30.0),
         child: Center(
           child: SingleChildScrollView(
-            reverse: true,
+            reverse: false,
             child: Column(
               children: [
-                const LogoWidget(),
+                SizedBox(height: 200, child: const LogoWidget()),
                 const SizedBox(height: 10.0),
                 _title(),
                 const SizedBox(height: 10.0),
@@ -46,10 +45,8 @@ class _UserPageState extends State<UserPage> {
                 _pet(),
                 const SizedBox(height: 20.0),
                 _editInfos(context),
-                const SizedBox(height: 10.0),
-                // _removePetButton(context),
                 // const SizedBox(height: 10.0),
-                _logout(context),
+                // _logout(context),
               ],
             ),
           ),
@@ -65,7 +62,7 @@ class _UserPageState extends State<UserPage> {
   }
 
   Future<void> _loadPet() async {
-    Pet? fetchedPet = await petService.getPetId(widget.user.uid);
+    Pet? fetchedPet = await petService.getPetId(user!.uid);
     setState(() {
       pet = fetchedPet;
     });
@@ -95,7 +92,7 @@ class _UserPageState extends State<UserPage> {
       child: PerfilCard(
         icon: Icons.person,
         cardText: "Nome",
-        infoText: "${widget.user.displayName}",
+        infoText: "${user!.displayName}",
       ),
     );
   }
@@ -107,7 +104,7 @@ class _UserPageState extends State<UserPage> {
       child: PerfilCard(
         icon: Icons.email,
         cardText: "E-mail",
-        infoText: "${widget.user.email}",
+        infoText: "${user!.email}",
       ),
     );
   }
@@ -119,7 +116,7 @@ class _UserPageState extends State<UserPage> {
       child: PerfilCard(
         icon: Icons.pets,
         cardText: "Pet",
-        infoText: pet != null ? pet!.nome : "Sem pet cadastrado",
+        infoText: pet != null ? pet!.nome : " ",
       ),
     );
   }
@@ -143,7 +140,6 @@ class _UserPageState extends State<UserPage> {
       context: context,
       builder: (BuildContext context) {
         return EditUserDetailsDialog(
-          user: widget.user,
           pet: pet,
         );
       },
@@ -152,7 +148,6 @@ class _UserPageState extends State<UserPage> {
         context,
         PageRouteBuilder(
           pageBuilder: (context, animation1, animation2) => NavPage(
-            user: widget.user,
             initialIndex: 2,
           ),
           transitionDuration: Duration.zero, // Remove a duração da transição
@@ -179,11 +174,11 @@ class _UserPageState extends State<UserPage> {
   }
 
   _removePet(context) async {
-    Pet? pet = await petService
-        .getPetId(widget.user.uid); // Busca o pet associado ao uid
+    Pet? pet =
+        await petService.getPetId(user!.uid); // Busca o pet associado ao uid
 
     if (pet?.id != null) {
-      await petService.removePet(pet: widget.user.uid); //
+      await petService.removePet(pet: user!.uid); //
       showSnackBar(
           context: context,
           mensagem: "Pet removido com Sucesso!",

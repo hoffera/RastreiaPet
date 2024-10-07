@@ -6,6 +6,7 @@ import 'package:rastreia_pet_app/enum/enum.dart';
 import 'package:rastreia_pet_app/models/pet.dart';
 import 'package:rastreia_pet_app/services/auth_services.dart';
 import 'package:rastreia_pet_app/services/pet_services.dart';
+import 'package:rastreia_pet_app/view/nav_page.dart';
 import 'package:rastreia_pet_app/widgets/button/primary_button.dart';
 import 'package:rastreia_pet_app/widgets/dialog/show_snackbar.dart';
 import 'package:rastreia_pet_app/widgets/input/text_input.dart';
@@ -163,25 +164,37 @@ class _EditDetalisCardState extends State<EditDetalisCard>
     );
   }
 
-  _editUserPressed(context) {
+  _editUserPressed(context) async {
     String name = widget.controller.text;
 
     if (name != "") {
-      authServices.editUser(name: name).then((error) {
-        if (error != null) {
-          showSnackBar(context: context, mensagem: error, isErro: true);
-        } else {
-          User? user = FirebaseAuth.instance.currentUser;
-          user!.reload(); // Recarrega os dados do usuário
-          user = FirebaseAuth.instance.currentUser;
-          print("user!.displayName");
-          print(user!.displayName);
-          showSnackBar(
-              context: context,
-              mensagem: "Nome atualizado com sucesso!",
-              isErro: false);
-        }
-      });
+      User? user = FirebaseAuth.instance.currentUser;
+      await user?.updateDisplayName(name);
+      Navigator.of(context).push(PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              NavPage(initialIndex: 2),
+          transitionDuration: Duration(seconds: 0) // Remove a animação
+          ));
+      // Navigator.pushNamed(
+      //   context,
+      //   '/NavPage2',
+      // );
+
+      // authServices.editUser(name: name).then((error) {
+      //   if (error != null) {
+      //     showSnackBar(context: context, mensagem: error, isErro: true);
+      //   } else {
+      //     User? user = FirebaseAuth.instance.currentUser;
+      //     user!.reload(); // Recarrega os dados do usuário
+      //     user = FirebaseAuth.instance.currentUser;
+      //     print("user!.displayName");
+      //     print(user!.displayName);
+      //     showSnackBar(
+      //         context: context,
+      //         mensagem: "Nome atualizado com sucesso!",
+      //         isErro: false);
+      //   }
+      // });
     } else {
       showSnackBar(
           context: context, mensagem: "Insira um novo Nome!", isErro: true);

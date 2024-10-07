@@ -71,28 +71,31 @@ class _MyAppState extends State<MyApp> {
         '/Message': (context) => MessagePage(),
         '/HomePage': (BuildContext context) => Builder(
               builder: (context) {
-                final user = FirebaseAuth.instance.currentUser;
-                return HomePage(user: user!);
+                return HomePage();
               },
             ),
         '/LoginPage': (BuildContext context) => LoginPage(),
         '/RegisterAlertPage': (BuildContext context) => Builder(
               builder: (context) {
-                final user = FirebaseAuth.instance.currentUser;
-                return RegisterAlertPage(user: user!);
+                return RegisterAlertPage();
               },
             ),
         '/RegisterPage': (BuildContext context) => RegisterPage(),
         '/RegisterPetPage': (BuildContext context) => Builder(
               builder: (context) {
-                final user = FirebaseAuth.instance.currentUser;
-                return RegisterPetPage(user: user!);
+                return RegisterPetPage();
               },
             ),
         '/NavPage': (BuildContext context) => Builder(
               builder: (context) {
-                final user = FirebaseAuth.instance.currentUser;
-                return NavPage(user: user!);
+                0; // Pega o argumento ou 0 se não houver
+                return NavPage(initialIndex: 0);
+              },
+            ),
+        '/NavPage2': (BuildContext context) => Builder(
+              builder: (context) {
+                0; // Pega o argumento ou 0 se não houver
+                return NavPage(initialIndex: 2);
               },
             ),
       },
@@ -115,7 +118,7 @@ class RouteScreens extends StatelessWidget {
             final user =
                 snapshot.data; // Obtenha o usuário a partir do snapshot
             _saveUserToken(user); // Chama o método para salvar o token
-            return NavPage(user: user!);
+            return NavPage();
           } else {
             return const HomeLoginPage();
           }

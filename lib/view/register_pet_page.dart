@@ -15,14 +15,14 @@ import 'package:rastreia_pet_app/widgets/input/text_input.dart';
 import 'package:rastreia_pet_app/widgets/logo/logo_widget.dart';
 
 class RegisterPetPage extends StatefulWidget {
-  final User user;
-  const RegisterPetPage({super.key, required this.user});
+  const RegisterPetPage({super.key});
 
   @override
   State<RegisterPetPage> createState() => _RegisterPetPageState();
 }
 
 class _RegisterPetPageState extends State<RegisterPetPage> {
+  User? user = FirebaseAuth.instance.currentUser;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _codeController = TextEditingController();
   PetService petService = PetService();
@@ -42,8 +42,9 @@ class _RegisterPetPageState extends State<RegisterPetPage> {
               children: [
                 // _titleText(),
                 const LogoWidget(),
-                const SizedBox(height: 10.0),
+                const SizedBox(height: 30.0),
                 _subtitleText(),
+                const SizedBox(height: 10.0),
                 _inputs(),
                 const SizedBox(height: 50.0),
                 _registerButton(context),
@@ -154,8 +155,8 @@ class _RegisterPetPageState extends State<RegisterPetPage> {
     String name = _nameController.text;
     String code = _codeController.text;
 
-    Pet? pet = await petService
-        .getPetId(widget.user.uid); // Busca o pet associado ao uid
+    Pet? pet =
+        await petService.getPetId(user!.uid); // Busca o pet associado ao uid
 
     if (pet?.id != null) {
       showSnackBar(

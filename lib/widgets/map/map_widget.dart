@@ -37,6 +37,7 @@ class _MapWidgetState extends State<MapWidget> {
 
   @override
   void initState() {
+    customMarkers();
     super.initState();
     if (widget.alertPet != null) {
       updateCircles();
@@ -45,14 +46,13 @@ class _MapWidgetState extends State<MapWidget> {
 
     fromThingspeak();
     timer = Timer.periodic(const Duration(seconds: 15), (timer) {
-      customMarkers();
       fromThingspeak();
     });
   }
 
   void customMarkers() {
-    BitmapDescriptor.asset(const ImageConfiguration(size: Size(50, 60)),
-            'lib/assets/images/dog.png')
+    BitmapDescriptor.asset(const ImageConfiguration(size: Size(130, 130)),
+            'lib/assets/images/newpin.png')
         .then((icon) {
       // Atualiza o estado com o novo ícone
       setState(() {

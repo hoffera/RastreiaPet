@@ -11,19 +11,15 @@ import 'package:rastreia_pet_app/widgets/dialog/show_snackbar.dart';
 import 'package:rastreia_pet_app/widgets/logo/logo_widget.dart';
 
 class HomePage extends StatefulWidget {
-  final User user;
-  const HomePage({
-    super.key,
-    required this.user,
-  });
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  late final Future<Pet?> _petExistsFuture =
-      petService.getPetId(widget.user.uid);
+  User? user = FirebaseAuth.instance.currentUser;
+  late final Future<Pet?> _petExistsFuture = petService.getPetId(user!.uid);
 
   Pet? pet;
   void initState() {
@@ -40,7 +36,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _loadPet() async {
     try {
-      Pet? fetchedPet = await petService.getPetId(widget.user.uid);
+      Pet? fetchedPet = await petService.getPetId(user!.uid);
 
       setState(() {
         pet = fetchedPet;
@@ -83,7 +79,7 @@ class _HomePageState extends State<HomePage> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
-          "Olá, ${widget.user.displayName}",
+          "Olá, ${user!.displayName}",
           style: const TextStyle(
             fontSize: 24,
             color: Colors.black,

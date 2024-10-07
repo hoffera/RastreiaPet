@@ -10,11 +10,9 @@ import 'package:rastreia_pet_app/services/pet_services.dart';
 import 'package:rastreia_pet_app/widgets/card/edit_detalis_card.dart';
 
 class EditUserDetailsDialog extends StatefulWidget {
-  final User user;
   final Pet? pet;
   const EditUserDetailsDialog({
     super.key,
-    required this.user,
     this.pet,
   });
 
@@ -23,6 +21,7 @@ class EditUserDetailsDialog extends StatefulWidget {
 }
 
 class EditUserDetailsDialogState extends State<EditUserDetailsDialog> {
+  User? user = FirebaseAuth.instance.currentUser;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _petController = TextEditingController();
   final AuthService authServices = AuthService();
@@ -91,7 +90,7 @@ class EditUserDetailsDialogState extends State<EditUserDetailsDialog> {
       icon: Icons.person,
       cardText: "Nome",
       user: true,
-      infoText: "${widget.user.displayName}",
+      infoText: "${user!.displayName}",
     );
   }
 
@@ -111,7 +110,7 @@ class EditUserDetailsDialogState extends State<EditUserDetailsDialog> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return EditUserDetailsDialog(user: user);
+        return EditUserDetailsDialog();
       },
     );
   }

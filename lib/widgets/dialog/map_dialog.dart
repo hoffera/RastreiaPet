@@ -27,7 +27,7 @@ class MapDialog extends StatelessWidget {
           _title(),
           const SizedBox(height: 10),
           _subtitle(),
-          const SizedBox(height: 30),
+          const SizedBox(height: 20),
           _info(),
         ],
       ),
@@ -45,21 +45,25 @@ class MapDialog extends StatelessWidget {
   _subtitle() {
     return const Text(
       "Aqui aparecem as coordenadas e mais informações do seu Pet",
+      textAlign: TextAlign.center, // Centraliza o texto
       style: TextStyle(
-          color: Colors.black, fontSize: 20, fontWeight: FontWeight.normal),
+        color: Colors.black,
+        fontSize: 22,
+        fontWeight: FontWeight.normal,
+      ),
     );
   }
 
   _info() {
     Style style = Style(
       $text.style.color.black(),
-      $text.style.fontSize(20),
+      $text.style.fontSize(18),
       $text.style.fontWeight(FontWeight.bold),
       $text.textAlign.start(),
     );
     Style styleInfo = Style(
       $text.style.color.black(),
-      $text.style.fontSize(18),
+      $text.style.fontSize(16),
       $text.style.fontWeight(FontWeight.normal),
       $text.textAlign.start(),
     );
@@ -93,14 +97,6 @@ class MapDialog extends StatelessWidget {
               StyledText("Longitude:", style: style),
               const SizedBox(width: 10),
               StyledText(longitude, style: styleInfo),
-            ],
-          ),
-          HBox(
-            style: hStyle,
-            children: [
-              StyledText("Precisão da distância:", style: style),
-              const SizedBox(width: 10),
-              StyledText("$distance metros", style: styleInfo),
             ],
           ),
           HBox(

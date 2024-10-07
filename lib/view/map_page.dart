@@ -12,10 +12,8 @@ import 'package:rastreia_pet_app/widgets/logo/logo_widget.dart';
 import 'package:rastreia_pet_app/widgets/map/map_widget.dart';
 
 class MapPage extends StatefulWidget {
-  final User user;
   const MapPage({
     super.key,
-    required this.user,
   });
 
   @override
@@ -23,12 +21,12 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
+  User? user = FirebaseAuth.instance.currentUser;
   late GoogleMapController mapController;
   PetService petService = PetService();
   AlertPetService alertPetService = AlertPetService();
 
-  late final Future<Pet?> _petExistsFuture =
-      petService.getPetId(widget.user.uid);
+  late final Future<Pet?> _petExistsFuture = petService.getPetId(user!.uid);
 
   Pet? pet;
   AlertPet? alertPet;
@@ -41,9 +39,8 @@ class _MapPageState extends State<MapPage> {
 
   Future<void> _loadPet() async {
     try {
-      AlertPet? fetchedAlert =
-          await alertPetService.getAlertPetById(widget.user.uid);
-      Pet? fetchedPet = await petService.getPetId(widget.user.uid);
+      AlertPet? fetchedAlert = await alertPetService.getAlertPetById(user!.uid);
+      Pet? fetchedPet = await petService.getPetId(user!.uid);
 
       setState(() {
         pet = fetchedPet;

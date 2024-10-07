@@ -4,23 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:rastreia_pet_app/enum/enum.dart';
 import 'package:rastreia_pet_app/view/home_page.dart';
 import 'package:rastreia_pet_app/view/map_page.dart';
+import 'package:rastreia_pet_app/view/settings_page.dart';
 import 'package:rastreia_pet_app/view/user_page.dart';
 
 class NavPage extends StatefulWidget {
-  final User user;
   final int initialIndex; // Adicione esse parâmetro
 
-  const NavPage({
-    super.key,
-    required this.user,
-    this.initialIndex = 0, // Define um valor padrão
-  });
+  const NavPage({super.key, this.initialIndex = 0 // Define um valor padrão
+      });
 
   @override
   State<NavPage> createState() => _NavPageState();
 }
 
 class _NavPageState extends State<NavPage> {
+  User? user = FirebaseAuth.instance.currentUser;
   late int _selectedIndex;
   late final List<Widget> _widgetOptions;
 
@@ -29,15 +27,10 @@ class _NavPageState extends State<NavPage> {
     super.initState();
     _selectedIndex = widget.initialIndex; // Use o índice inicial passado
     _widgetOptions = <Widget>[
-      HomePage(
-        user: widget.user,
-      ),
-      MapPage(
-        user: widget.user,
-      ),
-      UserPage(
-        user: widget.user,
-      ),
+      HomePage(),
+      MapPage(),
+      UserPage(),
+      SettingsPage(),
     ];
   }
 
@@ -55,6 +48,7 @@ class _NavPageState extends State<NavPage> {
           Icon(Icons.home, size: 26, color: Colors.white),
           Icon(Icons.navigation, size: 26, color: Colors.white),
           Icon(Icons.person, size: 26, color: Colors.white),
+          Icon(Icons.settings, size: 26, color: Colors.white),
         ],
         index: _selectedIndex,
         onTap: (index) {
