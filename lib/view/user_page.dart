@@ -34,7 +34,7 @@ class _UserPageState extends State<UserPage> {
             reverse: false,
             child: Column(
               children: [
-                SizedBox(height: 200, child: const LogoWidget()),
+                const LogoWidget(),
                 const SizedBox(height: 10.0),
                 _title(),
                 const SizedBox(height: 10.0),

@@ -6,7 +6,7 @@ import 'package:rastreia_pet_app/enum/enum.dart';
 class MapDialog extends StatelessWidget {
   final String latitude;
   final String longitude;
-  final String distance;
+  final double distance;
   final String dateTime;
 
   const MapDialog({
@@ -71,6 +71,27 @@ class MapDialog extends StatelessWidget {
       $box.alignment.topLeft(),
     );
 
+    // Adicionando o switch case para distance
+    String distanceMessage;
+    int distanceInt = distance.toInt();
+
+    switch (distanceInt) {
+      case 1:
+        distanceMessage = "Nivel de bateria baixa";
+        break;
+      case 2:
+        distanceMessage = "Nivel de bateria com carga media baixa";
+        break;
+      case 3:
+        distanceMessage = "Nivel de bateria com carga media alta";
+        break;
+      case 4:
+        distanceMessage = "Nivel de bateria cheia";
+        break;
+      default:
+        distanceMessage = "Sem dados";
+    }
+
     return Box(
       style: Style(
         $box.borderRadius(20),
@@ -112,7 +133,8 @@ class MapDialog extends StatelessWidget {
             children: [
               StyledText("Bateria:", style: style),
               const SizedBox(width: 10),
-              StyledText("100%", style: styleInfo),
+              StyledText(distanceMessage,
+                  style: styleInfo), // Exibindo a mensagem de distância
             ],
           ),
         ],

@@ -52,6 +52,7 @@ class _PerfilCardState extends State<PerfilCard> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _box(),
+            SizedBox(width: 10),
             if (widget.map == false) _infoText(),
             if (widget.map == true) _input(),
           ],
@@ -90,7 +91,8 @@ class _PerfilCardState extends State<PerfilCard> {
   }
 
   _infoText() {
-    return SizedBox(
+    return Expanded(
+      // Remove o SizedBox e usa Expanded diretamente
       child: StyledText(
         widget.infoText,
         style: Style(
@@ -98,8 +100,9 @@ class _PerfilCardState extends State<PerfilCard> {
           $text.style.fontSize(16),
           $text.style.fontWeight(FontWeight.normal),
           $text.textAlign.start(),
-          $text.overflow.ellipsis(),
+          $text.overflow.ellipsis(), // Texto será cortado com '...'
         ),
+        // Limita a uma linha
       ),
     );
   }

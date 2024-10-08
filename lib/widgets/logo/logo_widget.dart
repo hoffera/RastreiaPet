@@ -11,10 +11,6 @@ class LogoWidget extends StatefulWidget {
 
 class _LogoWidgetState extends State<LogoWidget> {
   late VideoPlayerController _controller;
-  @override
-  Widget build(BuildContext context) {
-    return _logo();
-  }
 
   @override
   void initState() {
@@ -32,6 +28,25 @@ class _LogoWidgetState extends State<LogoWidget> {
       });
   }
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _logo();
+  }
+
+  _logoImage() {
+    return SizedBox(
+      width: 500, // Defina a largura desejada
+      height: 500, // Defina a altura desejada
+      child: Image.asset('lib/assets/images/rastreiaPetLogo.png'),
+    );
+  }
+
   _logo() {
     return ClipRRect(
       borderRadius: BorderRadius.circular(10.0),
@@ -46,7 +61,7 @@ class _LogoWidgetState extends State<LogoWidget> {
                     aspectRatio: _controller.value.aspectRatio,
                     child: VideoPlayer(_controller),
                   )
-                : CircularProgressIndicator(), // Mostra um indicador de carregamento enquanto o vídeo é carregado
+                : _logoImage(), // Substitua pelo caminho da sua imagem
           ),
         ),
       ),

@@ -108,6 +108,7 @@ class _EditDetalisCardState extends State<EditDetalisCard>
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         _box(),
+        SizedBox(width: 10),
         _infoText(),
         _dropIcon(),
       ],
@@ -255,7 +256,7 @@ class _EditDetalisCardState extends State<EditDetalisCard>
   }
 
   _infoText() {
-    return SizedBox(
+    return Expanded(
       child: StyledText(
         widget.infoText,
         style: Style(

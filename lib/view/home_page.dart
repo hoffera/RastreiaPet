@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mix/mix.dart';
 import 'package:provider/provider.dart';
 import 'package:rastreia_pet_app/enum/enum.dart';
 import 'package:rastreia_pet_app/models/pet.dart';
@@ -78,12 +79,18 @@ class _HomePageState extends State<HomePage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text(
-          "Olá, ${user!.displayName}",
-          style: const TextStyle(
-            fontSize: 24,
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
+        Expanded(
+          // Remove o SizedBox e usa Expanded diretamente
+          child: StyledText(
+            "Olá, ${user!.displayName}",
+            style: Style(
+              $text.style.color.black(),
+              $text.style.fontSize(24),
+              $text.style.fontWeight(FontWeight.bold),
+              $text.textAlign.start(),
+              $text.overflow.ellipsis(), // Texto será cortado com '...'
+            ),
+            // Limita a uma linha
           ),
         ),
       ],

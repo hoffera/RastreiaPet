@@ -197,10 +197,11 @@ class _MapWidgetState extends State<MapWidget> {
       var firstFeed = data['feeds'][0];
       if (firstFeed['field1'] != null &&
           firstFeed['field2'] != null &&
+          firstFeed['field3'] != null &&
           firstFeed['created_at'] != null) {
         var field1Value = double.parse(firstFeed['field1']);
         var field2Value = double.parse(firstFeed['field2']);
-        var field3Value = 0.0;
+        var field3Value = double.parse(firstFeed['field3']);
 
         var createdAt = firstFeed['created_at']; // Timestamp do feed
 
@@ -230,7 +231,7 @@ class _MapWidgetState extends State<MapWidget> {
                   return MapDialog(
                     latitude: field1Value.toStringAsFixed(4),
                     longitude: field2Value.toStringAsFixed(4),
-                    distance: field3Value.toStringAsFixed(2),
+                    distance: field3Value,
                     dateTime: formattedDateTime,
                   );
                 },
