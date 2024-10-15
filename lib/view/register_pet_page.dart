@@ -10,9 +10,11 @@ import 'package:rastreia_pet_app/models/pet.dart';
 import 'package:rastreia_pet_app/services/auth_services.dart';
 import 'package:rastreia_pet_app/services/pet_services.dart';
 import 'package:rastreia_pet_app/widgets/button/primary_button.dart';
+import 'package:rastreia_pet_app/widgets/card/qrcode_card.dart';
 import 'package:rastreia_pet_app/widgets/dialog/show_snackbar.dart';
 import 'package:rastreia_pet_app/widgets/input/text_input.dart';
 import 'package:rastreia_pet_app/widgets/logo/logo_widget.dart';
+import 'package:rastreia_pet_app/widgets/logo/or_widget.dart';
 
 class RegisterPetPage extends StatefulWidget {
   const RegisterPetPage({super.key});
@@ -37,26 +39,52 @@ class _RegisterPetPageState extends State<RegisterPetPage> {
         padding: const EdgeInsets.all(15.0),
         child: Center(
           child: SingleChildScrollView(
-            reverse: true,
             child: Column(
               children: [
-                // _titleText(),
-                const LogoWidget(),
-                const SizedBox(height: 30.0),
+                //const LogoWidget(),
+                _logo(),
+                const SizedBox(height: 10.0),
+                _titleText(),
+                const SizedBox(height: 10.0),
                 _subtitleText(),
                 const SizedBox(height: 10.0),
+                const QrcodeCard(),
+
+                const SizedBox(height: 10.0),
+                const Orwidget(color: Colors.black),
+                const SizedBox(height: 10.0),
                 _inputs(),
-                const SizedBox(height: 50.0),
+                const SizedBox(height: 20.0),
                 _registerButton(context),
-                // const SizedBox(height: 20.0),
-                // const Orwidget(color: Colors.black),
-                // const SizedBox(height: 20.0),
-                // const QrcodeCard(),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  _logo() {
+    return SizedBox(
+      height: 100,
+      child: LogoWidget(),
+    );
+  }
+
+  _titleText() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        StyledText(
+          "Registrar Pet",
+          style: Style(
+            $text.style.color.black(),
+            $text.style.fontSize(24),
+            $text.style.fontWeight(FontWeight.bold),
+            $text.textAlign.center(),
+          ),
+        ),
+      ],
     );
   }
 
