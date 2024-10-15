@@ -108,11 +108,11 @@ class _MapWidgetState extends State<MapWidget> {
               initialCameraPosition: initialPosition != null
                   ? CameraPosition(
                       target: initialPosition!,
-                      zoom: 17.0,
+                      zoom: 20.0,
                     )
                   : const CameraPosition(
                       target: LatLng(0, 0),
-                      zoom: 17.0,
+                      zoom: 20.0,
                     ),
               markers: Set<Marker>.of(markers.values),
             ),
@@ -194,62 +194,117 @@ class _MapWidgetState extends State<MapWidget> {
 
   Future<void> updateMarkers(Map<String, dynamic> data) async {
     if (data['feeds'] != null && data['feeds'].isNotEmpty) {
-      var firstFeed = data['feeds'][0];
-      if (firstFeed['field1'] != null &&
-          firstFeed['field2'] != null &&
-          firstFeed['field3'] != null &&
-          firstFeed['created_at'] != null) {
-        var field1Value = double.parse(firstFeed['field1']);
-        var field2Value = double.parse(firstFeed['field2']);
-        var field3Value = double.parse(firstFeed['field3']);
-
-        var createdAt = firstFeed['created_at']; // Timestamp do feed
+      var lastFeed = data['feeds'].last; // Pega o último feed
+      if (lastFeed['field1'] != null &&
+          lastFeed['field2'] != null &&
+          lastFeed['field3'] != null &&
+          lastFeed['created_at'] != null) {
+        var field1Value = double.parse(lastFeed['field1']);
+        var field2Value = double.parse(lastFeed['field2']);
+        var field3Value = double.parse(lastFeed['field3']);
+        var createdAt = lastFeed['created_at']; // Timestamp do feed
 
         LatLng newPosition = LatLng(field1Value, field2Value);
-        print("newPosition: ");
-        print(newPosition);
+        print("newPosition: $newPosition");
+
+        // Crie um novo MarkerId para o último marcador, com base no entry_id
+        final markerId = MarkerId('LocationMarker_${lastFeed['entry_id']}');
+        final marker = Marker(
+          markerId: markerId,
+          icon: customMarkerDescriptor,
+          position: newPosition,
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                // Formatar timestamp para exibir data e hora
+                DateTime dateTime = DateTime.parse(createdAt);
+                String formattedDateTime = "${dateTime.toLocal()}"
+                    .split('.')[0]; // Remove microssegundos
+                return MapDialog(
+                  latitude: field1Value.toStringAsFixed(4),
+                  longitude: field2Value.toStringAsFixed(4),
+                  distance: field3Value,
+                  dateTime: formattedDateTime,
+                );
+              },
+            );
+          },
+        );
+
+        // Adiciona o novo marcador ao mapa, sem apagar os anteriores
         setState(() {
-          initialPosition = newPosition;
-
-          if (lastMarkerId != null) {
-            markers.remove(lastMarkerId);
-          }
-
-          final markerId = MarkerId('LocationMarker_${firstFeed['entry_id']}');
-          final marker = Marker(
-            markerId: markerId,
-            icon: customMarkerDescriptor,
-            position: newPosition,
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  // Formata o timestamp para exibir data e hora
-                  DateTime dateTime = DateTime.parse(createdAt);
-                  String formattedDateTime = "${dateTime.toLocal()}"
-                      .split('.')[0]; // Remove microssegundos
-                  return MapDialog(
-                    latitude: field1Value.toStringAsFixed(4),
-                    longitude: field2Value.toStringAsFixed(4),
-                    distance: field3Value,
-                    dateTime: formattedDateTime,
-                  );
-                },
-              );
-            },
-          );
-
-          markers[markerId] = marker;
-          lastMarkerId = markerId;
+          markers[markerId] = marker; // Adiciona o novo marcador
         });
 
+        // Mover a câmera para o novo marcador
         if (mapCreated) {
-          await mapController
-              .animateCamera(CameraUpdate.newLatLng(newPosition));
+          await mapController.animateCamera(
+            CameraUpdate.newLatLng(newPosition),
+          );
         }
       }
     }
   }
+
+  // Future<void> updateMarkers(Map<String, dynamic> data) async {
+  //   if (data['feeds'] != null && data['feeds'].isNotEmpty) {
+  //     var firstFeed = data['feeds'][0];
+  //     if (firstFeed['field1'] != null &&
+  //         firstFeed['field2'] != null &&
+  //         firstFeed['field3'] != null &&
+  //         firstFeed['created_at'] != null) {
+  //       var field1Value = double.parse(firstFeed['field1']);
+  //       var field2Value = double.parse(firstFeed['field2']);
+  //       var field3Value = double.parse(firstFeed['field3']);
+
+  //       var createdAt = firstFeed['created_at']; // Timestamp do feed
+
+  //       LatLng newPosition = LatLng(field1Value, field2Value);
+  //       print("newPosition: ");
+  //       print(newPosition);
+  //       setState(() {
+  //         initialPosition = newPosition;
+
+  //         if (lastMarkerId != null) {
+  //           markers.remove(lastMarkerId);
+  //         }
+
+  //         final markerId = MarkerId('LocationMarker_${firstFeed['entry_id']}');
+  //         final marker = Marker(
+  //           markerId: markerId,
+  //           icon: customMarkerDescriptor,
+  //           position: newPosition,
+  //           onTap: () {
+  //             showDialog(
+  //               context: context,
+  //               builder: (BuildContext context) {
+  //                 // Formata o timestamp para exibir data e hora
+  //                 DateTime dateTime = DateTime.parse(createdAt);
+  //                 String formattedDateTime = "${dateTime.toLocal()}"
+  //                     .split('.')[0]; // Remove microssegundos
+  //                 return MapDialog(
+  //                   latitude: field1Value.toStringAsFixed(4),
+  //                   longitude: field2Value.toStringAsFixed(4),
+  //                   distance: field3Value,
+  //                   dateTime: formattedDateTime,
+  //                 );
+  //               },
+  //             );
+  //           },
+  //         );
+
+  //         markers[markerId] = marker;
+  //         lastMarkerId = markerId;
+  //       });
+
+  //       if (mapCreated) {
+  //         await mapController
+  //             .animateCamera(CameraUpdate.newLatLng(newPosition));
+  //       }
+  //     }
+  //   }
+  // }
 
   @override
   void dispose() {

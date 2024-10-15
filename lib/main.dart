@@ -7,6 +7,7 @@ import 'package:rastreia_pet_app/services/change_notifier.dart';
 import 'package:rastreia_pet_app/services/notification_service.dart';
 import 'package:rastreia_pet_app/services/token_services.dart';
 import 'package:rastreia_pet_app/theme/theme_provider.dart';
+import 'package:rastreia_pet_app/view/help_page.dart';
 import 'package:rastreia_pet_app/view/home_login_page.dart';
 import 'package:rastreia_pet_app/view/home_page.dart';
 import 'package:rastreia_pet_app/view/login_page.dart';
@@ -69,6 +70,7 @@ class _MyAppState extends State<MyApp> {
       routes: <String, WidgetBuilder>{
         '/HomeLoginPage': (BuildContext context) => const HomeLoginPage(),
         '/Message': (context) => MessagePage(),
+        '/HelpPage': (context) => HelpPage(),
         '/HomePage': (BuildContext context) => Builder(
               builder: (context) {
                 return HomePage();
@@ -90,6 +92,12 @@ class _MyAppState extends State<MyApp> {
               builder: (context) {
                 0; // Pega o argumento ou 0 se não houver
                 return NavPage(initialIndex: 0);
+              },
+            ),
+        '/NavPage1': (BuildContext context) => Builder(
+              builder: (context) {
+                0; // Pega o argumento ou 0 se não houver
+                return NavPage(initialIndex: 1);
               },
             ),
         '/NavPage2': (BuildContext context) => Builder(

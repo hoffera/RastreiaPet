@@ -51,23 +51,34 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const LogoWidget(),
-                const SizedBox(height: 10.0),
-                _helloText(),
-                const SizedBox(height: 20.0),
-                _registerPetCard(context),
-                const SizedBox(height: 10.0),
-                _registerAlert(context),
-                const SizedBox(height: 10.0),
-                _changeUpdate(context),
-                const SizedBox(height: 10.0),
-              ],
+      body: Center(
+        child: RawScrollbar(
+          thumbColor: AppColors.primary, // Cor do scrollbar
+          thickness: 8, // Espessura do scrollbar
+
+          padding: EdgeInsets.all(5),
+
+          radius: Radius.circular(20), // Raio das bordas
+          thumbVisibility: true, //
+          child: Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const LogoWidget(),
+                  const SizedBox(height: 10.0),
+                  _helloText(),
+                  const SizedBox(height: 20.0),
+                  _helpPageCard(context),
+                  const SizedBox(height: 10.0),
+                  _registerPetCard(context),
+                  const SizedBox(height: 10.0),
+                  _registerAlert(context),
+                  const SizedBox(height: 10.0),
+                  _changeUpdate(context),
+                  const SizedBox(height: 10.0),
+                ],
+              ),
             ),
           ),
         ),
@@ -94,6 +105,16 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ],
+    );
+  }
+
+  _helpPageCard(context) {
+    return CardButton(
+      icon: Icons.live_help_outlined,
+      text: "Instrução do app",
+      onPressed: () {
+        Navigator.pushNamed(context, '/HelpPage');
+      },
     );
   }
 
