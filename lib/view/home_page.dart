@@ -111,7 +111,7 @@ class _HomePageState extends State<HomePage> {
   _helpPageCard(context) {
     return CardButton(
       icon: Icons.live_help_outlined,
-      text: "Instrução do app",
+      text: "Tutorial",
       onPressed: () {
         Navigator.pushNamed(context, '/HelpPage');
       },

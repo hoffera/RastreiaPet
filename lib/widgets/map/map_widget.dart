@@ -31,6 +31,7 @@ class _MapWidgetState extends State<MapWidget> {
   Timer? timer;
   LatLng? initialPosition;
   LatLng actualPosition = LatLng(0, 0);
+  LatLng newPosition = LatLng(0, 0);
   Map<CircleId, Circle> circles = {};
   bool mapCreated = false;
   BitmapDescriptor customMarkerDescriptor = BitmapDescriptor.defaultMarker;
@@ -48,6 +49,42 @@ class _MapWidgetState extends State<MapWidget> {
     timer = Timer.periodic(const Duration(seconds: 15), (timer) {
       fromThingspeak();
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: [
+          // Mapa ocupando 50% da tela
+          Expanded(
+            flex: 8, // 5 partes do espaço total
+            child: GoogleMap(
+              onMapCreated: _onMapCreated,
+              circles: Set<Circle>.of(circles.values),
+              initialCameraPosition: initialPosition != null
+                  ? CameraPosition(
+                      target: initialPosition!,
+                      zoom: 20.0,
+                    )
+                  : const CameraPosition(
+                      target: LatLng(0, 0),
+                      zoom: 20.0,
+                    ),
+              markers: Set<Marker>.of(markers.values),
+            ),
+          ),
+          // Botões ocupando o restante da tela (50%)
+          Expanded(
+            flex: 2, //
+            child: Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: _button(context, 'Compartilhar Localização'),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   void customMarkers() {
@@ -94,42 +131,6 @@ class _MapWidgetState extends State<MapWidget> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          // Mapa ocupando 50% da tela
-          Expanded(
-            flex: 8, // 5 partes do espaço total
-            child: GoogleMap(
-              onMapCreated: _onMapCreated,
-              circles: Set<Circle>.of(circles.values),
-              initialCameraPosition: initialPosition != null
-                  ? CameraPosition(
-                      target: initialPosition!,
-                      zoom: 20.0,
-                    )
-                  : const CameraPosition(
-                      target: LatLng(0, 0),
-                      zoom: 20.0,
-                    ),
-              markers: Set<Marker>.of(markers.values),
-            ),
-          ),
-          // Botões ocupando o restante da tela (50%)
-          Expanded(
-            flex: 2, //
-            child: Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: _button(context, 'Compartilhar Localização'),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   _button(context, String text) {
     return SizedBox(
         height: 50,
@@ -139,7 +140,7 @@ class _MapWidgetState extends State<MapWidget> {
           textColor: Colors.white,
           text: text,
           onPressed: () {
-            shareLocation(actualPosition);
+            shareLocation(newPosition);
           },
         ));
   }
@@ -204,7 +205,7 @@ class _MapWidgetState extends State<MapWidget> {
         var field3Value = double.parse(lastFeed['field3']);
         var createdAt = lastFeed['created_at']; // Timestamp do feed
 
-        LatLng newPosition = LatLng(field1Value, field2Value);
+        newPosition = LatLng(field1Value, field2Value);
         print("newPosition: $newPosition");
 
         // Crie um novo MarkerId para o último marcador, com base no entry_id

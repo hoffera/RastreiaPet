@@ -157,9 +157,11 @@ class HelpPage extends StatelessWidget {
       color: color,
       child: Column(
         children: [
-          SizedBox(
-              height: 200,
-              child: Lottie.asset('lib/assets/images/alertImage.json')),
+          Icon(
+            Icons.add_alert,
+            size: 150,
+            color: AppColors.primary,
+          ),
           _buildStyledText("Na tela de alterar a atualização da coleira.", 20,
               FontWeight.bold),
           _buildStyledText(
@@ -176,9 +178,11 @@ class HelpPage extends StatelessWidget {
       color: color,
       child: Column(
         children: [
-          SizedBox(
-              height: 200,
-              child: Lottie.asset('lib/assets/images/alertImage.json')),
+          Icon(
+            Icons.person,
+            size: 150,
+            color: AppColors.primary,
+          ),
           const SizedBox(height: 30),
           _buildStyledText("Na página do usuário", 20, FontWeight.bold),
           _buildStyledText(
@@ -195,9 +199,11 @@ class HelpPage extends StatelessWidget {
       color: color,
       child: Column(
         children: [
-          SizedBox(
-              height: 200,
-              child: Lottie.asset('lib/assets/images/alertImage.json')),
+          Icon(
+            Icons.settings,
+            size: 150,
+            color: AppColors.primary,
+          ),
           const SizedBox(height: 30),
           _buildStyledText("Página de configurações", 20, FontWeight.bold),
           _buildStyledText(
