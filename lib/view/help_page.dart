@@ -79,7 +79,7 @@ class HelpPage extends StatelessWidget {
               20,
               FontWeight.bold),
           _buildStyledText(
-              "Insira o nome do seu pet e o código da coleira e confirme para cadastrar com sucesso.",
+              "Insira o nome do seu pet e o código da coleira ou utilize o QR CODE e confirme para cadastrar com sucesso.",
               17,
               FontWeight.normal),
         ],

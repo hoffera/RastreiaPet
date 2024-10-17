@@ -41,8 +41,8 @@ class _LogoWidgetState extends State<LogoWidget> {
 
   _logoImage() {
     return SizedBox(
-      width: 500, // Defina a largura desejada
-      height: 500, // Defina a altura desejada
+      width: 450, // Defina a largura desejada
+      height: 450, // Defina a altura desejada
       child: Image.asset('lib/assets/images/rastreiaPetLogo.png'),
     );
   }
@@ -56,12 +56,14 @@ class _LogoWidgetState extends State<LogoWidget> {
           width: double.infinity,
           color: AppColors.background,
           child: Center(
-            child: _controller.value.isInitialized
-                ? AspectRatio(
-                    aspectRatio: _controller.value.aspectRatio,
-                    child: VideoPlayer(_controller),
-                  )
-                : _logoImage(), // Substitua pelo caminho da sua imagem
+            child: _logoImage(),
+
+            // _controller.value.isInitialized
+            //     ? AspectRatio(
+            //         aspectRatio: _controller.value.aspectRatio,
+            //         child: VideoPlayer(_controller),
+            //       )
+            //     : _logoImage(), // Substitua pelo caminho da sua imagem
           ),
         ),
       ),
