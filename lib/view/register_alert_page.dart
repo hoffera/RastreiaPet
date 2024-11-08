@@ -48,7 +48,7 @@ class _RegisterAlertPageState extends State<RegisterAlertPage> {
         // padding: EdgeInsets.all(5),
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(30),
             child: Center(
               child: FutureBuilder<Pet?>(
                 future: _petExistsFuture,
@@ -78,7 +78,7 @@ class _RegisterAlertPageState extends State<RegisterAlertPage> {
   _register() {
     return Column(
       children: [
-        SizedBox(height: 10),
+        SizedBox(height: 50),
         _titleText(),
         _subtitleText(),
         _map(),
@@ -140,7 +140,7 @@ class _RegisterAlertPageState extends State<RegisterAlertPage> {
           Text(
             "Toque no mapa para selecionar o local\n e defina um raio. Receba notificações caso seu animal saia dessa área. Mantenha seu Pet seguro e sob controle!",
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 20,
               color: Colors.black,
               fontWeight: FontWeight.normal,
             ),

@@ -42,6 +42,21 @@ class HelpPage extends StatelessWidget {
           ),
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
+      floatingActionButton: _button(context),
+    );
+  }
+
+  _button(context) {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: FloatingActionButton(
+        backgroundColor: AppColors.background,
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        child: const Icon(Icons.close, color: AppColors.primary, size: 28),
+      ),
     );
   }
 
@@ -142,9 +157,9 @@ class HelpPage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 30),
-          _buildStyledText("Tela de criar um alerta", 20, FontWeight.bold),
+          _buildStyledText("Como criar um alerta", 20, FontWeight.bold),
           _buildStyledText(
-              "Você pode definir um círculo de segurança clicando no mapa e inserindo um raio. Se o seu pet sair dessa área, você receberá uma notificação.",
+              "Você pode criar um alerta definindo um círculo de segurança clicando no mapa e inserindo um raio. Se o seu pet sair dessa área, você receberá uma notificação.",
               17,
               FontWeight.normal),
         ],

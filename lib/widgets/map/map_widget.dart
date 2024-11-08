@@ -40,14 +40,19 @@ class _MapWidgetState extends State<MapWidget> {
   User? user = FirebaseAuth.instance.currentUser;
   PetService petService = PetService();
   Pet? pet;
+  int numeroDeDados = 0;
   @override
   void initState() {
     customMarkers();
     super.initState();
+    _loadPet();
+
+    print(widget.alertPet);
+
     if (widget.alertPet != null) {
       updateCircles();
     }
-    _loadPet();
+
     fromThingspeak();
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       fromThingspeak();
@@ -66,17 +71,18 @@ class _MapWidgetState extends State<MapWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GoogleMap(
-        compassEnabled: true,
+        // buildingsEnabled: false,
+        minMaxZoomPreference: const MinMaxZoomPreference(15, 21),
         onMapCreated: _onMapCreated,
         circles: Set<Circle>.of(circles.values),
         initialCameraPosition: initialPosition != null
             ? CameraPosition(
                 target: initialPosition!,
-                zoom: 20.0,
+                zoom: 21.0,
               )
             : const CameraPosition(
                 target: LatLng(0, 0),
-                zoom: 20.0,
+                zoom: 21.0,
               ),
         markers: Set<Marker>.of(markers.values),
       ),
@@ -116,7 +122,7 @@ class _MapWidgetState extends State<MapWidget> {
       );
 
       setState(() {
-        circles[circleId] = circle;
+        circles[circleId] = circle; // Adiciona o círculo ao mapa
       });
 
       if (mapCreated) {
@@ -191,62 +197,6 @@ class _MapWidgetState extends State<MapWidget> {
     }
   }
 
-  // Future<void> updateMarkers(Map<String, dynamic> data) async {
-  //   if (data['feeds'] != null && data['feeds'].isNotEmpty) {
-  //     var lastFeed = data['feeds'].last; // Pega o último feed
-  //     if (lastFeed['field1'] != null &&
-  //         lastFeed['field2'] != null &&
-  //         lastFeed['field3'] != null &&
-  //         lastFeed['created_at'] != null) {
-  //       var field1Value = double.parse(lastFeed['field1']);
-  //       var field2Value = double.parse(lastFeed['field2']);
-  //       var field3Value = double.parse(lastFeed['field3']);
-  //       var createdAt = lastFeed['created_at']; // Timestamp do feed
-
-  //       newPosition = LatLng(field1Value, field2Value);
-  //       print("newPosition: $newPosition");
-
-  //       // Crie um novo MarkerId para o último marcador, com base no entry_id
-  //       final markerId = MarkerId('LocationMarker_${lastFeed['entry_id']}');
-  //       final marker = Marker(
-  //         markerId: markerId,
-  //         icon: customMarkerDescriptor,
-  //         position: newPosition,
-  //         onTap: () {
-  //           showDialog(
-  //             context: context,
-  //             builder: (BuildContext context) {
-  //               // Formatar timestamp para exibir data e hora
-  //               DateTime dateTime = DateTime.parse(createdAt);
-  //               String formattedDateTime = "${dateTime.toLocal()}"
-  //                   .split('.')[0]; // Remove microssegundos
-  //               return MapDialog(
-  //                 latitude: field1Value.toStringAsFixed(4),
-  //                 longitude: field2Value.toStringAsFixed(4),
-  //                 distance: field3Value,
-  //                 dateTime: formattedDateTime,
-  //               );
-  //             },
-  //           );
-  //         },
-  //       );
-
-  //       // Adiciona o novo marcador ao mapa, sem apagar os anteriores
-  //       setState(() {
-  //         markers[markerId] = marker; // Adiciona o novo marcador
-  //       });
-
-  //       // Mover a câmera para o novo marcador
-  //       if (mapCreated) {
-  //         await mapController.animateCamera(
-  //           CameraUpdate.newLatLng(newPosition),
-  //         );
-  //       }
-  //       mapCreated = false;
-  //     }
-  //   }
-  // }
-
   Future<void> updateMarkers(Map<String, dynamic> data) async {
     if (data['feeds'] != null && data['feeds'].isNotEmpty) {
       var firstFeed = data['feeds'][0];
@@ -274,7 +224,7 @@ class _MapWidgetState extends State<MapWidget> {
             markerId: markerId,
             icon: customMarkerDescriptor,
             position: newPosition,
-            anchor: Offset(0.5, 0.6),
+            anchor: Offset(0.5, 0.7),
             onTap: () {
               showDialog(
                 context: context,

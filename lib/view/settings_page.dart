@@ -29,8 +29,9 @@ class _SettingsPageState extends State<SettingsPage> {
         child: Center(
           child: Column(
             children: [
+              SizedBox(height: 100),
               LogoWidget(),
-              const SizedBox(height: 10.0),
+              const SizedBox(height: 30.0),
               _title(),
               const SizedBox(height: 50.0),
               _removePetButton(context),
@@ -61,12 +62,12 @@ class _SettingsPageState extends State<SettingsPage> {
 
   _title() {
     return const Row(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           "Configurações",
           style: TextStyle(
-            fontSize: 24,
+            fontSize: 30,
             color: Colors.black,
             fontWeight: FontWeight.bold,
           ),

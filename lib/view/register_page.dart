@@ -6,6 +6,7 @@ import 'package:rastreia_pet_app/services/token_services.dart';
 import 'package:rastreia_pet_app/widgets/button/primary_button.dart';
 import 'package:rastreia_pet_app/widgets/dialog/show_snackbar.dart';
 import 'package:rastreia_pet_app/widgets/input/text_input.dart';
+import 'package:rastreia_pet_app/widgets/logo/logo_widget.dart';
 
 // ignore: must_be_immutable
 class RegisterPage extends StatelessWidget {
@@ -27,6 +28,7 @@ class RegisterPage extends StatelessWidget {
             reverse: true,
             child: Column(
               children: [
+                LogoWidget(),
                 _titleText(),
                 _subtitleText(),
                 const SizedBox(height: 10.0),
@@ -49,7 +51,7 @@ class RegisterPage extends StatelessWidget {
           "Cadastrar",
           style: TextStyle(
             fontSize: 30,
-            color: AppColors.primary,
+            color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
         ),

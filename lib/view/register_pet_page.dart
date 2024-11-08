@@ -66,7 +66,6 @@ class _RegisterPetPageState extends State<RegisterPetPage> {
 
   _logo() {
     return SizedBox(
-      height: 100,
       child: LogoWidget(),
     );
   }

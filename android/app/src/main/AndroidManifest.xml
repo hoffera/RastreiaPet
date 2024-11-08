@@ -12,9 +12,9 @@
     
     
     <application
-        android:label="rastreia_pet_app"
+        android:label="RasteriaPet"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         
         <activity
             android:name=".MainActivity"

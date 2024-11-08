@@ -9,6 +9,7 @@ class PerfilCard extends StatefulWidget {
     required this.cardText,
     required this.infoText,
     required this.icon,
+    this.radius = false,
     this.map = false,
     this.inputController,
   });
@@ -17,6 +18,7 @@ class PerfilCard extends StatefulWidget {
   final String infoText;
   final IconData icon;
   final bool? map;
+  final bool? radius;
   final TextEditingController? inputController;
 
   @override
@@ -115,6 +117,7 @@ class _PerfilCardState extends State<PerfilCard> {
         height: 50,
         child: TextInput(
           number: true,
+          radius: true,
           off: false,
           password: false, // Corrigido para não ser uma senha
           text: widget.infoText,

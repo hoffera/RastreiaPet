@@ -30,9 +30,9 @@ exports.notificacao = functions.firestore
           const circleRadius = alertData.distancia; // Distância do raio do círculo
 
           // Calcula a distância entre o ponto atual e o centro do círculo
-          const distance = getDistanceFromLatLonInKm(userLat, userLon, circleLat, circleLon);
+          const distance = getDistanceFromLatLonInMeters(userLat, userLon, circleLat, circleLon);
 
-          console.log(`Distância do centro do círculo: ${distance} km`);
+          console.log(`Distância do centro do círculo: ${distance} metros`);
 
           // Verifica se a distância é maior que o raio do círculo
           if (distance > circleRadius) {
@@ -50,7 +50,7 @@ exports.notificacao = functions.firestore
             const message = {
               notification: {
                 title: "ALERTA!!!",
-                body: `Seu pet saiu círculo de segurança. Atual: ${distance.toFixed(2)} km`,
+                body: `Seu pet saiu círculo de segurança. Atual: ${distance.toFixed(2)} metros`,
               },
               token: token,
             };
@@ -72,20 +72,23 @@ exports.notificacao = functions.firestore
     }
   });
 
-// Função para calcular a distância entre duas coordenadas geográficas
-function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
-  const R = 6371; // Raio da Terra em km
+// Função para calcular a distância entre duas coordenadas geográficas em metros
+function getDistanceFromLatLonInMeters(lat1, lon1, lat2, lon2) {
+  const R = 6371000; // Raio da Terra em metros
   const dLat = deg2rad(lat2 - lat1);
   const dLon = deg2rad(lon2 - lon1);
+
   const a = 
-    Math.sin(dLat/2) * Math.sin(dLat/2) +
-    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-    Math.sin(dLon/2) * Math.sin(dLon/2); 
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-  const distance = R * c; // Distância em km
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2); 
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)); 
+  const distance = R * c; // Distância em metros
+
   return distance;
 }
 
 function deg2rad(deg) {
-  return deg * (Math.PI/180);
+  return deg * (Math.PI / 180);
 }

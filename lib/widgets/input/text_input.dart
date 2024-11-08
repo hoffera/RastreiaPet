@@ -4,6 +4,7 @@ import 'package:rastreia_pet_app/enum/enum.dart';
 class TextInput extends StatelessWidget {
   final bool? email;
   final bool? name;
+  final bool? radius;
   final bool? number;
   final bool off;
   final String text;
@@ -15,6 +16,7 @@ class TextInput extends StatelessWidget {
     this.email,
     this.name,
     required this.off,
+    this.radius = false,
     required this.text,
     required this.password,
     required this.controller,
@@ -34,6 +36,20 @@ class TextInput extends StatelessWidget {
           if (name == true) {
             if (value == null || value == "") {
               return "O valor do nome deve ser preenchido";
+            }
+          }
+          if (radius == true) {
+            if (value == null || value.isEmpty) {
+              return "O raio deve ser preenchido";
+            }
+            // Verifica se o valor pode ser convertido em número
+            double? radiusValue = double.tryParse(value);
+            if (radiusValue == null) {
+              return "O valor do raio deve ser um número válido";
+            }
+            // Verifica se o raio é menor que 50
+            if (radiusValue < 50) {
+              return "O raio deve ser maior ou igual a 50";
             }
           }
 

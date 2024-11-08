@@ -63,7 +63,7 @@ class MapDialog extends StatelessWidget {
     );
     Style styleInfo = Style(
       $text.style.color.black(),
-      $text.style.fontSize(14),
+      $text.style.fontSize(16),
       $text.style.fontWeight(FontWeight.normal),
       $text.textAlign.start(),
     );
@@ -80,10 +80,10 @@ class MapDialog extends StatelessWidget {
         distanceMessage = "Nivel de bateria baixa";
         break;
       case 2:
-        distanceMessage = "Nivel de bateria media baixa";
+        distanceMessage = "Nivel de bateria média ";
         break;
       case 3:
-        distanceMessage = "Nivel de bateria media alta";
+        distanceMessage = "Nivel de bateria média ";
         break;
       case 4:
         distanceMessage = "Nivel de bateria cheia";

@@ -75,11 +75,11 @@ class _MapWidgetState extends State<MapAlertWidget> {
       child: Column(
         children: [
           _text(),
-          SizedBox(height: 10),
+          SizedBox(height: 20),
           _map(),
-          SizedBox(height: 10),
+          SizedBox(height: 20),
           _distance(),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
           _registerButton(context),
         ],
       ),
@@ -122,6 +122,7 @@ class _MapWidgetState extends State<MapAlertWidget> {
       height: 300,
       width: double.infinity,
       child: GoogleMap(
+        buildingsEnabled: false,
         circles: Set<Circle>.of(circles.values),
         onMapCreated: _onMapCreated,
         initialCameraPosition: CameraPosition(
@@ -140,6 +141,7 @@ class _MapWidgetState extends State<MapAlertWidget> {
       child: PerfilCard(
         inputController: _inputController,
         map: true,
+        radius: true,
         icon: Icons.pin_drop_rounded,
         cardText: "Raio",
         infoText: "$radius metros",
@@ -218,37 +220,32 @@ class _MapWidgetState extends State<MapAlertWidget> {
     if (circles.isNotEmpty) {
       final circle = circles.values.first;
 
-      AlertPet newAlert = AlertPet(
-        id: FirebaseAuth.instance.currentUser!.uid,
-        distancia: circle.radius.toString(),
-        latitude: circle.center.latitude.toString(),
-        longitude: circle.center.longitude.toString(),
-      );
-      await alertPetService.addAlertPet(alert: newAlert);
-      showSnackBar(
-          context: context,
-          mensagem: "Alerta adicionado com sucesso!",
-          isErro: false);
-      Navigator.pushNamed(context, '/NavPage');
+      // Verifica se o raio é menor que 50
+      if (radius < 50) {
+        showSnackBar(
+            context: context,
+            mensagem: "O raio deve ser maior ou igual a 50.",
+            isErro: true);
+        return; // Encerra a execução caso o raio seja inválido
+      } else {
+        AlertPet newAlert = AlertPet(
+          id: FirebaseAuth.instance.currentUser!.uid,
+          distancia: circle.radius.toString(),
+          latitude: circle.center.latitude.toString(),
+          longitude: circle.center.longitude.toString(),
+        );
+        await alertPetService.addAlertPet(alert: newAlert);
+        showSnackBar(
+            context: context,
+            mensagem: "Alerta adicionado com sucesso!",
+            isErro: false);
+        Navigator.pushNamed(context, '/NavPage');
+      }
 
       // Você pode adicionar código para salvar as informações em um backend ou localmente
     } else {
       // Caso não haja círculos criados
       showSnackBar(context: context, mensagem: "Erro!", isErro: true);
-    }
-  }
-
-  void _deleteAlert(context, String alertId) async {
-    try {
-      await alertPetService.removeAlertPet(alert: alertId);
-      showSnackBar(
-          context: context,
-          mensagem: "Alerta deletado com sucesso!",
-          isErro: false);
-      Navigator.pushNamed(context, '/NavPage');
-    } catch (e) {
-      showSnackBar(
-          context: context, mensagem: "Erro ao deletar alerta!", isErro: true);
     }
   }
 

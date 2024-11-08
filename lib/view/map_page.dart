@@ -35,19 +35,30 @@ class _MapPageState extends State<MapPage> {
   void initState() {
     super.initState();
     _loadPet();
+    _loadAlert();
   }
 
   Future<void> _loadPet() async {
     try {
-      AlertPet? fetchedAlert = await alertPetService.getAlertPetById(user!.uid);
       Pet? fetchedPet = await petService.getPetId(user!.uid);
 
       setState(() {
         pet = fetchedPet;
-        alertPet = fetchedAlert;
       });
     } catch (e) {
       print('Error loading pet data: $e');
+    }
+  }
+
+  Future<void> _loadAlert() async {
+    try {
+      AlertPet? fetchedAlert = await alertPetService.getAlertPetById(user!.uid);
+
+      setState(() {
+        alertPet = fetchedAlert;
+      });
+    } catch (e) {
+      print('Error loading alert data: $e');
     }
   }
 

@@ -58,12 +58,7 @@ dependencies:
 dev_dependencies:
   flutter_launcher_icons: "^0.13.1"
 
-flutter_launcher_icons:
-  android: true
-  ios: true
-  image_path: "lib/assets/images/rastreiaPetLogo.png"
-  android_adaptive_icon_background: "#FDF2DC"
-  android_adaptive_icon_foreground: "#FDF2DC"
+
 
   flutter_test:
     sdk: flutter
@@ -89,6 +84,7 @@ flutter:
     - lib/assets/images/
     - lib/assets/map/
     - lib/assets/fonts/
+    
   fonts:
     - family: roboto
       fonts:
