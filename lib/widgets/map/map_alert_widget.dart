@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:rastreia_pet_app/enum/enum.dart';
 import 'package:rastreia_pet_app/models/alert_pet.dart';
 import 'package:rastreia_pet_app/services/alert_services.dart';
+import 'package:rastreia_pet_app/widgets/alert/loading_alert.dart';
 import 'package:rastreia_pet_app/widgets/button/primary_button.dart';
 import 'package:rastreia_pet_app/widgets/card/perfil_card.dart';
 import 'package:rastreia_pet_app/widgets/dialog/show_snackbar.dart';
@@ -26,12 +27,12 @@ class MapAlertWidget extends StatefulWidget {
 class _MapWidgetState extends State<MapAlertWidget> {
   late GoogleMapController mapController;
   Map<CircleId, Circle> circles = {};
-  double radius = 50.0; // Raio inicial padrão
+  double radius = 100.0; // Raio inicial padrão
   LatLng? initialPosition;
   AlertPetService alertPetService = AlertPetService();
   final user = FirebaseAuth.instance.currentUser;
   final TextEditingController _inputController = TextEditingController();
-  String alertMessage = "Procurando alerta...";
+  String alertMessage = "Procurando Zona...";
 
   @override
   void initState() {
@@ -67,7 +68,7 @@ class _MapWidgetState extends State<MapAlertWidget> {
   @override
   Widget build(BuildContext context) {
     if (initialPosition == null) {
-      return const Center(child: CircularProgressIndicator());
+      return const Center(child: LoadingAlert());
     }
 
     return Container(
@@ -75,9 +76,9 @@ class _MapWidgetState extends State<MapAlertWidget> {
       child: Column(
         children: [
           _text(),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           _map(),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           _distance(),
           const SizedBox(height: 20),
           _registerButton(context),
@@ -93,7 +94,7 @@ class _MapWidgetState extends State<MapAlertWidget> {
         funds: false,
         color: AppColors.primary,
         textColor: Colors.white,
-        text: "Criar alerta",
+        text: "Criar Zona segura",
         onPressed: () {
           _saveAlert(context);
         },
@@ -107,7 +108,8 @@ class _MapWidgetState extends State<MapAlertWidget> {
       children: [
         Text(
           alertMessage,
-          style: TextStyle(
+          textAlign: TextAlign.center,
+          style: const TextStyle(
             fontSize: 20,
             color: AppColors.primary,
             fontWeight: FontWeight.bold,
@@ -220,11 +222,11 @@ class _MapWidgetState extends State<MapAlertWidget> {
     if (circles.isNotEmpty) {
       final circle = circles.values.first;
 
-      // Verifica se o raio é menor que 50
-      if (radius < 50) {
+      // Verifica se o raio é menor que 100
+      if (radius < 100) {
         showSnackBar(
             context: context,
-            mensagem: "O raio deve ser maior ou igual a 50.",
+            mensagem: "O raio deve ser maior ou igual a 100.",
             isErro: true);
         return; // Encerra a execução caso o raio seja inválido
       } else {
@@ -235,11 +237,11 @@ class _MapWidgetState extends State<MapAlertWidget> {
           longitude: circle.center.longitude.toString(),
         );
         await alertPetService.addAlertPet(alert: newAlert);
+        Navigator.pushNamed(context, '/NavPage');
         showSnackBar(
             context: context,
-            mensagem: "Alerta adicionado com sucesso!",
+            mensagem: "Zona segura adicionada com sucesso!",
             isErro: false);
-        Navigator.pushNamed(context, '/NavPage');
       }
 
       // Você pode adicionar código para salvar as informações em um backend ou localmente
@@ -253,18 +255,17 @@ class _MapWidgetState extends State<MapAlertWidget> {
     try {
       final alert = await alertPetService.getAlertPetId(alertId);
 
-      // Atualizar a mensagem baseada na existência do alerta
       setState(() {
         if (alert != null) {
-          alertMessage = "Você já possui um alerta cadastrado.";
+          alertMessage = "Você já possui uma Zona \nSegura cadastrada.";
         } else {
-          alertMessage = "Você não possui alerta cadastrado.";
+          alertMessage = "Você não possui uma Zona \nSegura cadastrada.";
         }
       });
     } catch (e) {
       // Atualizar a mensagem em caso de erro
       setState(() {
-        alertMessage = "Erro ao procurar o alerta.";
+        alertMessage = "Erro ao procurar o Zona Segura.";
       });
     }
   }

@@ -23,6 +23,7 @@ class _HomePageState extends State<HomePage> {
   late final Future<Pet?> _petExistsFuture = petService.getPetId(user!.uid);
 
   Pet? pet;
+  @override
   void initState() {
     super.initState();
     _loadPet();
@@ -56,9 +57,9 @@ class _HomePageState extends State<HomePage> {
           thumbColor: AppColors.primary, // Cor do scrollbar
           thickness: 8, // Espessura do scrollbar
 
-          padding: EdgeInsets.all(5),
+          padding: const EdgeInsets.all(5),
 
-          radius: Radius.circular(20), // Raio das bordas
+          radius: const Radius.circular(20), // Raio das bordas
           thumbVisibility: true, //
           child: Padding(
             padding: const EdgeInsets.all(30.0),
@@ -131,7 +132,7 @@ class _HomePageState extends State<HomePage> {
   _registerAlert(context) {
     return CardButton(
       icon: Icons.add_alert,
-      text: "Criar um alerta",
+      text: "Criar uma Zona Segura",
       onPressed: () {
         _petExistsFuture.then((exists) {
           if (exists != null) {
@@ -170,7 +171,7 @@ class _HomePageState extends State<HomePage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return ChangeUpdateDialog();
+        return const ChangeUpdateDialog();
       },
     );
   }

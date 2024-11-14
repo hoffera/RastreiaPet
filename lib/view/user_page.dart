@@ -147,7 +147,7 @@ class _UserPageState extends State<UserPage> {
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(
-          pageBuilder: (context, animation1, animation2) => NavPage(
+          pageBuilder: (context, animation1, animation2) => const NavPage(
             initialIndex: 2,
           ),
           transitionDuration: Duration.zero, // Remove a duração da transição
@@ -179,11 +179,11 @@ class _UserPageState extends State<UserPage> {
 
     if (pet?.id != null) {
       await petService.removePet(pet: user!.uid); //
+      _loadPet();
       showSnackBar(
           context: context,
           mensagem: "Pet removido com Sucesso!",
           isErro: false);
-      _loadPet();
     } else {
       showSnackBar(
         context: context,

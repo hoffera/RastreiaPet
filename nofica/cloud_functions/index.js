@@ -20,7 +20,7 @@ exports.notificacao = functions.firestore
         const userLat = afterData.latitude;
         const userLon = afterData.longitude;
 
-        // Recuperar dados do círculo (alerta)
+        // Recuperar dados do círculo 
         const alertDoc = await admin.firestore().collection("alerts").doc(userId).get();
         
         if (alertDoc.exists) {
@@ -62,7 +62,7 @@ exports.notificacao = functions.firestore
             console.log("Usuário está dentro do círculo.");
           }
         } else {
-          console.log("Nenhum alerta encontrado para o usuário.");
+          console.log("Nenhum Zona encontrada para o usuário.");
         }
       } else {
         console.log("Latitude ou longitude não estão presentes nos dados atuais.");

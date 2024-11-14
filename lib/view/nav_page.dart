@@ -27,10 +27,10 @@ class _NavPageState extends State<NavPage> {
     super.initState();
     _selectedIndex = widget.initialIndex; // Use o índice inicial passado
     _widgetOptions = <Widget>[
-      HomePage(),
-      MapPage(),
-      UserPage(),
-      SettingsPage(),
+      const HomePage(),
+      const MapPage(),
+      const UserPage(),
+      const SettingsPage(),
     ];
   }
 

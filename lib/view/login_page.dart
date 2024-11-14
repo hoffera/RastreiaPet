@@ -126,11 +126,12 @@ class LoginPage extends StatelessWidget {
       authServices.loginUser(email: email, password: senha).then((error) {
         Navigator.pop(context);
         if (error == null) {
+          Navigator.pushNamed(context, '/NavPage');
           showSnackBar(
               context: context, mensagem: "Logado com sucesso!", isErro: false);
-          Navigator.pushNamed(context, '/NavPage');
         } else {
-          showSnackBar(context: context, mensagem: error, isErro: true);
+          showSnackBar(
+              context: context, mensagem: "Verifique seus dados", isErro: true);
         }
       });
     }

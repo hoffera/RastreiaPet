@@ -16,12 +16,13 @@ import 'package:rastreia_pet_app/view/nav_page.dart';
 import 'package:rastreia_pet_app/view/register_alert_page.dart';
 import 'package:rastreia_pet_app/view/register_page.dart';
 import 'package:rastreia_pet_app/view/register_pet_page.dart';
+import 'package:rastreia_pet_app/widgets/alert/loading_alert.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
 Future _firebaseBackgroundMessage(RemoteMessage message) async {
   if (message.notification != null) {
-    print("Recebeu alguma notificasaum");
+    print("Recebeu alguma notification");
   }
 }
 
@@ -69,41 +70,41 @@ class _MyAppState extends State<MyApp> {
       navigatorKey: navigatorKey,
       routes: <String, WidgetBuilder>{
         '/HomeLoginPage': (BuildContext context) => const HomeLoginPage(),
-        '/Message': (context) => MessagePage(),
-        '/HelpPage': (context) => HelpPage(),
+        '/Message': (context) => const MessagePage(),
+        '/HelpPage': (context) => const HelpPage(),
         '/HomePage': (BuildContext context) => Builder(
               builder: (context) {
-                return HomePage();
+                return const HomePage();
               },
             ),
         '/LoginPage': (BuildContext context) => LoginPage(),
         '/RegisterAlertPage': (BuildContext context) => Builder(
               builder: (context) {
-                return RegisterAlertPage();
+                return const RegisterAlertPage();
               },
             ),
         '/RegisterPage': (BuildContext context) => RegisterPage(),
         '/RegisterPetPage': (BuildContext context) => Builder(
               builder: (context) {
-                return RegisterPetPage();
+                return const RegisterPetPage();
               },
             ),
         '/NavPage': (BuildContext context) => Builder(
               builder: (context) {
                 0; // Pega o argumento ou 0 se não houver
-                return NavPage(initialIndex: 0);
+                return const NavPage(initialIndex: 0);
               },
             ),
         '/NavPage1': (BuildContext context) => Builder(
               builder: (context) {
                 0; // Pega o argumento ou 0 se não houver
-                return NavPage(initialIndex: 1);
+                return const NavPage(initialIndex: 1);
               },
             ),
         '/NavPage2': (BuildContext context) => Builder(
               builder: (context) {
                 0; // Pega o argumento ou 0 se não houver
-                return NavPage(initialIndex: 2);
+                return const NavPage(initialIndex: 2);
               },
             ),
       },
@@ -120,13 +121,13 @@ class RouteScreens extends StatelessWidget {
       stream: FirebaseAuth.instance.userChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: LoadingAlert());
         } else {
           if (snapshot.hasData) {
             final user =
                 snapshot.data; // Obtenha o usuário a partir do snapshot
             _saveUserToken(user); // Chama o método para salvar o token
-            return NavPage();
+            return const NavPage();
           } else {
             return const HomeLoginPage();
           }

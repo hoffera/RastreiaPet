@@ -70,11 +70,11 @@ class PasswordResetDialogState extends State<PasswordResetDialog> {
               String email = _emailController.text;
               authServices.removerConta(password: email).then((error) {
                 if (error == null) {
+                  Navigator.pushNamed(context, '/homeloginpage');
                   showSnackBar(
                       context: context,
                       mensagem: "Usuário removido com sucesso!",
                       isErro: false);
-                  Navigator.pushNamed(context, '/homeloginpage');
                 } else {
                   showSnackBar(
                       context: context,

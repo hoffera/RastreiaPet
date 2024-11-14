@@ -28,7 +28,7 @@ class RegisterPage extends StatelessWidget {
             reverse: true,
             child: Column(
               children: [
-                LogoWidget(),
+                const LogoWidget(),
                 _titleText(),
                 _subtitleText(),
                 const SizedBox(height: 10.0),
@@ -199,16 +199,16 @@ class RegisterPage extends StatelessWidget {
         if (error == null) {
           final user = FirebaseAuth.instance.currentUser;
           _saveUserToken(user);
+          Navigator.pushNamed(context, '/NavPage');
           showSnackBar(
               context: context,
               mensagem: "Usuário cadastrado com sucesso!",
               isErro:
                   false); // Defina isErro como false para uma mensagem de sucesso.
-          Navigator.pushNamed(context, '/NavPage');
         } else {
           showSnackBar(
               context: context,
-              mensagem: "Erro ao criar a conta: $error",
+              mensagem: "Verifique seus dados",
               isErro: true); // Exibe o erro detalhado.
           print("Erro ao criar a conta: $error");
         }

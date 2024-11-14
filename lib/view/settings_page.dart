@@ -29,8 +29,7 @@ class _SettingsPageState extends State<SettingsPage> {
         child: Center(
           child: Column(
             children: [
-              SizedBox(height: 100),
-              LogoWidget(),
+              const LogoWidget(),
               const SizedBox(height: 30.0),
               _title(),
               const SizedBox(height: 50.0),
@@ -93,9 +92,9 @@ class _SettingsPageState extends State<SettingsPage> {
 
   _removePet(context) async {
     await petService.removePet(pet: user!.uid);
+    _loadPet();
     showSnackBar(
         context: context, mensagem: "Pet removido com Sucesso!", isErro: false);
-    _loadPet();
   }
 
   _deletButton(context) {
@@ -105,7 +104,7 @@ class _SettingsPageState extends State<SettingsPage> {
         funds: false,
         color: AppColors.primary,
         textColor: Colors.white,
-        text: "Deletar alerta",
+        text: "Deletar Zona Segura",
         onPressed: () {
           _deleteAlert(context, user!.uid);
         },
@@ -137,11 +136,13 @@ class _SettingsPageState extends State<SettingsPage> {
       await alertPetService.removeAlertPet(alert: alertId);
       showSnackBar(
           context: context,
-          mensagem: "Alerta deletado com sucesso!",
+          mensagem: "Zona segura deletada com sucesso!",
           isErro: false);
     } catch (e) {
       showSnackBar(
-          context: context, mensagem: "Erro ao deletar alerta!", isErro: true);
+          context: context,
+          mensagem: "Erro ao deletar Zona segura!",
+          isErro: true);
     }
   }
 }

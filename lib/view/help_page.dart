@@ -66,7 +66,7 @@ class HelpPage extends StatelessWidget {
       color: color,
       child: Column(
         children: [
-          SizedBox(child: LogoWidget()),
+          const SizedBox(child: LogoWidget()),
           const SizedBox(height: 30),
           _buildStyledText("Bem vindo ao RastreiaPet", 20, FontWeight.bold),
           _buildStyledText("A seguir as instruções para o uso do app", 17,
@@ -157,9 +157,9 @@ class HelpPage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 30),
-          _buildStyledText("Como criar um alerta", 20, FontWeight.bold),
+          _buildStyledText("Como criar uma Zona Segura", 20, FontWeight.bold),
           _buildStyledText(
-              "Você pode criar um alerta definindo um círculo de segurança clicando no mapa e inserindo um raio. Se o seu pet sair dessa área, você receberá uma notificação.",
+              "Você pode criar um Zona Segura definindo um círculo de segurança clicando no mapa e inserindo um raio. Se o seu pet sair dessa zona, você receberá uma notificação.",
               17,
               FontWeight.normal),
         ],
@@ -172,7 +172,7 @@ class HelpPage extends StatelessWidget {
       color: color,
       child: Column(
         children: [
-          Icon(
+          const Icon(
             Icons.add_alert,
             size: 150,
             color: AppColors.primary,
@@ -193,7 +193,7 @@ class HelpPage extends StatelessWidget {
       color: color,
       child: Column(
         children: [
-          Icon(
+          const Icon(
             Icons.person,
             size: 150,
             color: AppColors.primary,
@@ -214,7 +214,7 @@ class HelpPage extends StatelessWidget {
       color: color,
       child: Column(
         children: [
-          Icon(
+          const Icon(
             Icons.settings,
             size: 150,
             color: AppColors.primary,
@@ -222,7 +222,7 @@ class HelpPage extends StatelessWidget {
           const SizedBox(height: 30),
           _buildStyledText("Página de configurações", 20, FontWeight.bold),
           _buildStyledText(
-              "Você pode remover seu pet, deletar seus alertas ou deslogar da sua conta.",
+              "Você pode remover seu pet, deletar suas zonas seguras ou deslogar da sua conta.",
               17,
               FontWeight.normal),
         ],

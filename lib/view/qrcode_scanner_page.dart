@@ -14,7 +14,7 @@ import 'package:rastreia_pet_app/widgets/input/text_input.dart';
 import 'package:rastreia_pet_app/widgets/logo/logo_widget.dart';
 
 class QrScannerPage extends StatefulWidget {
-  const QrScannerPage({Key? key}) : super(key: key);
+  const QrScannerPage({super.key});
 
   @override
   State<StatefulWidget> createState() => _QrScannerPageState();
@@ -76,14 +76,14 @@ class _QrScannerPageState extends State<QrScannerPage> {
       });
       // Navegar para a tela de registro de pet com o código do QR
       if (scanData.code != null) {
-        showSnackBar(
-            context: context, mensagem: "QrCode escaneado!", isErro: false);
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => RegisterPetScreen(qrCode: scanData.code!),
           ),
         );
+        showSnackBar(
+            context: context, mensagem: "QrCode escaneado!", isErro: false);
       }
     }, onError: (error) {
       print("Erro no scanDataStream: $error"); // Log de erro
@@ -100,7 +100,7 @@ class _QrScannerPageState extends State<QrScannerPage> {
 class RegisterPetScreen extends StatelessWidget {
   final String qrCode;
 
-  RegisterPetScreen({Key? key, required this.qrCode}) : super(key: key);
+  RegisterPetScreen({super.key, required this.qrCode});
 
   final TextEditingController _nameController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -138,11 +138,11 @@ class RegisterPetScreen extends StatelessWidget {
         await petService.getPetId(user!.uid); // Busca o pet associado ao uid
 
     if (pet?.id != null) {
+      Navigator.pushNamed(context, '/NavPage');
       showSnackBar(
           context: context,
           mensagem: "Já existe um pet cadastrado!",
           isErro: true);
-      Navigator.pushNamed(context, '/NavPage');
     } else if (_formKey.currentState!.validate()) {
       final result = await fromThingspeak(qrCode);
       if (result != null) {
@@ -155,11 +155,11 @@ class RegisterPetScreen extends StatelessWidget {
           read: field3,
         );
         await petService.addPet(pet: newPet);
+        Navigator.pushNamed(context, '/NavPage');
         showSnackBar(
             context: context,
             mensagem: "Pet adicionado com sucesso!",
             isErro: false);
-        Navigator.pushNamed(context, '/NavPage');
       } else {
         showSnackBar(
             context: context, mensagem: "Código não cadastrado!", isErro: true);
@@ -174,7 +174,7 @@ class RegisterPetScreen extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
           reverse: true,
-          child: Container(
+          child: SizedBox(
             height: MediaQuery.of(context)
                 .size
                 .height, // Faz com que o container ocupe toda a altura da tela
@@ -184,14 +184,14 @@ class RegisterPetScreen extends StatelessWidget {
               crossAxisAlignment:
                   CrossAxisAlignment.center, // Centraliza horizontalmente
               children: [
-                LogoWidget(),
-                SizedBox(height: 30),
+                const LogoWidget(),
+                const SizedBox(height: 30),
                 _title("Código escaneado"),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 _subtitle("Insira o nome do seu pet para finalizar o cadastro"),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 _inputs(),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 PrimaryButton(
                   funds: false,
                   color: AppColors.primary,

@@ -32,8 +32,8 @@ class _MapWidgetState extends State<MapWidget> {
   Map<MarkerId, Marker> markers = {};
   Timer? timer;
   LatLng? initialPosition;
-  LatLng actualPosition = LatLng(0, 0);
-  LatLng newPosition = LatLng(0, 0);
+  LatLng actualPosition = const LatLng(0, 0);
+  LatLng newPosition = const LatLng(0, 0);
   Map<CircleId, Circle> circles = {};
   bool mapCreated = false;
   BitmapDescriptor customMarkerDescriptor = BitmapDescriptor.defaultMarker;
@@ -43,7 +43,7 @@ class _MapWidgetState extends State<MapWidget> {
   int numeroDeDados = 0;
   @override
   void initState() {
-    customMarkers();
+    // customMarkers();
     super.initState();
     _loadPet();
 
@@ -71,18 +71,18 @@ class _MapWidgetState extends State<MapWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GoogleMap(
-        // buildingsEnabled: false,
+        buildingsEnabled: false,
         minMaxZoomPreference: const MinMaxZoomPreference(15, 21),
         onMapCreated: _onMapCreated,
         circles: Set<Circle>.of(circles.values),
         initialCameraPosition: initialPosition != null
             ? CameraPosition(
                 target: initialPosition!,
-                zoom: 21.0,
+                zoom: 17.0,
               )
             : const CameraPosition(
                 target: LatLng(0, 0),
-                zoom: 21.0,
+                zoom: 17.0,
               ),
         markers: Set<Marker>.of(markers.values),
       ),
@@ -215,16 +215,16 @@ class _MapWidgetState extends State<MapWidget> {
         setState(() {
           initialPosition = newPosition;
 
-          if (lastMarkerId != null) {
-            markers.remove(lastMarkerId);
-          }
+          // if (lastMarkerId != null) {
+          //   markers.remove(lastMarkerId);
+          // }
 
           final markerId = MarkerId('LocationMarker_${firstFeed['entry_id']}');
           final marker = Marker(
             markerId: markerId,
             icon: customMarkerDescriptor,
             position: newPosition,
-            anchor: Offset(0.5, 0.7),
+            anchor: const Offset(0.5, 0.75),
             onTap: () {
               showDialog(
                 context: context,

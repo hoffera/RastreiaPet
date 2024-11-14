@@ -10,6 +10,7 @@ import 'package:mix/mix.dart';
 import 'package:rastreia_pet_app/enum/enum.dart';
 import 'package:rastreia_pet_app/models/pet.dart';
 import 'package:rastreia_pet_app/services/pet_services.dart';
+import 'package:rastreia_pet_app/widgets/dialog/show_snackbar.dart';
 
 class ChangeUpdateDialog extends StatefulWidget {
   const ChangeUpdateDialog({
@@ -38,7 +39,7 @@ class ChangeUpdateDialogState extends State<ChangeUpdateDialog> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _body(),
+          _body(context),
         ],
       ),
       actions: const [],
@@ -58,7 +59,7 @@ class ChangeUpdateDialogState extends State<ChangeUpdateDialog> {
     }
   }
 
-  _body() {
+  _body(context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -66,9 +67,9 @@ class ChangeUpdateDialogState extends State<ChangeUpdateDialog> {
         const SizedBox(height: 10),
         _subtitle(),
         const SizedBox(height: 10),
-        _card15s(),
+        _card15s(context),
         const SizedBox(height: 10),
-        _card5min(),
+        _card5min(context),
       ],
     );
   }
@@ -111,7 +112,7 @@ class ChangeUpdateDialogState extends State<ChangeUpdateDialog> {
     }
   }
 
-  _card15s() {
+  _card15s(context) {
     return PressableBox(
       style: Style(
           $box.color(AppColors.background),
@@ -130,7 +131,11 @@ class ChangeUpdateDialogState extends State<ChangeUpdateDialog> {
         // String data = '1';
         try {
           await sendToThingspeak("7CUCVMS7J0USMUFU", "10000", "0");
-          print('Pressed and data sent!');
+          Navigator.pop(context);
+          showSnackBar(
+              context: context,
+              mensagem: "Tempo de resposta alterado com sucesso!",
+              isErro: false);
         } catch (e) {
           print(e);
         }
@@ -196,7 +201,7 @@ class ChangeUpdateDialogState extends State<ChangeUpdateDialog> {
     print('Field 3: $field3');
   }
 
-  _card5min() {
+  _card5min(context) {
     return PressableBox(
       style: Style(
           $box.color(AppColors.background),
@@ -215,6 +220,11 @@ class ChangeUpdateDialogState extends State<ChangeUpdateDialog> {
         // String data = '1';
         try {
           await sendToThingspeak("7CUCVMS7J0USMUFU", "295000", "0");
+          Navigator.pop(context);
+          showSnackBar(
+              context: context,
+              mensagem: "Tempo de resposta alterado com sucesso!",
+              isErro: false);
           print('Pressed and data sent!');
         } catch (e) {
           print(e);

@@ -7,6 +7,7 @@ class LoadingAlert extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const AlertDialog(
+      backgroundColor: AppColors.background,
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -14,7 +15,10 @@ class LoadingAlert extends StatelessWidget {
             color: AppColors.primary,
           ),
           SizedBox(height: 16),
-          Text("Carregando..."),
+          Text(
+            "Carregando...",
+            style: TextStyle(color: AppColors.primary),
+          ),
         ],
       ),
     );

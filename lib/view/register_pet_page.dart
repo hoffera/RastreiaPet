@@ -65,7 +65,7 @@ class _RegisterPetPageState extends State<RegisterPetPage> {
   }
 
   _logo() {
-    return SizedBox(
+    return const SizedBox(
       child: LogoWidget(),
     );
   }
@@ -186,11 +186,11 @@ class _RegisterPetPageState extends State<RegisterPetPage> {
         await petService.getPetId(user!.uid); // Busca o pet associado ao uid
 
     if (pet?.id != null) {
+      Navigator.pushNamed(context, '/NavPage');
       showSnackBar(
           context: context,
           mensagem: "Já existe um pet cadastrado!",
           isErro: true);
-      Navigator.pushNamed(context, '/NavPage');
     } else if (_formKey.currentState!.validate()) {
       final result = await fromThingspeak(code);
       if (result != null) {
@@ -203,11 +203,11 @@ class _RegisterPetPageState extends State<RegisterPetPage> {
           read: field3,
         );
         await petService.addPet(pet: newPet);
+        Navigator.pushNamed(context, '/NavPage');
         showSnackBar(
             context: context,
             mensagem: "Pet adicionado com sucesso!",
             isErro: false);
-        Navigator.pushNamed(context, '/NavPage');
       } else {
         showSnackBar(
             context: context, mensagem: "Código não cadastrado!", isErro: true);

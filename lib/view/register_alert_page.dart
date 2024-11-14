@@ -4,6 +4,7 @@ import 'package:mix/mix.dart';
 import 'package:rastreia_pet_app/enum/enum.dart';
 import 'package:rastreia_pet_app/models/pet.dart';
 import 'package:rastreia_pet_app/services/pet_services.dart';
+import 'package:rastreia_pet_app/widgets/alert/loading_alert.dart';
 import 'package:rastreia_pet_app/widgets/logo/logo_widget.dart';
 import 'package:rastreia_pet_app/widgets/map/map_alert_widget.dart';
 
@@ -42,8 +43,8 @@ class _RegisterAlertPageState extends State<RegisterAlertPage> {
         thumbColor: AppColors.primary, // Cor do scrollbar
         thickness: 8, // Espessura do scrollbar
 
-        padding: EdgeInsets.all(5),
-        radius: Radius.circular(20), // Raio das bordas
+        padding: const EdgeInsets.all(5),
+        radius: const Radius.circular(20), // Raio das bordas
         thumbVisibility: true, // Sempre aparente
         // padding: EdgeInsets.all(5),
         child: SingleChildScrollView(
@@ -54,7 +55,7 @@ class _RegisterAlertPageState extends State<RegisterAlertPage> {
                 future: _petExistsFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
+                    return const LoadingAlert();
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error ?? 'Unknown error'}');
                   } else if (snapshot.hasData) {
@@ -78,7 +79,7 @@ class _RegisterAlertPageState extends State<RegisterAlertPage> {
   _register() {
     return Column(
       children: [
-        SizedBox(height: 50),
+        const SizedBox(height: 50),
         _titleText(),
         _subtitleText(),
         _map(),
@@ -116,7 +117,7 @@ class _RegisterAlertPageState extends State<RegisterAlertPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          "Criar um alerta  ",
+          "Criar Zona Segura  ",
           style: TextStyle(
             fontSize: 28,
             color: Colors.black,
